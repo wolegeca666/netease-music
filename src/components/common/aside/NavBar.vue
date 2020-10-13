@@ -22,7 +22,7 @@
 
   .nav-bar {
     display: flex;
-    padding-left: 2px;
+    padding-left: 3px;
     align-items: center;
   }
 
@@ -42,7 +42,7 @@
 
   .active {
     padding-left: 0;
-    border-left: 2px solid var(--color-background);
+    border-left: 3px solid var(--color-background);
     background-color: rgba(0,0,0,0.1);
   }
 </style>

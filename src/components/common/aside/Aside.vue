@@ -19,13 +19,15 @@
 
 <style scoped>
   #nav {
+    z-index: 200;
     overflow: hidden;
-    position: relative;
+    position: fixed;
+    top: 0;
     left: 0;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     width: 20rem;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.02);
+    background-color: #f5f5f5;
     font-size: 1.3rem;
   }
 

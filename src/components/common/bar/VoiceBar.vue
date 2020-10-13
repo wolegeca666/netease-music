@@ -70,15 +70,14 @@
       changeLeft() {
         if (this.active) {
           const audio = document.getElementById('voice');
-          this.left = audio.offsetLeft - 160;
+          this.left = audio.offsetLeft - 161.5;
         }
-        this.percent = this.$store.state.voice
+        this.percent = this.$store.state.voice;
       },
       voiceHandle(percent) {
-        // console.log(percent);
         this.voice = percent <= 0.015 ? 0 : percent > 1 ? 1 : percent;
         this.$store.commit('changeVoice', this.voice);
-
+        this.percent = this.$store.state.voice;
       }
     }
   }
@@ -101,7 +100,7 @@
   #voice-progress {
     position: absolute;
     right: 2rem;
-    bottom: 10rem;
+    bottom: 8rem;
     width: 30rem;
     height: 5rem;
     padding-left: 0.5rem;

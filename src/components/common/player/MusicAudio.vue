@@ -1,7 +1,8 @@
 <template>
   <div class="audio">
     <div id="music-progress">
-      <progress-bar :left="left" :percent="percent" :num="0" @progress="fastSeek"></progress-bar>
+      <progress-bar :left="left" :percent="percent" :num="0"
+                    @progress="fastSeek" @moveEnd="changeTime"></progress-bar>
     </div>
     <div class="msg">
       <div class="song" v-show="pic.length">
@@ -41,7 +42,8 @@
         left: 0,
         maxTime: '00:00',
         currentTime: '00:00',
-        percent: 1
+        percent: 1,
+        flag: true
       }
     },
     components: {
@@ -63,7 +65,7 @@
               // console.log(res.data);
               this.url = res.data[0].url;
               this.musicPlay();
-            }).catch(e => console.log(e) );
+            }).catch(e => console.log(e));
       },
       /**
        * 获取歌曲信息
@@ -76,13 +78,13 @@
               this.author = this.song.ar[0];
               this.pic = this.song.al.picUrl;
               this.$emit('songs', this.pic)
-            }).catch(e => console.log(e) );
+            }).catch(e => console.log(e));
       },
       // 时长
       bufferEnd() {
-        const music = document.getElementById('musicUrl');
+        const music = this.music;
         this.maxTime = utils.getTime(music.duration);
-        if(music.currentTime === 0) {
+        if (music.currentTime === 0) {
           this.percent = 0
         }
       },
@@ -91,18 +93,23 @@
       },
       //播放和暂停
       musicPlay() {
-        const music = document.getElementById('musicUrl');
         if (this.play) {
-          music.play()
+          this.music.play()
         } else {
-          music.pause()
+          this.music.pause()
         }
       },
       /**
        * 播放进度条
        * */
       timeChange() {
-        const music = document.getElementById('musicUrl');
+        if (this.flag) {
+          this.progress()
+        }
+      },
+
+      progress() {
+        const music = this.music;
         this.currentTime = utils.getTime(music.currentTime);
         music.volume = this.$store.state.voice;
         let percent = Math.floor(music.currentTime) / music.duration;
@@ -114,10 +121,18 @@
        * 指定播放时间
        * */
       fastSeek(percent) {
-        const music = document.getElementById('musicUrl');
-        music.currentTime = percent * music.duration;
-        this.timeChange();
+        this.flag = false;
+        this.percent = percent <= 0 ? 0 : percent > 1 ? 1 : percent;;
+        const music = this.music;
+        this.currentTime = utils.getTime(this.percent * music.duration);
       },
+
+      changeTime() {
+        const music = this.music;
+        music.currentTime = this.percent * music.duration;
+        this.flag = true;
+        this.timeChange();
+      }
     },
     watch: {
       play: function () {
@@ -128,6 +143,11 @@
       },
       voice: function () {
         this.changeVoice()
+      }
+    },
+    computed: {
+      music: function () {
+        return document.getElementById('musicUrl')
       }
     }
   }

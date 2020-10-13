@@ -1,9 +1,11 @@
 <template>
   <div class="progress-bar">
-    <div class="bar"></div>
-    <div class="container" @click="progress($event)">
-      <div class="progress">
-        <div class="currentTime"></div>
+    <div @mousedown="move($event)">
+      <div class="bar"></div>
+      <div class="container">
+        <div class="progress">
+          <div class="currentTime"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -19,7 +21,6 @@
       },
       left: {
         type: Number,
-        require: true
       },
       num: {
         type: Number,
@@ -27,46 +28,47 @@
       }
     },
     data() {
-      return {
-        width: 0,
-        x: 0
-      }
+      return {}
     },
     mounted() {
       this.changeProgress(this.percent);
     },
     methods: {
-      progress(e) {
-        const audio = document.getElementsByClassName('progress-bar')[this.num];
-        this.width = audio.offsetWidth;
-        // console.log(this.left);
-        // console.log(this.width);
-        this.x = e.pageX;
-        let percent = (e.pageX - this.left) / this.width;
-        //console.log(percent);
-        this.changePercent(percent)
+      move(el) {
+        this.progress(el.clientX - this.left);
+        document.onmousemove = e => {
+          if (e.clientX - this.left > -100) {
+            // console.log(e.clientX - this.left);
+            this.progress(e.clientX - this.left)
+          }
+        };
+        document.onmouseup = e => {
+          document.onmousemove = null;
+          document.onmouseup = null;
+          this.$emit('moveEnd')
+        }
       },
 
-      changePercent(percent) {
-        console.log(percent);
-        this.changeProgress(percent);
+      progress(x) {
+        let percent = x / document.getElementsByClassName('progress-bar')[this.num].offsetWidth;
+        // console.log(percent);
         this.$emit('progress', percent);
       },
 
       changeProgress(percent) {
         const progress = document.getElementsByClassName('currentTime')[this.num];
-        // console.log(width);
         progress.style.width = (percent * 100) + '%';
         this.changeBar(progress.offsetWidth);
       },
 
-      changeBar(width) {
+      changeBar(x) {
         const bar = document.getElementsByClassName('bar')[this.num];
-        bar.style.left = width - 6 + 'px';
+        bar.style.left = x - 7 + 'px';
       }
     },
     watch: {
       percent: function () {
+        // console.log(this.percent);
         this.changeProgress(this.percent)
       }
     }

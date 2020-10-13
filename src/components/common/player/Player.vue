@@ -33,8 +33,9 @@
 
 <style scoped>
   #player {
+    z-index: 999;
     width: 100vw;
-    min-width: 60rem;
+    min-width: 112em;
     padding: 1px 0.5rem;
     display: flex;
     position: fixed;
