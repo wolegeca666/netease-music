@@ -1,6 +1,6 @@
 <template>
   <div id="voice" @click="changeLeft">
-    <div id="voice-progress" v-show="active">
+    <div id="voice-progress" :class="{'active': !active}">
       <div class="voice-bar-p">
         <div v-show="voice > 0" class="on">
           <svg t="1602239512909" class="icon" viewBox="0 0 1024 1024"
@@ -70,7 +70,7 @@
       changeLeft() {
         if (this.active) {
           const audio = document.getElementById('voice');
-          this.left = audio.offsetLeft - 161.5;
+          this.left = audio.offsetLeft - 101.5;
         }
         this.percent = this.$store.state.voice;
       },
@@ -86,6 +86,7 @@
 <style scoped>
   #voice {
     flex: 1;
+    background-color: #fff;
   }
 
   .icon {
@@ -93,17 +94,23 @@
     height: 1.8rem;
   }
 
+  .active {
+    opacity: 0;
+  }
+
   .on {
     padding: 0 0.5rem;
   }
 
   #voice-progress {
+    transition: opacity 300ms;
     position: absolute;
-    right: 2rem;
+    right: 3rem;
     bottom: 8rem;
-    width: 30rem;
+    width: 23rem;
     height: 5rem;
     padding-left: 0.5rem;
+    background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
 
@@ -116,8 +123,20 @@
     position: absolute;
     bottom: 6.4rem;
     right: 1rem;
-    width: 25rem;
+    width: 18rem;
     height: 0;
+  }
+
+  .right::after {
+    z-index: 200;
+    content: "";
+    position: absolute;
+    top: 6.5rem;
+    right: 6rem;
+    border-top: 1rem solid #eee;
+    border-right: 1rem solid transparent;
+    border-bottom: 1rem solid transparent;
+    border-left: 1rem solid transparent;
   }
 
 </style>

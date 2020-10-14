@@ -27,7 +27,8 @@
 
 <style lang="less">
   @import "assets/css/base.css";
-  #app{
+
+  #app {
     width: 100vw;
     height: 100vh;
   }
@@ -37,9 +38,12 @@
     height: 100%;
     display: flex;
   }
+
   .nav-page {
-    width: 20rem;
+    width: 18rem;
+    border-right: 1px solid transparent;
   }
+
   #view {
     flex: 1;
     height: 100%;

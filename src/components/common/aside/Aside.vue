@@ -25,9 +25,9 @@
     top: 0;
     left: 0;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
-    width: 20rem;
+    width: 18rem;
     height: 100vh;
-    background-color: #f5f5f5;
+    background-color: var(--color-bgc);
     font-size: 1.3rem;
   }
 

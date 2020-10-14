@@ -6,15 +6,15 @@
     </div>
     <div class="msg">
       <div class="song" v-show="pic.length">
-        <span class="name">{{ song.name }}</span> -
-        <span>{{ author.name}}</span>
+        <span class="name">{{ song.name }}</span>
+        <span style="color:rgba(0,0,0,0.4);"> - {{ author.name}}</span>
       </div>
       <div class="time">
         <span style="font-weight: 500;;">{{ currentTime }}</span> / <span
               style="color: #818181">{{ maxTime }}</span>
       </div>
     </div>
-    <audio id="musicUrl" @canplay="bufferEnd" :src="url"
+    <audio id="musicUrl" @canplay="canPLay" :src="url"
            @timeupdate="timeChange" @ended="ended"></audio>
   </div>
 </template>
@@ -34,7 +34,6 @@
     },
     data() {
       return {
-        id: this.$store.state.id,
         url: '',
         song: {},
         author: {},
@@ -80,12 +79,16 @@
               this.$emit('songs', this.pic)
             }).catch(e => console.log(e));
       },
+
       // 时长
-      bufferEnd() {
+      canPLay() {
         const music = this.music;
         this.maxTime = utils.getTime(music.duration);
         if (music.currentTime === 0) {
           this.percent = 0
+        }
+        if (this.id !== 27580521 && !this.play) {
+          this.ended()
         }
       },
       ended() {
@@ -122,7 +125,7 @@
        * */
       fastSeek(percent) {
         this.flag = false;
-        this.percent = percent <= 0 ? 0 : percent > 1 ? 1 : percent;;
+        this.percent = percent <= 0 ? 0 : percent > 1 ? 1 : percent;
         const music = this.music;
         this.currentTime = utils.getTime(this.percent * music.duration);
       },
@@ -138,18 +141,27 @@
       play: function () {
         this.musicPlay()
       },
-      id: function () {
-
-      },
       voice: function () {
         this.changeVoice()
+      },
+      id: function() {
+        // console.log(this.id);
+        this.$emit('songs', 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg');
+        if (this.play) {
+          this.ended();
+        }
+        this.getMusicDetail();
+        this.getMusicPlay();
       }
     },
     computed: {
       music: function () {
         return document.getElementById('musicUrl')
+      },
+      id: function () {
+        return this.$store.state.id
       }
-    }
+    },
   }
 </script>
 

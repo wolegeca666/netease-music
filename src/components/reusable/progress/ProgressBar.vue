@@ -1,10 +1,10 @@
 <template>
   <div class="progress-bar">
     <div @mousedown="move($event)">
-      <div class="bar"></div>
       <div class="container">
         <div class="progress">
           <div class="currentTime"></div>
+          <div class="bar"></div>
         </div>
       </div>
     </div>
@@ -82,11 +82,12 @@
     top: 3rem;
     width: 100%;
     height: 3rem;
+    background-color: #fff;
   }
 
   .progress-bar .progress,
   .container {
-    position: absolute;
+    position: relative;
     right: 0;
     width: 100%;
   }
@@ -98,14 +99,14 @@
   }
 
   .progress-bar .container {
+    display: inline-block;
     height: 3rem;
   }
 
-  .progress-bar .bar {
+  .container .bar {
     z-index: 99;
-    position: absolute;
-    top: 0.5rem;
-    left: 0;
+    position: relative;
+    bottom: 0.8rem;
     width: 1.5rem;
     height: 1.5rem;
     background-color: #fff;

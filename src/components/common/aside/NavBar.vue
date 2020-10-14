@@ -37,12 +37,12 @@
 
 
   .off:hover {
-    background-color: rgba(0, 0, 0, 0.03);
+    background-color: var(--color-hover);
   }
 
   .active {
-    padding-left: 0;
+    padding: 0;
     border-left: 3px solid var(--color-background);
-    background-color: rgba(0,0,0,0.1);
+    background-color: var(--color-active);
   }
 </style>
