@@ -36,10 +36,11 @@
     position: fixed;
     bottom: 0;
     border-top: 1px solid #ccc;
-    box-shadow: 0 -1px 1px #eee;
+    box-shadow: 0 -2px 1px var(--color-active);
     background-color: #fff;
   }
   #player .pic img {
     width: 6rem;
+    border-radius: 0.5rem;
   }
 </style>

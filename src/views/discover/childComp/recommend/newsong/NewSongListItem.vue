@@ -3,7 +3,7 @@
        @dblclick="musicPlay"><!--设置缩放定位-->
     <div :class="{'hover': !animate}" style="perspective: 1000px;"
          @mousedown="animation" @click="clickHandle">
-      <div class="song-item" :class="{'active': num === currentIndex, 'animate': animate, 'odd': !isOdd(num)}">
+      <div class="song-item" :class="{'active': num === currentIndex, 'animate': animate, 'odd': isOdd(oddIndex)}">
         <div class="play-icon" v-show="song.id === playId">
           <svg t="1602691641326" class="icon" viewBox="0 0 1126 1024"
                version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="18323"
@@ -19,13 +19,13 @@
           <div class="song-name">
             <p>
               <span>{{song.name}}</span>
-<!--              <span v-if="songMsg.alias.length!==0"-->
-<!--                    style="color:rgba(0,0,0,0.4);">{{' (' + songMsg.alias[0] + ')' }}</span>-->
+              <span v-if="songMsg.alias.length!==0"
+                    style="color:rgba(0,0,0,0.4);">{{' (' + songMsg.alias[0] + ')' }}</span>
             </p>
           </div>
-          <!--<div class="author">
+          <div class="author">
             <p>{{ author }}</p>
-          </div>-->
+          </div>
         </div>
       </div>
 
@@ -48,10 +48,13 @@
         type: Object,
         require: true
       },
-      // songMsg: {
-      //   type: Object,
-      //   require: true
-      // }
+      songMsg: {
+        type: Object,
+        require: true
+      },
+      oddIndex: {
+        type: Number
+      }
     },
     data() {
       return {
@@ -189,12 +192,6 @@
     padding: 1rem 0;
     font-size: 12px;
     color: var(--color-text);
-  }
-
-  .song-msg {
-    display: flex;
-    flex-direction: row;
-    align-self: center;
   }
 
   .play-icon {

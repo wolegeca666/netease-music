@@ -11,6 +11,10 @@ new Vue({
   render: h => h(App)
 }).$mount('#app');
 
+import state from '../src/store/index';
 
+window.onresize = e => {
+  state.commit('width', document.documentElement.clientWidth)
+};
 
 

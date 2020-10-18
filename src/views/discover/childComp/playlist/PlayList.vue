@@ -1,5 +1,5 @@
 <template>
-  <div class="play-list-hot">
+  <div class="play-list-hot" v-show="show">
     <div class="cat-list">
       <div class="all-cat">全部</div>
       <div class="hot-cat">热门</div>
@@ -7,7 +7,7 @@
     <div class="high">精品歌单</div>
     <ul class="list">
       <li class="play-list" v-for="(item, index) in musicList" :key="index">
-        <album :item="item" :length="11">
+        <album :item="item" :length="11" @imgLoad="isLoad(index)">
           <template v-slot:icon>
             <svg t="1602600869883" class="icon" viewBox="0 0 1365 1024" version="1.1"
                  xmlns="http://www.w3.org/2000/svg" p-id="8018" width="1.3rem"
@@ -35,7 +35,8 @@
     name: "PlayList",
     data() {
       return {
-        musicList: []
+        musicList: [],
+        show: false
       }
     },
     components: {
@@ -43,9 +44,16 @@
     },
     mounted() {
       request('/top/playlist').then(res => {
-        console.log(res.playlists);
+        // console.log(res.playlists);
         this.musicList = res.playlists;
       }).catch(e => console.log(e))
+    },
+    methods: {
+      isLoad(num) {
+        if (++num >= this.musicList.length) {
+          this.show = true
+        }
+      }
     }
   }
 </script>

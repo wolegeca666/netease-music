@@ -1,5 +1,5 @@
 <template>
-  <div class="recommend-song" v-show="load">
+  <div class="recommend-song">
     <div class="song-nav">
       <nav-bar :msg="[{name: '主播电台'}]">
         <template v-slot:img>
@@ -8,7 +8,7 @@
       </nav-bar>
     </div>
     <div class="music-list">
-      <song-list :list="musicList" @imgLoad="show"></song-list>
+      <song-list :list="musicList"></song-list>
     </div>
   </div>
 </template>
@@ -26,8 +26,7 @@
     },
     data() {
       return {
-        musicList: [],
-        load: false
+        musicList: []
       }
     },
     mounted() {
@@ -35,13 +34,6 @@
         // console.log(res.result);
         this.musicList = res.result;
       }).catch(e => console.log(e))
-    },
-    methods: {
-      show(num) {
-        if ((num + 1) >= this.musicList.length) {
-          this.load = true
-        }
-      }
     }
   }
 </script>

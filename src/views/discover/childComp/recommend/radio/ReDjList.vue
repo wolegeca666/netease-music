@@ -6,7 +6,7 @@
                         :current-index="currentIndex"
                         @itemClick="clickHandle">
           <template v-slot:left>
-            <img :src="item.picUrl" alt=" " @load="show(index)"/>
+            <img :src="item.picUrl" alt=" "/>
           </template>
         </song-list-item>
       </li>
@@ -39,9 +39,6 @@
       },
       classHandle(num) {
         return ++num % 2  ? (++num / 2) % 2 : (num / 2) % 2
-      },
-      show(num) {
-        this.$emit('imgLoad', num)
       }
     }
   }

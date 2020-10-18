@@ -104,6 +104,7 @@
   .hover:hover {
     z-index: 99;
     opacity: 0.8;
+    transition: opacity 300ms;
   }
 
   .animate {

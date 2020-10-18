@@ -1,14 +1,17 @@
 <template>
-  <div class="album-item" :style="{width: size.width}">
+  <div class="album-item" :style="{width: size.width}" @click="playlist" @mouseenter="active = !active" @mouseleave="active = !active">
     <slot name="slot"></slot>
-    <div class="play-count" v-if="show"><!--播放数量-->
-      <slot name="icon" class="icon"></slot>
-      <span style="font-size: 10px;" v-if="item.playCount">{{item.playCount > 100000? Math.floor(item.playCount/10000) : item.playCount}}万</span>
-    </div>
-    <a href="#" class="album">
-      <img :src="picUrl()" alt=""
-           :style="{width: size.width, height: size.height}" @load="isLoad"/>
-      <span>{{ cutContext(item.name) }}</span>
+
+    <a href="javascript:;" class="album">
+      <div style="position: relative; transition: all 200ms;" :class="{'active': active}">
+        <img :src="picUrl()" alt="" :class="{'active': active}"
+             :style="{width: size.width, height: size.height}" @load="isLoad"/>
+        <div class="play-count" v-if="show"><!--播放数量-->
+          <slot name="icon" class="icon"></slot>
+          <span style="font-size: 10px;" v-if="item.playCount">{{item.playCount > 100000? Math.floor(item.playCount/10000) : item.playCount}}万</span>
+        </div>
+      </div>
+      <span class="name">{{ cutContext(item.name) }}</span>
       <span v-if="item.artistName" class="artist">{{ cutContext(item.artistName) }}</span>
       <span v-if="item.creator" class="artist">by {{ cutContext(item.creator.nickname,) }}</span>
     </a>
@@ -48,6 +51,11 @@
         default: true
       }
     },
+    data() {
+      return {
+        active: false
+      }
+    },
     methods: {
       cutContext(str) {
         if (str.length > this.length) {
@@ -61,6 +69,10 @@
       },
       picUrl() {
         return this.item.sPicUrl ? this.item.sPicUrl : this.item.coverImgUrl ? this.item.coverImgUrl : this.item.picUrl
+      },
+
+      playlist() {
+        this.$router.push({name: 'PlayList', query: {id: this.item.id}})
       }
     }
   }
@@ -79,16 +91,17 @@
     display: flex;
     align-items: center;
     position: absolute;
-    top: 0;
-    right: 0;
-    color: #eee;
-    font-weight: 600;
-    height: 10%;
+    top: 5px;
+    right: 5px;
+    color: #fff;
+    height: 2rem;
+    border-radius: 1rem;
     background-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.5));
   }
 
   .play-count span {
-    margin-bottom: 1.95rem;
+    opacity: 1;
+    padding-right: 10px;
   }
 
   .icon {
@@ -96,8 +109,8 @@
   }
 
   .album-item:hover {
-    transition: opacity 300ms;
-    opacity: 0.8;
+    transition: all 300ms;
+    opacity: 0.9;
   }
 
   .album-item a {
@@ -105,17 +118,26 @@
     flex-direction: column;
   }
 
-  .album-item span {
+  .album-item  span.name {
     font-size: 14px;
     opacity: 0.6;
-    position: relative;
-    top: 1rem;
+    padding-top: 1rem;
   }
 
   .album-item span.artist {
+    opacity: 0.6;
     padding: 1rem 0;
     color: var(--color-text);
     font-weight: 600;
     font-size: 12px;
+  }
+
+  .active {
+    margin: -5px 0 5px;
+  }
+
+  img.active {
+    transition: all 200ms;
+    box-shadow: 5px 5px 5px gray;
   }
 </style>

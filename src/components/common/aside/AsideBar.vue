@@ -31,7 +31,13 @@
     },
     data() {
       return {
-        currentIndex: 1
+        currentIndex: 1,
+        path: [
+            '/',
+            '/search',
+            '/mv',
+            '/discover'
+        ]
       }
     },
     methods: {

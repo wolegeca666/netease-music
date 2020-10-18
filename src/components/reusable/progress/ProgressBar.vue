@@ -67,9 +67,16 @@
       }
     },
     watch: {
-      percent: function () {
-        // console.log(this.percent);
+      percent() {
         this.changeProgress(this.percent)
+      },
+      width() {
+        this.changeProgress(this.percent)
+      }
+    },
+    computed: {
+      width() {
+        return this.$store.state.windowWidth
       }
     }
   }

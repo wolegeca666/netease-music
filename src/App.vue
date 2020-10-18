@@ -2,7 +2,7 @@
   <div id="app">
     <div class="container">
       <nav-aside @asideShow="navShow"></nav-aside>
-      <div class="nav-page" v-show="aside"></div>
+      <div class="nav-page" v-show="aside" ></div>
       <div class="nav-list" v-show="!aside"></div>
       <div id="view">
         <keep-alive>
@@ -33,8 +33,12 @@
     methods: {
       navShow(flag) {
         this.aside = flag
+      },
+      resize() {
+        this.$store.commit('width', document.documentElement.clientWidth);
+        console.log(1);
       }
-    }
+    },
   }
 </script>
 

@@ -78,7 +78,6 @@
 <style scoped>
   .personalized {
     position: relative;
-    overflow: hidden;
   }
   
   .personalized-img {
@@ -86,6 +85,7 @@
     margin-right: 1rem;
     width: 2rem;
     height: 2rem;
+    border-radius: 0;
   }
 
   .music-list {
@@ -95,7 +95,7 @@
     margin: 1rem auto 5rem;
   }
 
-  .cover {
+/*  .cover {
     position: absolute;
     left: 0;
     z-index: 99;
@@ -103,6 +103,6 @@
     border-top: 4rem solid rgba(255, 255, 255, 0.5);
     border-right: 3.5rem solid transparent;
     border-bottom: 3.5rem solid transparent;
-  }
+  }*/
 
 </style>

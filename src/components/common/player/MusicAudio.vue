@@ -39,7 +39,8 @@
         maxTime: '00:00',
         currentTime: '00:00',
         percent: 1,
-        flag: true
+        flag: true,
+        playId: '',
       }
     },
     components: {
@@ -60,7 +61,6 @@
             .then((res) => {
               // console.log(res.data);
               this.url = res.data[0].url;
-              this.musicPlay();
             }).catch(e => console.log(e));
       },
       /**
@@ -85,7 +85,6 @@
         }
         if (this.id !== 27580521) {
           this.ended(true);
-          this.musicPlay();
         }
       },
       ended(flag) {
@@ -151,9 +150,8 @@
       },
       id() {
         // console.log(this.id);
-        this.ended(false);
         this.getMusicPlay();
-        this.getMusicDetail();
+        this.ended(false);
       },
       percent() {
         this.musicPlay();

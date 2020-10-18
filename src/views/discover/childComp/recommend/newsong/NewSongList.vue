@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  import SongListItem from "../../../../../components/common/songlist/SongListItem";
+  import SongListItem from "./NewSongListItem";
 
   export default {
     name: "SongList",

@@ -17,6 +17,7 @@ export default new Vuex.Store({
       playOrder: 'loop',
       voice: 1
     },
+    windowWidth: ''
   },
   mutations: {
     changePlaySong(state, playSong) {
@@ -24,11 +25,7 @@ export default new Vuex.Store({
     },
 
     changePlay(state, play) {
-      if (play) {
-        state.songState.play = play
-      }else {
-        state.songState.play = !state.songState.play;
-      }
+      state.songState.play = play
     },
 
     changeOrder(state, order) {
@@ -41,8 +38,12 @@ export default new Vuex.Store({
 
     getPicUrl(state, url) {
       if (url !== state.song.picUrl) {
-        state.song.picUrl = url
+        state.song.picUrl = url;
       }
+    },
+
+    width(state, width) {
+      state.windowWidth = width;
     }
   },
   actions: {
