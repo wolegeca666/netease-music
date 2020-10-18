@@ -11,12 +11,31 @@
       title: {
         type: String,
         default: '标题'
+      },
+      path: {
+        type: String
       }
     },
     methods: {
       clickHandle() {
         // console.log(this.title);
-        this.$emit('titleClick', this.title)
+        this.$emit('titleClick', this.title);
+        if (this.path && this.path !== this.$route.path) {
+          this.$router.push(this.path)
+        }
+      }
+    },
+    mounted() {
+      if (this.path && this.$route.path === this.path) {
+        this.$emit('titleClick', this.title);
+      }
+    },
+    watch:{
+      $route() {
+        if (this.path && this.$route.path === this.path) {
+          // console.log(this.$route.path);
+          this.$emit('titleClick', this.title);
+        }
       }
     }
   }

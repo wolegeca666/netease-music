@@ -20,7 +20,6 @@
     name: "playMethod",
     data() {
       return {
-        playOrder: this.$store.state.playOrder,
         orderList: [
           'inOrder',
           'loop',
@@ -32,9 +31,11 @@
     methods: {
       change(order) {
         this.$store.commit('changeOrder', order);
-        this.playOrder = this.$store.state.playOrder;
       }
     },
+    computed: {
+      playOrder() { return this.$store.state.songState.playOrder }
+    }
   }
 </script>
 

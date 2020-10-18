@@ -1,18 +1,44 @@
 <template>
-  <div class="nav-bar" :class="{'active': active, 'off': !active}" @click="active=!active">
-    <div class="icon">
-      <img src="./icon/discover.svg" alt="">
+    <div class="nav-bar-item" :class="{'active': active, 'off': !active}" @click="toActive">
+      <div class="icon">
+        <slot name="img"></slot>
+      </div>
+      <span>{{title}}</span>
     </div>
-    <span>发现音乐</span>
-  </div>
 </template>
 
 <script>
   export default {
     name: "nav-bar",
-    data() {
-      return {
-        active: true
+    props: {
+      index: {
+        type: Number,
+        default: 0
+      },
+      currentIndex: {
+        type: Number,
+        default: 0
+      },
+      title: {
+        type: String,
+        default: "标题"
+      },
+      path: {
+        type: String,
+        default: '/'
+      }
+    },
+    methods: {
+      toActive() {
+        this.$emit('active', this.index);
+        if (this.$route.path !== this.path) {
+          this.$router.push(this.path)
+        }
+      }
+    },
+    computed: {
+      active() {
+        return this.index === this.currentIndex
       }
     }
   }
@@ -20,7 +46,7 @@
 
 <style scoped>
 
-  .nav-bar {
+  .nav-bar-item {
     display: flex;
     padding-left: 3px;
     align-items: center;

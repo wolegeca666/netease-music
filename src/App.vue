@@ -1,10 +1,13 @@
 <template>
   <div id="app">
     <div class="container">
-      <nav-aside></nav-aside>
-      <div class="nav-page"></div>
+      <nav-aside @asideShow="navShow"></nav-aside>
+      <div class="nav-page" v-show="aside"></div>
+      <div class="nav-list" v-show="!aside"></div>
       <div id="view">
-        <router-view/>
+        <keep-alive>
+          <router-view/>
+        </keep-alive>
       </div>
     </div>
     <footer>
@@ -19,8 +22,18 @@
 
   export default {
     name: "app",
+    data() {
+      return {
+        aside: true
+      }
+    },
     components: {
       Player, navAside
+    },
+    methods: {
+      navShow(flag) {
+        this.aside = flag
+      }
     }
   }
 </script>
@@ -41,6 +54,11 @@
 
   .nav-page {
     width: 18rem;
+    border-right: 1px solid transparent;
+  }
+
+  .nav-list {
+    width: 4rem;
     border-right: 1px solid transparent;
   }
 

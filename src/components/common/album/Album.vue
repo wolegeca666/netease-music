@@ -1,15 +1,16 @@
 <template>
   <div class="album-item" :style="{width: size.width}">
     <slot name="slot"></slot>
-    <div class="play-count"><!--播放数量-->
+    <div class="play-count" v-if="show"><!--播放数量-->
       <slot name="icon" class="icon"></slot>
       <span style="font-size: 10px;" v-if="item.playCount">{{item.playCount > 100000? Math.floor(item.playCount/10000) : item.playCount}}万</span>
     </div>
     <a href="#" class="album">
-      <img :src="item.sPicUrl ? item.sPicUrl : item.picUrl" alt="0"
-           :style="{width: size.width, height: size.height}"/>
+      <img :src="picUrl()" alt=""
+           :style="{width: size.width, height: size.height}" @load="isLoad"/>
       <span>{{ cutContext(item.name) }}</span>
       <span v-if="item.artistName" class="artist">{{ cutContext(item.artistName) }}</span>
+      <span v-if="item.creator" class="artist">by {{ cutContext(item.creator.nickname,) }}</span>
     </a>
   </div>
 </template>
@@ -22,7 +23,7 @@
         type: Object,
         default() {
           return {
-            name: '',
+            name: '1',
             picUrl: 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg'
           }
         }
@@ -31,8 +32,8 @@
         type: Object,
         default() {
           return {
-            width: '15rem',
-            height: '15rem'
+            width: '16rem',
+            height: '16rem'
           }
         }
       },
@@ -41,16 +42,25 @@
         default() {
           return Math.floor(parseInt(this.size.width) * 10 / 14)
         }
+      },
+      show: {
+        type: Boolean,
+        default: true
       }
     },
     methods: {
       cutContext(str) {
-        // console.log(width);
         if (str.length > this.length) {
           return str.substring(0, this.length - 1) + '...'
         } else {
           return str
         }
+      },
+      isLoad() {
+        this.$emit('imgLoad')
+      },
+      picUrl() {
+        return this.item.sPicUrl ? this.item.sPicUrl : this.item.coverImgUrl ? this.item.coverImgUrl : this.item.picUrl
       }
     }
   }

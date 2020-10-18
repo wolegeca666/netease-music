@@ -1,17 +1,20 @@
 <template>
 
   <div class="personalized">
-    <nav-bar :msg="['推荐歌单']">
-      <template v-slot:img>
-        <img class="personalized-img" src="../icon/tuijian.svg" alt="">
-      </template>
-    </nav-bar>
+    <a href="/discover/playlist">
+      <nav-bar :msg="[{name: '推荐歌单'}]">
+        <template v-slot:img>
+          <img class="personalized-img" src="../../icon/tuijian.svg" alt="">
+        </template>
+      </nav-bar>
+    </a>
+
 
     <main>
       <ul class="music-list">
         <li class="album" v-for="(item, index) in musicList" :key="index">
 
-          <album :item="item" :length="10">
+          <album :item="item" :length="30" :size="imgSize" @imgLoad="show(index)">
             <template v-slot:slot>
               <div class="cover"></div>
             </template>
@@ -36,27 +39,38 @@
 </template>
 
 <script>
-  import NavBar from "../../../components/reusable/navbar/NavBar";
-  import Album from "../../../components/common/album/Album";
+  import NavBar from "../../../../../components/reusable/navbar/NavBar";
+  import Album from "../../../../../components/common/album/Album";
 
-  import {request} from "../../../api/request";
+  import {request} from "../../../../../api/request";
 
   export default {
     name: "personalized",
     data() {
       return {
-        musicList: []
+        musicList: [],
+        imgSize: {
+          width: '17rem',
+          height: '17rem'
+        },
       }
     },
     components: {
       NavBar,Album
     },
-    created() {
+    mounted() {
       request('/personalized').then(res => {
         // console.log(res.result);
-        res.result.splice(5, 5);
+        res.result ? res.result.splice(5, 5) : res.result = [];
         this.musicList = res.result
       }).catch(e => console.log(e))
+    },
+    methods: {
+      show(num) {
+        if ((num + 1) >= this.musicList.length) {
+          this.$emit('listLoad')
+        }
+      }
     }
   }
 </script>

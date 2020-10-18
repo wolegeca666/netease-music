@@ -6,8 +6,8 @@
     </div>
     <div class="msg">
       <div class="song" v-show="pic.length">
-        <span class="name">{{ song.name }}</span>
-        <span style="color:rgba(0,0,0,0.4);"> - {{ author.name}}</span>
+        <span class="name">{{ this.$store.state.song.name }}</span>
+        <span style="color:rgba(0,0,0,0.4);"> - {{ this.$store.state.song.author}}</span>
       </div>
       <div class="time">
         <span style="font-weight: 500;;">{{ currentTime }}</span> / <span
@@ -15,7 +15,7 @@
       </div>
     </div>
     <audio id="musicUrl" @canplay="canPLay" :src="url"
-           @timeupdate="timeChange" @ended="ended"></audio>
+           @timeupdate="timeChange" @ended="ended(false)"></audio>
   </div>
 </template>
 
@@ -24,14 +24,11 @@
 
   import utils from "../../../common/utils";
   import {request} from "../../../api/request";
+  import {mapState} from "vuex"
 
   export default {
     name: "musicAudio",
-    props: {
-      play: {
-        type: Boolean
-      }
-    },
+    props: {},
     data() {
       return {
         url: '',
@@ -72,11 +69,10 @@
       getMusicDetail() {
         request('/music/detail?id=' + this.id)
             .then((res) => {
-              // console.log(res.songs[0]);
+              // console.log(res);
               this.song = res.songs[0];
-              this.author = this.song.ar[0];
               this.pic = this.song.al.picUrl;
-              this.$emit('songs', this.pic)
+              this.$store.commit('getPicUrl', this.pic);
             }).catch(e => console.log(e));
       },
 
@@ -85,14 +81,15 @@
         const music = this.music;
         this.maxTime = utils.getTime(music.duration);
         if (music.currentTime === 0) {
-          this.percent = 0
+          this.percent = 0;
         }
-        if (this.id !== 27580521 && !this.play) {
-          this.ended()
+        if (this.id !== 27580521) {
+          this.ended(true);
+          this.musicPlay();
         }
       },
-      ended() {
-        this.$emit('play');
+      ended(flag) {
+        this.$store.commit("changePlay", flag)
       },
       //播放和暂停
       musicPlay() {
@@ -107,14 +104,13 @@
        * */
       timeChange() {
         if (this.flag) {
-          this.progress()
+          this.progress();
         }
       },
-
       progress() {
         const music = this.music;
         this.currentTime = utils.getTime(music.currentTime);
-        music.volume = this.$store.state.voice;
+        music.volume = this.$store.state.songState.voice;
         let percent = Math.floor(music.currentTime) / music.duration;
         if (percent) {
           this.percent = percent;
@@ -129,7 +125,6 @@
         const music = this.music;
         this.currentTime = utils.getTime(this.percent * music.duration);
       },
-
       changeTime() {
         const music = this.music;
         music.currentTime = this.percent * music.duration;
@@ -137,31 +132,33 @@
         this.timeChange();
       }
     },
-    watch: {
-      play: function () {
-        this.musicPlay()
-      },
-      voice: function () {
-        this.changeVoice()
-      },
-      id: function() {
-        // console.log(this.id);
-        this.$emit('songs', 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg');
-        if (this.play) {
-          this.ended();
-        }
-        this.getMusicDetail();
-        this.getMusicPlay();
-      }
-    },
     computed: {
-      music: function () {
+      music() {
         return document.getElementById('musicUrl')
       },
-      id: function () {
-        return this.$store.state.id
-      }
+      ...mapState({
+        id: state => state.song.id,
+        play: state => state.songState.play,
+        playOrder: state => state.songState.playOrder,
+      })
     },
+    watch: {
+      play() {
+        this.musicPlay();
+      },
+      voice() {
+        this.changeVoice();
+      },
+      id() {
+        // console.log(this.id);
+        this.ended(false);
+        this.getMusicPlay();
+        this.getMusicDetail();
+      },
+      percent() {
+        this.musicPlay();
+      }
+    }
   }
 </script>
 

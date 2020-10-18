@@ -1,23 +1,48 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    id: 27580521, // 正在播放的歌曲的id
-    playOrder: 'loop',
-    voice: 1
+    // 正在播放的歌曲
+    song: {
+      id: 27580521,
+      name: 'Libertus',
+      author: 'Chen-U',
+      picUrl: 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg'
+    },
+    songState: {
+      play: false,
+      playOrder: 'loop',
+      voice: 1
+    },
   },
   mutations: {
-    changeId(state, id) {
-      state.id = id;
+    changePlaySong(state, playSong) {
+      state.song = playSong
     },
+
+    changePlay(state, play) {
+      if (play) {
+        state.songState.play = play
+      }else {
+        state.songState.play = !state.songState.play;
+      }
+    },
+
     changeOrder(state, order) {
-      state.playOrder = order
+      state.songState.playOrder = order;
     },
+
     changeVoice(state, percent) {
-      state.voice = percent;
+      state.songState.voice = percent;
+    },
+
+    getPicUrl(state, url) {
+      if (url !== state.song.picUrl) {
+        state.song.picUrl = url
+      }
     }
   },
   actions: {

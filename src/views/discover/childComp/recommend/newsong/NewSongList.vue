@@ -2,7 +2,7 @@
   <div class="new-song-list">
     <ul class="list">
       <li v-for="(item,index) in list" :key="index"  :class="classHandle(index)">
-          <song-list-item class="item" :num="index" :song="item"
+          <song-list-item class="item" :num="index" :song="item" :song-msg="item.song"
                           :current-index="currentIndex" :odd-index="odd(index)"
                           @itemClick="clickHandle">
             <template v-slot:left>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  import SongListItem from "../../../../components/common/songlist/SongListItem";
+  import SongListItem from "../../../../../components/common/songlist/SongListItem";
 
   export default {
     name: "SongList",

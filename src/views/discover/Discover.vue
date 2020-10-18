@@ -10,10 +10,9 @@
       </div>
     </header>
     <main>
-      <personalized></personalized>
-      <private></private>
-      <new-song></new-song>
-      <re-mv></re-mv>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </main>
   </div>
 </template>
@@ -22,36 +21,38 @@
   import vTitle from "../../components/reusable/title/Title";
   import NavBar from "../../components/reusable/navbar/NavBar";
 
-  import Personalized from "./recommend/Personalized";
-  import Private from "./recommend/Private";
-  import NewSong from "./recommend/newsong/NewSong";
-  import ReMv from "./recommend/ReMv";
-
   export default {
     name: 'Home',
     data() {
       return {
         titles: [
-          "个性推荐", "歌单", "主播电台", "最新音乐", "歌手"
+          {name: "个性推荐", path: '/discover'},
+          {name: "歌单", path: '/discover/playlist'},
+          {name: "主播电台", path: ''},
+          {name: "最新音乐"},
+          {name: "歌手"}
+        ],
+        path: [
+
         ],
         title: '个性推荐'
       }
     },
     components: {
-      vTitle, NavBar,
-      Personalized, Private, NewSong, ReMv
+      vTitle, NavBar
     },
     methods: {
       titleClick(title) {
         this.title = title;
       }
-    }
+    },
+
   }
 </script>
 
 <style scoped>
   .discover {
-    min-width: 90rem;
+    min-width: 100rem;
     background-color: #fff;
     padding-bottom: 20rem;
   }
@@ -74,11 +75,11 @@
   }
 
   main {
-    width: 90rem;
+    width: 100rem;
     position: relative;
     top: 3rem;
     margin: 0 auto;
-    padding: 0 2.5rem;
+    padding: 0 2rem;
   }
 
 

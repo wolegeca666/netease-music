@@ -1,12 +1,13 @@
 <template>
   <div class="nav">
     <slot name="img"></slot>
-
     <div class="container">
       <div class="row-nav">
-        <v-title v-for="(item, index) in msg" :title="item" :key="index"
-                 :class="{'active': activeTitle === item}"
-                 class="nav-title" @titleClick="clickHandle"></v-title>
+          <v-title v-for="(item, index) in msg" :title="item.name" :key="index" :path="item.path"
+                   :class="{'active': activeTitle === item.name}"
+                   class="nav-title" @titleClick="clickHandle">
+
+          </v-title>
       </div>
     </div>
     <div class="hr"></div>
@@ -31,7 +32,7 @@
         type: Array,
         default() {
           return [
-            '标题1', '标题2', '标题3'
+            {name:'标题1'}, {name: '标题2'}, {name: '标题3'}
           ]
         }
       },
@@ -65,6 +66,7 @@
     position: relative;
     display: flex;
     background-color: #fff;
+    margin-bottom: 2rem;
   }
 
   .row-nav {
@@ -72,10 +74,10 @@
   }
 
   .nav-title {
-    margin: 0 2rem 1rem 0;
+    margin:0 1rem 1rem 0;
     font-size: 16px;
     color: #000;
-    padding-bottom: 3px;
+    padding:0 0.5rem 3px 0.5rem ;
   }
 
   .active {

@@ -1,7 +1,7 @@
 <template>
   <div class="recommend-song">
     <div class="song-nav">
-      <nav-bar :msg="['最新音乐']">
+      <nav-bar :msg="[{name:'最新音乐'}]">
         <template v-slot:img>
           <img class="personalized-img" src="../../icon/newsong.svg" alt="">
         </template>
@@ -14,10 +14,10 @@
 </template>
 
 <script>
-  import NavBar from "../../../../components/reusable/navbar/NavBar";
+  import NavBar from "../../../../../components/reusable/navbar/NavBar";
   import SongList from "./NewSongList";
 
-  import {request} from "../../../../api/request";
+  import {request} from "../../../../../api/request";
 
   export default {
     name: "NewSong",
@@ -29,7 +29,7 @@
         musicList: [],
       }
     },
-    created() {
+    mounted() {
       request('/personalized/newsong').then(res => {
         // console.log(res.result);
         this.musicList = res.result;

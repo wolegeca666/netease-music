@@ -1,18 +1,34 @@
 <template>
   <div id="nav">
-    <router-link to="/">
-      <nav-bar></nav-bar>
-    </router-link>
+    <div @click="cutList">=</div>
+    <div class="home">
+      <aside-bar></aside-bar>
+    </div>
   </div>
 </template>
 
 <script>
-  import NavBar from "./NavBar";
+  import AsideBar from "./AsideBar";
 
   export default {
     name: "Aside",
+    data() {
+      return {show: true}
+    },
     components: {
-      NavBar
+      AsideBar
+    },
+    methods: {
+      cutList() {
+        this.show = !this.show;
+        const nav = document.getElementById('nav');
+        if (this.show) {
+          nav.style.width = '18rem';
+        }else {
+          nav.style.width = '4rem';
+        }
+        this.$emit('asideShow', this.show)
+      }
     }
   }
 </script>

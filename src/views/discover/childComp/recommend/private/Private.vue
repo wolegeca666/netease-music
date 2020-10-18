@@ -1,9 +1,9 @@
 <template>
-  <div class="personalized">
+  <div class="personalized" v-show="load">
 
-    <nav-bar :msg="['独家放送']">
+    <nav-bar :msg="[{name: '独家放送'}]">
       <template v-slot:img>
-        <img class="personalized-img" src="../icon/dujia.svg" alt="">
+        <img class="personalized-img" src="../../icon/dujia.svg" alt="">
       </template>
     </nav-bar>
 
@@ -11,7 +11,7 @@
       <ul class="music-list">
         <li class="album" v-for="(item, index) in musicList" :key="index">
 
-          <album :item="item" :size="imgSize"></album>
+          <album :item="item" :length="23" :size="imgSize" @imgLoad="show(index)"></album>
 
         </li>
       </ul>
@@ -20,10 +20,10 @@
 </template>
 
 <script>
-  import NavBar from "../../../components/reusable/navbar/NavBar";
-  import Album from "../../../components/common/album/Album";
+  import NavBar from "../../../../../components/reusable/navbar/NavBar";
+  import Album from "../../../../../components/common/album/Album";
 
-  import {request} from "../../../api/request";
+  import {request} from "../../../../../api/request";
 
   export default {
     name: "private",
@@ -31,19 +31,27 @@
       return {
         musicList: [],
         imgSize: {
-          width: '26.5rem',
-          height: '15rem'
-        }
+          width: '30rem',
+          height: '17rem'
+        },
+        load: false
       }
     },
     components: {
       NavBar,Album
     },
-    created() {
+    mounted() {
       request('/personalized/privatecontent').then(res => {
         // console.log(res.result);
         this.musicList = res.result
       }).catch(e => console.log(e))
+    },
+    methods: {
+      show(num) {
+        if ((++num) >= this.musicList.length) {
+          this.load = true
+        }
+      }
     }
   }
 </script>

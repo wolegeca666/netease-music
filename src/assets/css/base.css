@@ -22,8 +22,7 @@ html {
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica Neu, "PingFang sc", "Hiragino Sans GB",
-  "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   user-select: none; /* 禁止用户选中文字等 */
   -webkit-tap-highlight-color: transparent;
   background-color: #fff;
@@ -48,8 +47,6 @@ a {
 .clear-fix {
   zoom: 1;
 }
-
-
 
 li {
   list-style: none;

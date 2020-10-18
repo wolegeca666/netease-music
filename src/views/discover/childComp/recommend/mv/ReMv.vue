@@ -1,9 +1,9 @@
 <template>
   <div class="personalized">
 
-    <nav-bar :msg="['推荐MV']">
+    <nav-bar :msg="[{name: '推荐MV'}]">
       <template v-slot:img>
-        <img class="personalized-img" src="../icon/dujia.svg" alt="">
+        <img class="personalized-img" src="../../icon/mv.svg" alt="">
       </template>
     </nav-bar>
 
@@ -31,26 +31,26 @@
 </template>
 
 <script>
-  import NavBar from "../../../components/reusable/navbar/NavBar";
-  import Album from "../../../components/common/album/Album";
+  import NavBar from "../../../../../components/reusable/navbar/NavBar";
+  import Album from "../../../../../components/common/album/Album";
 
-  import {request} from "../../../api/request";
+  import {request} from "../../../../../api/request";
 
   export default {
-    name: "private",
+    name: "ReMv",
     data() {
       return {
         musicList: [],
         imgSize: {
-          width: '26.5rem',
-          height: '15rem'
+          width: '30rem',
+          height: '17rem'
         }
       }
     },
     components: {
       NavBar, Album
     },
-    created() {
+    mounted() {
       request('/personalized/mv').then(res => {
         // console.log(res.result);
         this.musicList = res.result.splice(0, 3)
@@ -62,9 +62,10 @@
 <style scoped>
   .personalized-img {
     opacity: 0.8;
-    margin-right: 1rem;
-    width: 2rem;
-    height: 2rem;
+    margin-right: 0.8rem;
+    padding-bottom: 0.2rem;
+    width: 2.2rem;
+    height: 2.2rem;
   }
 
   .music-list {

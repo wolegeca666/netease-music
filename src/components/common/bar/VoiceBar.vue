@@ -25,7 +25,7 @@
                       @progress="voiceHandle"></progress-bar>
       </div>
     </div>
-    <div class="voice-bar" @click="progress">
+    <div class="voice-bar" @mouseup="progress">
       <div v-show="voice > 0" class="on">
         <svg t="1602239512909" class="icon" viewBox="0 0 1024 1024"
              version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11321"
@@ -72,12 +72,12 @@
           const audio = document.getElementById('voice');
           this.left = audio.offsetLeft - 101.5;
         }
-        this.percent = this.$store.state.voice;
+        this.percent = this.$store.state.songState.voice;
       },
       voiceHandle(percent) {
         this.voice = percent <= 0.015 ? 0 : percent > 1 ? 1 : percent;
         this.$store.commit('changeVoice', this.voice);
-        this.percent = this.$store.state.voice;
+        this.percent = this.$store.state.songState.voice;
       }
     }
   }

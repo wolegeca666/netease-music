@@ -3,7 +3,7 @@
     <div class="pic">
       <img :src="url" alt="0">
     </div>
-    <music-control @picUrl="getDetail"></music-control>
+    <music-control></music-control>
     <music-handle></music-handle>
   </div>
 
@@ -15,17 +15,12 @@
 
   export default {
     name: "player",
-    data() {
-      return {
-        url: 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg'
-    }
-    },
     components: {
       MusicControl,MusicHandle
     },
-    methods: {
-      getDetail(pic) {
-        this.url = pic;
+    computed: {
+      url() {
+        return this.$store.state.song.picUrl
       }
     }
   }
@@ -35,7 +30,7 @@
   #player {
     z-index: 999;
     width: 100vw;
-    min-width: 112em;
+    min-width: 100em;
     padding: 1px 0.5rem;
     display: flex;
     position: fixed;
