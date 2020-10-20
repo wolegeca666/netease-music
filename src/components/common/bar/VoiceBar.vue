@@ -1,5 +1,5 @@
 <template>
-  <div id="voice" @click="changeLeft">
+  <div id="voice" @click="changeLeft($event)">
     <div id="voice-progress" :class="{'active': !active}">
       <div class="voice-bar-p">
         <div v-show="voice > 0" class="on">
@@ -65,12 +65,13 @@
     },
     methods: {
       progress() {
-          this.active = !this.active;
+        this.active = !this.active;
       },
-      changeLeft() {
+      changeLeft(e) {
         if (this.active) {
           const audio = document.getElementById('voice');
-          this.left = audio.offsetLeft - 101.5;
+          this.left = this.width - 225;
+          // console.log(this.left);
         }
         this.percent = this.$store.state.songState.voice;
       },
@@ -79,12 +80,18 @@
         this.$store.commit('changeVoice', this.voice);
         this.percent = this.$store.state.songState.voice;
       }
+    },
+    computed: {
+      width() {
+        return this.$store.state.windowsWidth
+      }
     }
   }
 </script>
 
 <style scoped>
   #voice {
+    z-index: 200;
     flex: 1;
     background-color: #fff;
   }
@@ -105,13 +112,17 @@
   #voice-progress {
     transition: opacity 300ms;
     position: absolute;
-    right: 3rem;
+    right: 1rem;
     bottom: 8rem;
     width: 23rem;
     height: 5rem;
     padding-left: 0.5rem;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .voice-bar {
+    margin-left: 2rem;
   }
 
   .voice-bar-p {

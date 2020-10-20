@@ -14,7 +14,7 @@
               style="color: #818181">{{ maxTime }}</span>
       </div>
     </div>
-    <audio id="musicUrl" @canplay="canPLay" :src="url" :loop="playOrder === loop"
+    <audio id="musicUrl" @canplay="canPLay" :src="url" :loop="playOrder === single"
            @timeupdate="timeChange" @ended="ended(false)"></audio>
   </div>
 </template>
@@ -31,15 +31,19 @@
     props: {},
     data() {
       return {
+        playId: '',
         url: '',
         song: {},
         left: 0,
         maxTime: '00:00',
         currentTime: '00:00',
         percent: 1,
-        flag: true,
-        playId: '',
-        loop: 'single'
+        flag: true,//拖动进度条是不改变时间， 松开时改变时间
+        // 播放顺序,
+        inOrder: 'inOrder',
+        single: 'single',
+        loop: 'loop',
+        random: 'random',
       }
     },
     components: {
@@ -89,12 +93,26 @@
           this.percent = 0;
         }
         if (this.id !== 27580521) {
-          this.ended(true);
+          this.$store.commit("changePlay", true);
         }
       },
-      ended(flag) {
+      // 播放结束后
+      ended() {
         // console.log(flag);
-        this.$store.commit("changePlay", flag)
+        this.$store.commit("changePlay", false);
+        let index;
+        switch (this.playOrder) {
+          case this.loop :
+            index = this.index + 1;
+            index = index >= this.playlist.length ? 0 : index;
+            break;
+          case this.inOrder :
+            index = this.index + 1;
+            break;
+          case this.random :
+            index = Math.floor(Math.random()*this.playlist.length)
+        }
+        this.$store.commit('changePlaySongIndex', index)
       },
       //播放和暂停
       musicPlay() {
@@ -145,7 +163,9 @@
         id: state => state.song.id,
         play: state => state.songState.play,
         playOrder: state => state.songState.playOrder,
-        playSong: state => state.song
+        playSong: state => state.song,
+        index: state => state.playSongIndex,
+        playlist: state => state.playList
       })
     },
     watch: {
@@ -161,11 +181,8 @@
           this.getMusicDetail()
         }
         this.getMusicPlay();
-        this.ended(false);
+        this.$store.commit("changePlay", false);
       },
-      playOrder() {
-
-      }
     }
   }
 </script>

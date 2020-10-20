@@ -14,7 +14,7 @@
       <ul class="music-list">
         <li class="album" v-for="(item, index) in musicList" :key="index">
 
-          <album :item="item" :length="30" :size="imgSize" @imgLoad="show(index)">
+          <album :item="item" :length="30" :size="imgSize" @imgLoad="show(index)" :playlist-to="true">
             <template v-slot:slot>
               <div class="cover"></div>
             </template>

@@ -54,6 +54,10 @@
       show: {
         type: Boolean,
         default: true
+      },
+      playlistTo:{
+        type: Boolean,
+        default: false
       }
     },
     data() {
@@ -77,7 +81,9 @@
       },
 
       playlist() {
-        this.$router.push({name: 'PlayList', query: {id: this.item.id}})
+        if (this.playlistTo) {
+          this.$router.push({name: 'PlayList', query: {id: this.item.id}})
+        }
       }
     }
   }

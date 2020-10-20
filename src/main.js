@@ -13,8 +13,13 @@ new Vue({
 
 import state from '../src/store/index';
 
+window.onload = e =>{
+  state.commit('width', document.documentElement.clientWidth);
+  state.commit('height', document.documentElement.clientHeight);
+};
+
 window.onresize = e => {
-  state.commit('width', document.documentElement.clientWidth)
+  state.commit('width', document.documentElement.clientWidth);
 };
 
 

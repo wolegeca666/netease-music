@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import mutations from "./mutations";
+import getters from "./getters";
+import actions from "./actions";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -11,49 +15,26 @@ export default new Vuex.Store({
       name: 'Libertus',
       author: 'Chen-U',
       picUrl: ''
-  },
+    },
     songState: {
       play: false,
       playOrder: 'loop',
       voice: 0.5
     },
-    windowWidth: ''
-  },
-  mutations: {
-    changePlaySong(state, playSong) {
-      if (state.song.id === playSong.id && !state.songState.play && state.song.id!==27580521) {
-         state.songState.play = true
+    playList: [
+      {
+        id: 27580521,
+        name: 'Libertus',
+        ar: [{name: 'Chen-U'}],
+        alia: [],
+        picUrl: ''
       }
-      state.song = playSong;
-      // console.log(state.song);
-    },
-
-    changePlay(state, play) {
-      state.songState.play = play
-    },
-
-    changeOrder(state, order) {
-      state.songState.playOrder = order;
-    },
-
-    changeVoice(state, percent) {
-      state.songState.voice = percent;
-    },
-
-    getPicUrl(state, url) {
-      if (url !== state.song.picUrl) {
-        state.song.picUrl = url;
-      }
-    },
-
-    width(state, width) {
-      state.windowWidth = width;
-    }
+    ],
+    playSongIndex: 0,
+    windowsWidth: '',
+    widowsHeight: ''
   },
-  actions: {
-
-  },
-  modules: {
-
-  }
+  mutations,
+  actions,
+  getters
 })

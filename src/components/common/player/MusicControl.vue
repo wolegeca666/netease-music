@@ -1,6 +1,6 @@
 <template>
   <div class="music-control">
-    <div class="forward">
+    <div class="forward" @click="changeIndex(-1)">
       <svg t="1602217693236" class="icon" viewBox="0 0 1024 1024" version="1.1"
            xmlns="http://www.w3.org/2000/svg" p-id="28290" width="128"
            height="128">
@@ -27,7 +27,7 @@
               fill="#FFFFFF" p-id="14198"></path>
       </svg>
     </div>
-    <div class="next">
+    <div class="next" @click="changeIndex(1)">
       <svg t="1602218059775" class="icon" viewBox="0 0 1024 1024" version="1.1"
            xmlns="http://www.w3.org/2000/svg" p-id="28479" width="128"
            height="128">
@@ -53,10 +53,21 @@
     methods: {
       cut(flag) {
         this.$store.commit('changePlay', flag);
+      },
+      changeIndex(num) {
+        let index = this.index + num;
+        if (index >= this.playlist.length) {
+          index = 0
+        }else if (index < 0) {
+          index = this.playlist.length - 1
+        }
+        this.$store.commit('changePlaySongIndex', index)
       }
     },
     computed: {
-      play() { return this.$store.state.songState.play }
+      play() { return this.$store.state.songState.play },
+      index() { return this.$store.state.playSongIndex },
+      playlist() { return this.$store.state.playList }
     }
   }
 </script>
@@ -67,6 +78,7 @@
     display: flex;
     align-items: center;
     padding: 0 1.5rem;
+    background-color: #fff;
   }
 
   .music-control .forward,

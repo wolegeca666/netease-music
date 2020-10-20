@@ -3,7 +3,7 @@
     <like></like>
     <method-bar></method-bar>
     <voice-bar></voice-bar>
-    <play-list></play-list>
+    <play-list @list="click"></play-list>
   </div>
 </template>
 
@@ -17,15 +17,21 @@
     name: "MusicHandle",
     components: {
       Like,MethodBar,VoiceBar,PlayList
+    },
+    methods: {
+      click() {
+        this.$emit('list')
+      }
     }
   }
 </script>
 
 <style scoped>
   .right {
+    position: relative;
     background-color: #fff;
-    padding-left: 2rem;
     width: 25rem;
+    margin-right: 2rem;
     display: flex;
     align-items: center;
   }

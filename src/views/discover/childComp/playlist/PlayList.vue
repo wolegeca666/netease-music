@@ -7,7 +7,7 @@
     <div class="high">精品歌单</div>
     <ul class="list">
       <li class="play-list" v-for="(item, index) in musicList" :key="index">
-        <album :item="item" :length="11" @imgLoad="isLoad(index)">
+        <album :item="item" :length="11" @imgLoad="isLoad(index)" :playlist-to="true">
           <template v-slot:icon>
             <svg t="1602600869883" class="icon" viewBox="0 0 1365 1024" version="1.1"
                  xmlns="http://www.w3.org/2000/svg" p-id="8018" width="1.3rem"

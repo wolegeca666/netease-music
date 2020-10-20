@@ -76,7 +76,7 @@
     },
     computed: {
       width() {
-        return this.$store.state.windowWidth
+        return this.$store.state.windowsWidth
       }
     }
   }

@@ -1,16 +1,17 @@
 <template>
-  <div v-show="length > 10">
+  <div v-show="show">
     <ul>
       <li v-for="(item, index) in playLists" :key="index">
         <song-list-item :song="item" :num="index" :current-index="currentIndex"
-                        @itemClick="itemClick"></song-list-item>
+                        @itemClick="itemClick"
+                        @play="playSong"></song-list-item>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-  import SongListItem from "../../components/common/songlist/SongListItem";
+  import SongListItem from "./SongListItem";
   import {request} from "../../api/request";
 
   export default {
@@ -25,7 +26,9 @@
         currentIndex: -1,
         playLists: [],
         length: 0,
-        maxLength: 40
+        maxLength: 8,
+        show: false,
+        flag: false
       }
     },
     components: {
@@ -35,6 +38,7 @@
       itemClick(num) {
         this.currentIndex = num;
       },
+      // 获取单曲信息
       getMusicDetail(id) {
         return new Promise(function (resolve, reject) {
           request('/music/detail?id=' + id)
@@ -48,6 +52,7 @@
               }).catch(e => console.log(e));
         });
       },
+      // 列表获取
       getListDetails(arr) {
         let request = arr.map(item => this.getMusicDetail(item.id));
         return Promise.all(request)
@@ -64,6 +69,7 @@
             }),
         ).then (res => console.log(res))*/
       },
+      // 剪切列表
       cutList(length) {
         let slist = [];
         this.list.forEach((item, index) => {
@@ -73,23 +79,64 @@
         });
         return this.getListDetails(slist)
       },
+      // 循环获取数据
+      callBack() {
+        this.cutList(this.length).then(e => {
+          this.playLists.push(...e);
+          this.length += 10;
+          this.request();
+        }).catch(e => this.request())
+      },
+
       request() {
-        if (this.length <= this.maxLength) {
-          this.cutList(this.length).then(e => {
-            this.playLists.push(...e);
-            this.length += 10;
-            this.request();
-          }).catch(e => this.request())
-        }else if(this.length < this.listLength) {
-          this.show = true;
-          this.cutList(this.length).then(e => {
-            this.playLists.push(...e);
-            this.length += 10;
-            this.request();
-          }).catch(e => this.request())
+        if (this.length < this.listLength) {
+          this.callBack();
+          if (this.length > this.maxLength) {
+            this.show = true;
+            this.$emit('show', true);
+          }
+        } else {
+
           // console.log(this.playLists[0]);
         }
-      }
+      },
+
+      playSong(num) {
+        /*this.$store.commit('changePlaySong', {
+          id: this.playLists[num].id,
+          name: this.playLists[num].name,
+          author: this.authorHandle(this.playLists[num]),
+          picUrl: this.playLists[num].al.picUrl
+        });*/
+        if (!this.flag) {
+          this.$store.commit('changePlaySong', {
+            id: this.playLists[num].id,
+            name: this.playLists[num].name,
+            author: this.authorHandle(this.playLists[num]),
+            picUrl: this.playLists[num].al.picUrl
+          });
+        }
+        this.flag = true;
+        this.$store.commit('changePlayList', this.playLists);
+        this.$store.commit('changePlaySongIndex', num)
+      },
+
+      authorHandle(obj) {
+        let arr = [];
+        let authors = obj.ar;
+        authors.forEach(function (item) {
+          arr.push(item.name)
+        });
+        return this.cutContext(arr.join(' / '));
+      },
+
+      cutContext(str) {
+        if (str.length > 35) {
+          return str.substring(0, 30) + '...'
+        } else {
+          return str
+        }
+      },
     },
     computed: {
       listLength() {
@@ -98,11 +145,26 @@
     },
     watch: {
       list() {
+        this.flag = false;
+        this.$emit('show', false);
         this.currentIndex = -1;
         this.length = 0;
         this.playLists = [];
         this.request()
       },
+      playLists() {
+        if (this.flag) {
+          /*this.$store.commit('changePlayList', [...this.playLists.map(item => {
+            return {
+              id: item.id,
+              name: item.name,
+              author: this.authorHandle(item),
+              picUrl: item.al.picUrl
+            }
+          })])*/
+          this.$store.commit('changePlayList', this.playLists)
+        }
+      }
     }
   }
 </script>
