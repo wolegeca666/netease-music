@@ -59,9 +59,8 @@
       NavBar,Album
     },
     mounted() {
-      request('/personalized').then(res => {
-        // console.log(res.result);
-        res.result ? res.result.splice(5, 5) : res.result = [];
+      request('/personalized?limit=10').then(res => {
+        // console.log(res);
         this.musicList = res.result
       }).catch(e => console.log(e))
     },
@@ -92,7 +91,11 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin: 1rem auto 5rem;
+    margin: 1rem auto 2rem;
+  }
+
+  li.album {
+    margin-bottom: 2rem;
   }
 
 /*  .cover {

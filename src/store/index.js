@@ -22,13 +22,7 @@ export default new Vuex.Store({
       voice: 0.5
     },
     playList: [
-      {
-        id: 27580521,
-        name: 'Libertus',
-        ar: [{name: 'Chen-U'}],
-        alia: [],
-        picUrl: ''
-      }
+
     ],
     playSongIndex: 0,
     windowsWidth: '',

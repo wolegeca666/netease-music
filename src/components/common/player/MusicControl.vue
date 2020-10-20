@@ -35,17 +35,21 @@
               fill="#d81e06" p-id="28480"></path>
       </svg>
     </div>
-    <music-audio></music-audio>
+    <music-audio @cIndex="changeIndex"></music-audio>
   </div>
 </template>
 
 <script>
   import MusicAudio from "./MusicAudio";
+  import {mapState} from "vuex";
 
   export default {
     name: "musicControl",
     data() {
-      return {}
+      return {
+        loop: 'loop',
+        random: 'random',
+      }
     },
     components: {
       MusicAudio
@@ -56,18 +60,28 @@
       },
       changeIndex(num) {
         let index = this.index + num;
-        if (index >= this.playlist.length) {
-          index = 0
-        }else if (index < 0) {
+        if (index < 0) {
           index = this.playlist.length - 1
         }
+        switch (this.playOrder) {
+          case this.loop :
+            index = index >= this.playlist.length ? 0 : index;
+            break;
+          case this.random :
+            index = Math.floor(Math.random()*this.playlist.length)
+            break
+        }
+        this.$store.commit('changePlaySongIndex', index);
         this.$store.commit('changePlaySongIndex', index)
       }
     },
     computed: {
-      play() { return this.$store.state.songState.play },
-      index() { return this.$store.state.playSongIndex },
-      playlist() { return this.$store.state.playList }
+      ...mapState({
+        play: state => state.songState.play,
+        index: state => state.playSongIndex,
+        playlist: state => state.playList,
+        playOrder: state => state.songState.playOrder
+      })
     }
   }
 </script>

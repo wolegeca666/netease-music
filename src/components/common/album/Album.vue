@@ -16,7 +16,7 @@
           </span>
         </div>
       </div>
-      <span class="name">{{ cutContext(item.name) }}</span>
+      <span class="name">{{ item.name }}</span>
       <span v-if="item.artistName" class="artist">{{ cutContext(item.artistName) }}</span>
       <span v-if="item.creator" class="artist">by {{ cutContext(item.creator.nickname,) }}</span>
     </a>
@@ -68,7 +68,7 @@
     methods: {
       cutContext(str) {
         if (str.length > this.length) {
-          return str.substring(0, this.length - 1) + '...'
+          return str.substring(0, this.length) + '...'
         } else {
           return str
         }
@@ -133,6 +133,9 @@
     font-size: 14px;
     opacity: 0.6;
     padding-top: 1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .album-item span.artist {

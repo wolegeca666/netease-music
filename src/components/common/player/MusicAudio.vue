@@ -42,8 +42,6 @@
         // 播放顺序,
         inOrder: 'inOrder',
         single: 'single',
-        loop: 'loop',
-        random: 'random',
       }
     },
     components: {
@@ -60,7 +58,7 @@
        * 获取单曲播放地址
        * */
       getMusicPlay() {
-        request('/music/url?id=' + this.id + '&br=320000')
+        request('/song/url?id=' + this.id + '&br=320000')
             .then((res) => {
               // console.log(res.data);
               this.url = res.data[0].url;
@@ -70,7 +68,7 @@
        * 获取歌曲信息
        * */
       getMusicDetail() {
-        request('/music/detail?id=' + this.id)
+        request('/song/detail?ids=' + this.id)
             .then((res) => {
               // console.log(res);
               this.song = res.songs[0];
@@ -100,19 +98,9 @@
       ended() {
         // console.log(flag);
         this.$store.commit("changePlay", false);
-        let index;
-        switch (this.playOrder) {
-          case this.loop :
-            index = this.index + 1;
-            index = index >= this.playlist.length ? 0 : index;
-            break;
-          case this.inOrder :
-            index = this.index + 1;
-            break;
-          case this.random :
-            index = Math.floor(Math.random()*this.playlist.length)
+        if (this.playOrder !== this.inOrder) {
+          this.$emit('cIndex', 1)
         }
-        this.$store.commit('changePlaySongIndex', index)
       },
       //播放和暂停
       musicPlay() {

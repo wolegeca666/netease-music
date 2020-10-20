@@ -3,7 +3,8 @@
        @dblclick="musicPlay"><!--设置缩放定位-->
     <div :class="{'hover': !animate}" style="perspective: 1000px;"
          @mousedown="animation" @click="clickHandle">
-      <div class="song-item" :class="{'active': num === currentIndex, 'animate': animate, 'odd': isOdd(oddIndex)}">
+      <div class="song-item"
+           :class="{'active': isActive, 'animate': animate, 'odd': isOdd(oddIndex)}">
         <div class="play-icon" v-show="song.id === playId">
           <svg t="1602691641326" class="icon" viewBox="0 0 1126 1024"
                version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="18323"
@@ -27,15 +28,23 @@
             <p>{{ author }}</p>
           </div>
         </div>
+        <div class="play-bar">
+          <play-bar v-show="isActive" @itemClick="barClick"
+                    @play="musicPlay"></play-bar>
+        </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
+  import PlayBar from "../../../../playlist/PlayBar";
+
   export default {
     name: "SongListItem",
+    components: {
+      PlayBar
+    },
     props: {
       num: {
         type: Number
@@ -58,7 +67,9 @@
     },
     data() {
       return {
-        animate: false
+        animate: false,
+        active: false,
+        flag: true
       }
     },
     methods: {
@@ -85,18 +96,30 @@
       },
 
       clickHandle() {
-        if (this.num !== this.currentIndex) {
+        if (this.flag) {
+          this.num !== this.currentIndex ?
+              this.active = true :
+              this.active = !this.active;
           this.$emit('itemClick', this.num);
+        } else {
+          this.flag = true
         }
       },
 
+      barClick() {
+        this.flag = false;
+      },
+
       animation() {
-        this.animate = true;
+        if (this.num !== this.currentIndex) {
+          this.animate = true;
+        }
         document.onmouseup = e => {
           this.animate = false;
           document.onmouseup = null
         }
       },
+
       isOdd(num) {
         return num % 2
       },
@@ -104,24 +127,27 @@
       // 播放歌曲
       musicPlay() {
         // console.log(this.song.id);
-          this.$store.commit('changePlaySong', {
-            id: this.song.id,
-            name: this.song.name,
-            author: this.author,
-            picUrl: this.song.picUrl
-          });
-        }
-    },
+        this.$store.commit('changePlaySong', {
+          id: this.song.id,
+          name: this.song.name,
+          author: this.author,
+          picUrl: this.song.picUrl
+        });
+      }
+    }
+    ,
     computed: {
       playId: function () {
         return this.$store.state.song.id
-      },
+      }
+      ,
       author() {
         return this.authorHandle(this.songMsg)
       }
-    },
-    mounted() {
-
+      ,
+      isActive() {
+        return this.active && this.num === this.currentIndex
+      }
     }
   }
 </script>
@@ -148,10 +174,10 @@
     }
   }
 
-  .bgc{
+  .bgc {
     background-color: #fff;
   }
-  
+
   .hover:hover {
     z-index: 99;
     background-color: rgba(0, 0, 0, 0.06);
@@ -176,7 +202,6 @@
   }
 
 
-
   .song-item {
     display: flex;
     align-items: center;
@@ -195,7 +220,7 @@
 
   .play-icon {
     opacity: 0.8;
-    margin: 0 1rem;
+    margin: 0 1rem 0 0.9rem;
   }
 
   .icon {
@@ -208,6 +233,11 @@
     padding: 0 1rem;
     font-weight: 600;
     opacity: 0.5
+  }
+
+  .play-bar {
+    position: absolute;
+    right: 1rem;
   }
 
 </style>

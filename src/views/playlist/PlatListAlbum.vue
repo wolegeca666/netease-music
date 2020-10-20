@@ -119,6 +119,9 @@
     font-weight: 600;
     font-size: 16px;
     opacity: 0.6;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .album-msg .artist {

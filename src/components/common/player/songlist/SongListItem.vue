@@ -18,8 +18,8 @@
         <div class="song-name">
           <p>
             <span>{{cutContext(song.name)}}</span>
-            <span v-if="song.alia.length!==0" style="color:rgba(0,0,0,0.4);">
-              {{ ' ( ' + song.alia[0] + ' )' }}
+            <span v-if="song.alia.length !==0" style="color:rgba(0,0,0,0.4);">
+              {{ ' ( ' + cutContext(song.alia[0]) + ' )' }}
             </span>
           </p>
         </div>
@@ -82,9 +82,9 @@
         return this.cutContext(arr.join(' / '));
       },
 
-      cutContext(str) {
-        if (str.length > 20) {
-          return str.substring(0, 15) + '...'
+      cutContext(str, ) {
+        if (str.length > 30) {
+          return str.substring(0, 30) + '...'
         } else {
           return str
         }
@@ -200,15 +200,23 @@
     flex-direction: row;
   }
 
+  .song-msg p,
+  .song-msg span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
   .song-msg .song-name {
     width: 45%;
     font-size: 1.39rem;
   }
 
   .others {
-    margin-left: 5rem;
-    position: relative;
-    flex: 1;
+    margin-left: 8rem;
+    position: absolute;
+    left: 28rem;
+    width: 30%;
     display: flex;
     flex-direction: row;
   }

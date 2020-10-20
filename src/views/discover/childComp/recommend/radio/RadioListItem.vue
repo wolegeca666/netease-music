@@ -7,7 +7,7 @@
       <div class="song-msg">
         <div class="song-name">
           <p>
-            <span>{{ cutContext(song.name,28)}}</span>
+            <span class="over-text">{{ cutContext(song.name, 32) }}</span>
           </p>
         </div>
         <div class="author">
@@ -113,10 +113,18 @@
   .song-item {
     display: flex;
     align-items: center;
+    padding-right: 1rem;
   }
 
   .song-item .song-name {
-    padding-top: 0.5rem;
+    padding-top:0.5rem;
+  }
+
+  .song-item .song-name p,
+  span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
 

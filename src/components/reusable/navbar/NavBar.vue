@@ -76,14 +76,14 @@
     margin:0 1rem 1rem 0;
     font-size: 16px;
     color: #000;
-    padding:0 0.5rem 1rem 0.5rem ;
+    padding:0 0.5rem 0 0.5rem ;
   }
 
   .active {
     z-index: 99;
     color: var(--color-background);
     border-bottom: 3px solid var(--color-background);
-    padding-bottom: 1rem;
+    padding-bottom: 1px;
   }
 
   .hr {

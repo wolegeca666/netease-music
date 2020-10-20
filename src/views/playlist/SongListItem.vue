@@ -18,9 +18,9 @@
       <div class="song-msg">
         <div class="song-name">
           <p>
-            <span>{{cutContext(song.name)}}</span>
+            <span>{{song.name}}</span>
             <span v-if="song.alia.length!==0" style="color:rgba(0,0,0,0.4);">
-              {{ ' ( ' + song.alia[0] + ' )' }}
+              {{ ' (' + song.alia[0] + ')' }}
             </span>
           </p>
         </div>
@@ -86,8 +86,8 @@
       },
 
       cutContext(str) {
-        if (str.length > 35) {
-          return str.substring(0, 30) + '...'
+        if (str.length > 25) {
+          return str.substring(0, 20) + '...'
         } else {
           return str
         }
@@ -203,15 +203,22 @@
     flex-direction: row;
   }
 
+  .song-msg p,
+  .song-msg span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
   .song-msg .song-name {
-    width: 38%;
+    width: 40%;
     font-size: 1.39rem;
   }
 
   .others {
     margin-left: 10rem;
     position: relative;
-    flex: 1;
+    width: 50%;
     display: flex;
     flex-direction: row;
   }

@@ -55,3 +55,10 @@ li {
 img {
   border-radius: 0.8rem;
 }
+
+.over-text p,
+.over-text span {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

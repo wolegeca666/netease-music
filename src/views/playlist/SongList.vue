@@ -1,5 +1,5 @@
 <template>
-  <div v-show="show">
+  <div class="list">
     <ul>
       <li v-for="(item, index) in playLists" :key="index">
         <song-list-item :song="item" :num="index" :current-index="currentIndex"
@@ -27,7 +27,6 @@
         playLists: [],
         length: 0,
         maxLength: 8,
-        show: false,
         flag: false
       }
     },
@@ -41,22 +40,31 @@
       // 获取单曲信息
       getMusicDetail(id) {
         return new Promise(function (resolve, reject) {
-          request('/music/detail?id=' + id)
+          request('/song/detail?ids=' + id)
               .then((res) => {
                 if (res) {
-                  // console.log(res.songs[0]);
-                  resolve(res.songs[0]);
+                  // console.log(res.songs);
+                  resolve(res.songs);
                 } else {
                   reject()
                 }
               }).catch(e => console.log(e));
         });
       },
-      // 列表获取
+
+      add() {
+        let Ids = this.list.map(item => item.id);
+        // console.log(Ids.join(','))
+        this.getMusicDetail(Ids.join(',')).then(res => {
+          this.playLists = [...res];
+          this.$emit('show', true);
+        })
+      },
+/*      // 列表获取
       getListDetails(arr) {
         let request = arr.map(item => this.getMusicDetail(item.id));
         return Promise.all(request)
-        /*Promise.all(
+        /!*Promise.all(
             new Promise(function (resolve, reject) {
               this.getMusicDetail().then(res => {
                 resolve(res)
@@ -67,7 +75,7 @@
                 resolve(res)
               }).catch(e =>reject(e))
             }),
-        ).then (res => console.log(res))*/
+        ).then (res => console.log(res))*!/
       },
       // 剪切列表
       cutList(length) {
@@ -99,7 +107,7 @@
 
           // console.log(this.playLists[0]);
         }
-      },
+      },*/
 
       playSong(num) {
         /*this.$store.commit('changePlaySong', {
@@ -148,9 +156,8 @@
         this.flag = false;
         this.$emit('show', false);
         this.currentIndex = -1;
-        this.length = 0;
         this.playLists = [];
-        this.request()
+        this.add();
       },
       playLists() {
         if (this.flag) {

@@ -88,7 +88,7 @@
     position: relative;
     overflow: scroll;
     background-color: transparent;
-    height: 40rem;
-    width: 50rem;
+    height: 45rem;
+    width: 55rem;
   }
 </style>

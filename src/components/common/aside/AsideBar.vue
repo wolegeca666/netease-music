@@ -52,4 +52,7 @@
 
 <style scoped>
 
+  .aside-bar {
+    min-width: 10rem;
+  }
 </style>

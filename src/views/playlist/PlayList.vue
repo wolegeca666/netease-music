@@ -19,7 +19,7 @@
         </album>
       </div>
       <div class="play-bar" v-show="load">播放全部({{ length || '' }})</div>
-      <div class="play-lists">
+      <div class="play-lists" v-show="load">
         <song-list :list="playlist.trackIds" @show="listLoad"></song-list>
       </div>
     </div>
