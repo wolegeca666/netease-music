@@ -5,16 +5,16 @@
                     @progress="fastSeek" @moveEnd="changeTime"></progress-bar>
     </div>
     <div class="msg">
-      <div class="song" v-show="pic.length">
-        <span class="name">{{ this.$store.state.song.name }}</span>
-        <span style="color:rgba(0,0,0,0.4);"> - {{ this.$store.state.song.author}}</span>
+      <div class="song">
+        <span class="name">{{ playSong.name || ''}}</span>
+        <span style="color:rgba(0,0,0,0.4);">{{' - '+ ( playSong.author || '')}}</span>
       </div>
       <div class="time">
         <span style="font-weight: 500;;">{{ currentTime }}</span> / <span
               style="color: #818181">{{ maxTime }}</span>
       </div>
     </div>
-    <audio id="musicUrl" @canplay="canPLay" :src="url"
+    <audio id="musicUrl" @canplay="canPLay" :src="url" :loop="playOrder === loop"
            @timeupdate="timeChange" @ended="ended(false)"></audio>
   </div>
 </template>
@@ -33,14 +33,13 @@
       return {
         url: '',
         song: {},
-        author: {},
-        pic: '',
         left: 0,
         maxTime: '00:00',
         currentTime: '00:00',
         percent: 1,
         flag: true,
         playId: '',
+        loop: 'single'
       }
     },
     components: {
@@ -71,8 +70,14 @@
             .then((res) => {
               // console.log(res);
               this.song = res.songs[0];
-              this.pic = this.song.al.picUrl;
-              this.$store.commit('getPicUrl', this.pic);
+              // this.pic = this.song.al.picUrl;
+              // console.log(this.song);
+              this.$store.commit('changePlaySong', {
+                id: this.song.id,
+                name: this.song.name,
+                author: this.song.ar[0].name,
+                picUrl: this.song.al.picUrl
+              });
             }).catch(e => console.log(e));
       },
 
@@ -88,6 +93,7 @@
         }
       },
       ended(flag) {
+        // console.log(flag);
         this.$store.commit("changePlay", flag)
       },
       //播放和暂停
@@ -139,6 +145,7 @@
         id: state => state.song.id,
         play: state => state.songState.play,
         playOrder: state => state.songState.playOrder,
+        playSong: state => state.song
       })
     },
     watch: {
@@ -150,11 +157,14 @@
       },
       id() {
         // console.log(this.id);
+        if (!this.playSong.picUrl) {
+          this.getMusicDetail()
+        }
         this.getMusicPlay();
         this.ended(false);
       },
-      percent() {
-        this.musicPlay();
+      playOrder() {
+
       }
     }
   }

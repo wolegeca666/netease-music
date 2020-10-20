@@ -6,7 +6,6 @@
           <v-title v-for="(item, index) in msg" :title="item.name" :key="index" :path="item.path"
                    :class="{'active': activeTitle === item.name}"
                    class="nav-title" @titleClick="clickHandle">
-
           </v-title>
       </div>
     </div>
@@ -66,7 +65,7 @@
     position: relative;
     display: flex;
     background-color: #fff;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 
   .row-nav {
@@ -77,15 +76,14 @@
     margin:0 1rem 1rem 0;
     font-size: 16px;
     color: #000;
-    padding:0 0.5rem 3px 0.5rem ;
+    padding:0 0.5rem 1rem 0.5rem ;
   }
 
   .active {
-    transition: all 100ms;
     z-index: 99;
     color: var(--color-background);
     border-bottom: 3px solid var(--color-background);
-    padding-bottom: 0;
+    padding-bottom: 1rem;
   }
 
   .hr {

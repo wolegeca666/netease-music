@@ -20,8 +20,8 @@
     },
     computed: {
       url() {
-        return this.$store.state.song.picUrl
-      }
+        return this.$store.state.song.picUrl || 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg'
+      },
     }
   }
 </script>

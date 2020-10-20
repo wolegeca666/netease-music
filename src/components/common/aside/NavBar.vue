@@ -41,7 +41,6 @@
         return this.index === this.currentIndex
       }
     },
-
   }
 </script>
 

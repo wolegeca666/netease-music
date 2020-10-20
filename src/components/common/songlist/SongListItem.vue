@@ -1,9 +1,10 @@
 <template>
-  <div class="bgc"
-       @dblclick="musicPlay"><!--设置缩放定位-->
-    <div :class="{'hover': !animate}" style="perspective: 1000px;"
-         @mousedown="animation" @click="clickHandle">
-      <div class="song-item" :class="{'active': num === currentIndex, 'animate': animate, 'odd': !isOdd(num)}">
+  <div  style="perspective: 1000px;">
+    <div class="hover" :class="{'active': isActive, 'odd': !isOdd(num)}"
+         @dblclick="musicPlay"
+         @mousedown="animation" @click="clickHandle"><!--设置缩放定位-->
+      <div class="song-item"
+           :class="{'animate': animate}">
         <div class="play-icon" v-show="song.id === playId">
           <svg t="1602691641326" class="icon" viewBox="0 0 1126 1024"
                version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="18323"
@@ -19,23 +20,34 @@
           <div class="song-name">
             <p>
               <span>{{song.name}}</span>
-<!--              <span v-if="songMsg.alias.length!==0"-->
-<!--                    style="color:rgba(0,0,0,0.4);">{{' (' + songMsg.alias[0] + ')' }}</span>-->
+              <span v-if="song.alia.length!==0" style="color:rgba(0,0,0,0.4);">
+              {{ ' ( ' + song.alia[0] + ' )' }}
+            </span>
             </p>
           </div>
-          <!--<div class="author">
-            <p>{{ author }}</p>
-          </div>-->
+          <div class="others">
+            <div class="play-bar">
+              <play-bar v-show="isActive" @itemClick="barClick"
+                        @play="musicPlay"></play-bar>
+            </div>
+            <p class="author">{{ author }}</p>
+            <p class="album-name">{{song.al.name}}</p>
+            <!--<p class="song-time">{{time}}</p>-->
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
+  import PlayBar from "../../../views/playlist/PlayBar";
+
   export default {
     name: "SongListItem",
+    components: {
+      PlayBar
+    },
     props: {
       num: {
         type: Number
@@ -55,7 +67,9 @@
     },
     data() {
       return {
-        animate: false
+        animate: false,
+        active: false,
+        flag: true
       }
     },
     methods: {
@@ -66,11 +80,11 @@
 
       authorHandle(obj) {
         let arr = [];
-        let authors = obj.artists;
+        let authors = obj.ar;
         authors.forEach(function (item) {
           arr.push(item.name)
         });
-        return this.cutContext(arr.join('/'));
+        return this.cutContext(arr.join(' / '));
       },
 
       cutContext(str) {
@@ -82,29 +96,42 @@
       },
 
       clickHandle() {
-        if (this.num !== this.currentIndex) {
+        if (this.flag) {
+          this.num !== this.currentIndex ?
+              this.active = true :
+              this.active = !this.active;
           this.$emit('itemClick', this.num);
+        } else {
+          this.flag = true
         }
       },
 
+      barClick() {
+        this.flag = false;
+      },
+
       animation() {
-        this.animate = true;
+        if (this.num !== this.currentIndex) {
+          this.animate = true;
+        }
         document.onmouseup = e => {
-          this.animate = false
+          this.animate = false;
+          document.onmouseup = null
         }
       },
+
       isOdd(num) {
         return num % 2
       },
 
       // 播放歌曲
       musicPlay() {
-        // console.log(this.song.id);
+        // console.log(this.song);
         this.$store.commit('changePlaySong', {
           id: this.song.id,
           name: this.song.name,
           author: this.author,
-          picUrl: this.song.picUrl
+          picUrl: this.song.al.picUrl
         });
       }
     },
@@ -113,11 +140,15 @@
         return this.$store.state.song.id
       },
       author() {
-        return this.authorHandle(this.songMsg)
+        return this.authorHandle(this.song)
+      },
+      isActive() {
+        return this.active && this.num === this.currentIndex
       }
-    },
-    mounted() {
-
+      /*      time() {
+              console.log(this.song.dt);
+              return utils.getTime(this.song.dt)
+            }*/
     }
   }
 </script>
@@ -144,13 +175,9 @@
     }
   }
 
-  .bgc{
-    background-color: #fff;
-  }
-  
   .hover:hover {
     z-index: 99;
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(0, 0, 0, 0.06);
   }
 
   .odd {
@@ -158,48 +185,64 @@
   }
 
   .odd:hover {
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(0, 0, 0, 0.06);
   }
 
   .animate {
-    background-color: rgba(0, 0, 0, 0.1);
-    transform: translateZ(-25px);
+    transform: translateZ(-24px);
   }
 
   .active {
-    animation: click 200ms;
+    animation: click 100ms;
     background-color: var(--color-active);
   }
 
-  .active:hover {
-    background-color: rgba(0, 0, 0, 0.13);
-  }
 
   .song-item {
     display: flex;
     align-items: center;
+    height: 4.5rem;
   }
 
-  .song-item .song-name {
-    padding-top: 1rem;
+  .song-msg {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
   }
 
+  .song-msg .song-name {
+    width: 45%;
+    font-size: 1.39rem;
+  }
 
-  .song-item .author {
-    padding: 1rem 0;
+  .others {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .play-bar {
+    position: absolute;
+    top: -3px;
+    left: -9rem;
+    width: 8%;
+    background-color: transparent;
+  }
+
+  .song-msg .author {
+    width: 40%;
+  }
+
+  .song-msg .author,
+  .album-name {
     font-size: 12px;
     color: var(--color-text);
   }
 
-  .song-msg {
-    display: flex;
-    flex-direction: row;
-    align-self: center;
-  }
-
   .play-icon {
     opacity: 0.8;
-    margin: 0 1rem;
+    margin: 0 2rem 0 1.9rem;
   }
 
   .icon {
@@ -209,7 +252,7 @@
 
   .index {
     font-size: 12px;
-    padding: 0 1rem;
+    padding: 0 2rem;
     font-weight: 600;
     opacity: 0.5
   }

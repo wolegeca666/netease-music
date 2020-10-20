@@ -37,7 +37,7 @@
           this.$emit('titleClick', this.title);
         }
       }
-    }
+    },
   }
 </script>
 

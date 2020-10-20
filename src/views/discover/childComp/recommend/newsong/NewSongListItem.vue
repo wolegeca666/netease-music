@@ -93,7 +93,8 @@
       animation() {
         this.animate = true;
         document.onmouseup = e => {
-          this.animate = false
+          this.animate = false;
+          document.onmouseup = null
         }
       },
       isOdd(num) {
@@ -103,13 +104,13 @@
       // 播放歌曲
       musicPlay() {
         // console.log(this.song.id);
-        this.$store.commit('changePlaySong', {
-          id: this.song.id,
-          name: this.song.name,
-          author: this.author,
-          picUrl: this.song.picUrl
-        });
-      }
+          this.$store.commit('changePlaySong', {
+            id: this.song.id,
+            name: this.song.name,
+            author: this.author,
+            picUrl: this.song.picUrl
+          });
+        }
     },
     computed: {
       playId: function () {
@@ -153,7 +154,7 @@
   
   .hover:hover {
     z-index: 99;
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(0, 0, 0, 0.06);
   }
 
   .odd {
@@ -161,7 +162,7 @@
   }
 
   .odd:hover {
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(0, 0, 0, 0.06);
   }
 
   .animate {
@@ -174,9 +175,7 @@
     background-color: var(--color-active);
   }
 
-  .active:hover {
-    background-color: rgba(0, 0, 0, 0.13);
-  }
+
 
   .song-item {
     display: flex;

@@ -1,14 +1,19 @@
 <template>
-  <div class="album-item" :style="{width: size.width}" @click="playlist" @mouseenter="active = !active" @mouseleave="active = !active">
+  <div class="album-item" :style="{width: size.width}" @click="playlist">
     <slot name="slot"></slot>
 
-    <a href="javascript:;" class="album">
-      <div style="position: relative; transition: all 200ms;" :class="{'active': active}">
+    <a href="javascript:;" class="album" @mouseleave="active = false"
+       @click="active = false">
+      <div style="position: relative; transition: all 200ms;"
+           :class="{'active': active}">
         <img :src="picUrl()" alt="" :class="{'active': active}"
+             @mouseenter="active = true"
              :style="{width: size.width, height: size.height}" @load="isLoad"/>
         <div class="play-count" v-if="show"><!--播放数量-->
           <slot name="icon" class="icon"></slot>
-          <span style="font-size: 10px;" v-if="item.playCount">{{item.playCount > 100000? Math.floor(item.playCount/10000) : item.playCount}}万</span>
+          <span style="font-size: 10px;" v-if="item.playCount">
+            {{item.playCount > 100000? Math.floor(item.playCount/10000)+'万' : item.playCount}}
+          </span>
         </div>
       </div>
       <span class="name">{{ cutContext(item.name) }}</span>
@@ -118,7 +123,7 @@
     flex-direction: column;
   }
 
-  .album-item  span.name {
+  .album-item span.name {
     font-size: 14px;
     opacity: 0.6;
     padding-top: 1rem;

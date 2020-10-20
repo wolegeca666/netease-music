@@ -1,17 +1,30 @@
 <template>
-  <div class="album-item" :style="{width: size.width}" >
+  <div class="album-item">
     <slot name="slot"></slot>
     <div class="album">
-      <div style="position: relative; transition: all 200ms;">
-        <img :src="picUrl()" v-show="show"
-             :style="{width: size.width, height: size.height}" @load="isLoad"/>
+      <div class="album-cover" style="position: relative; transition: all 200ms;">
+        <img :src="picUrl()" v-show="show" @load="isLoad"/>
         <div class="play-count"><!--播放数量-->
           <slot name="icon" class="icon"></slot>
           <span style="font-size: 10px;" v-if="item.playCount">{{item.playCount > 100000 ? Math.floor(item.playCount/10000)+'万' : item.playCount}}</span>
         </div>
       </div>
-      <span class="name">{{ item.name }}</span>
-      <span class="artist" v-if="item.creator">{{ item.creator.nickname }}</span>
+      <div class="album-msg">
+        <span class="name">{{ item.name }}</span>
+        <div class="artist">
+          <img v-if="item.creator" :src="item.creator.avatarUrl" alt="">
+          <span v-if="item.creator">{{ item.creator.nickname }}</span>
+        </div>
+        <div class="tag">
+          <p>标签：</p>
+          <div v-for="tag in item.tags">
+            <p><a href="#">{{tag}}</a></p>
+          </div>
+        </div>
+        <div class="des">
+          <p v-if="item.description"><span style="color: #555;">介绍：</span>{{ des }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -29,15 +42,6 @@
           }
         }
       },
-      size: {
-        type: Object,
-        default() {
-          return {
-            width: '16rem',
-            height: '16rem'
-          }
-        }
-      }
     },
     data() {
       return {
@@ -52,6 +56,11 @@
       picUrl() {
         return this.item.coverImgUrl
       }
+    },
+    computed: {
+      des() {
+        return this.item.description.split(' ').join('')
+      }
     }
   }
 </script>
@@ -59,12 +68,15 @@
 <style scoped>
 
   .album-item {
-    position: relative;
-    display: flex;
-    flex-direction: column;
+    width: 100%;
   }
 
-  .play-count {
+  .album-cover img {
+    width: 20rem;
+    height: 20rem;
+  }
+
+  .album-cover .play-count {
     z-index: 100;
     display: flex;
     align-items: center;
@@ -88,21 +100,67 @@
 
   .album-item .album {
     display: flex;
+    flex-direction: row;
+  }
+
+  .album-msg {
+    width: 100%;
+    display: flex;
     flex-direction: column;
+    margin-left: 2rem;
   }
 
-  .album-item  span.name {
-    font-size: 14px;
-    opacity: 0.6;
-    padding-top: 1rem;
-  }
-
-  .album-item span.artist {
-    opacity: 0.6;
-    padding: 1rem 0;
-    color: var(--color-text);
+  .album-msg span.name {
+    width: 100%;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 16px;
+    opacity: 0.6;
+  }
+
+  .album-msg .artist {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem 0;
+  }
+
+  .album-msg .artist img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 3rem;
+  }
+
+  .album-msg .artist span {
+    padding: 0 1rem;
+  }
+
+  .album-msg .tag {
+    display: flex;
+    flex-direction: row;
+    color: #555;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .album-msg .tag a {
+    color: rgba(0, 0, 255, 0.6);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 0 3px;
+  }
+
+  .album-msg .tag a:hover {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .album-msg .des {
+    padding: 1rem 0;
+    font-size: 13px;
+    color: rgba(0,0,0,0.4);
+    font-weight: 600;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 2.5rem;
   }
 
 

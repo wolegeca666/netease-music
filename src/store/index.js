@@ -10,18 +10,22 @@ export default new Vuex.Store({
       id: 27580521,
       name: 'Libertus',
       author: 'Chen-U',
-      picUrl: 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg'
-    },
+      picUrl: ''
+  },
     songState: {
       play: false,
       playOrder: 'loop',
-      voice: 1
+      voice: 0.5
     },
     windowWidth: ''
   },
   mutations: {
     changePlaySong(state, playSong) {
-      state.song = playSong
+      if (state.song.id === playSong.id && !state.songState.play && state.song.id!==27580521) {
+         state.songState.play = true
+      }
+      state.song = playSong;
+      // console.log(state.song);
     },
 
     changePlay(state, play) {

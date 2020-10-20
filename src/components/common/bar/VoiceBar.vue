@@ -65,7 +65,7 @@
     },
     methods: {
       progress() {
-        this.active = !this.active;
+          this.active = !this.active;
       },
       changeLeft() {
         if (this.active) {

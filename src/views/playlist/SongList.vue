@@ -1,8 +1,8 @@
 <template>
   <div v-show="length > 10">
-    <ul v-for="(item, index) in playLists" :key="index">
-      <li v-for="(child, cIndex) in item" :key="cIndex">
-        <song-list-item :song="child" :num="cIndex+(index*10)" :current-index="currentIndex"
+    <ul>
+      <li v-for="(item, index) in playLists" :key="index">
+        <song-list-item :song="item" :num="index" :current-index="currentIndex"
                         @itemClick="itemClick"></song-list-item>
       </li>
     </ul>
@@ -10,8 +10,8 @@
 </template>
 
 <script>
-  import SongListItem from "./SongListItem";
-  import {request} from "../../../api/request";
+  import SongListItem from "../../components/common/songlist/SongListItem";
+  import {request} from "../../api/request";
 
   export default {
     name: "SongList",
@@ -76,12 +76,18 @@
       request() {
         if (this.length <= this.maxLength) {
           this.cutList(this.length).then(e => {
-            this.playLists.push(e);
+            this.playLists.push(...e);
             this.length += 10;
             this.request();
           }).catch(e => this.request())
-        }else {
-          this.show = true
+        }else if(this.length < this.listLength) {
+          this.show = true;
+          this.cutList(this.length).then(e => {
+            this.playLists.push(...e);
+            this.length += 10;
+            this.request();
+          }).catch(e => this.request())
+          // console.log(this.playLists[0]);
         }
       }
     },
@@ -92,6 +98,9 @@
     },
     watch: {
       list() {
+        this.currentIndex = -1;
+        this.length = 0;
+        this.playLists = [];
         this.request()
       },
     }
@@ -99,7 +108,5 @@
 </script>
 
 <style scoped>
-  li {
-    height: 20%;
-  }
+
 </style>

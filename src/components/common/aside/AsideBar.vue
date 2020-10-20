@@ -33,10 +33,12 @@
       return {
         currentIndex: 1,
         path: [
+            '',
             '/',
             '/search',
             '/mv',
-            '/discover'
+            '/discover',
+            '/discover/playlist'
         ]
       }
     },
@@ -44,7 +46,7 @@
       activeIndex(index) {
         this.currentIndex = index;
       }
-    }
+    },
   }
 </script>
 

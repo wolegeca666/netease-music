@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="container">
+    <div id="container">
       <nav-aside @asideShow="navShow"></nav-aside>
       <div class="nav-page" v-show="aside" ></div>
       <div class="nav-list" v-show="!aside"></div>
@@ -38,7 +38,7 @@
         this.$store.commit('width', document.documentElement.clientWidth);
         console.log(1);
       }
-    },
+    }
   }
 </script>
 
@@ -50,7 +50,7 @@
     height: 100vh;
   }
 
-  .container {
+  #container {
     width: 100%;
     height: 100%;
     display: flex;

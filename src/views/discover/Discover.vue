@@ -46,7 +46,13 @@
         this.title = title;
       }
     },
-
+    watch: {
+      $route() {
+        if (this.$route.path === '/') {
+          this.title = this.titles[0].name
+        }
+      }
+    }
   }
 </script>
 
