@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import Player from "./components/common/player/Player";
+  import Player from "./components/content/player/Player";
   import Container from "./views/Container";
 
   export default {
@@ -22,6 +22,16 @@
     },
     components: {
       Container, Player,
+    },
+    methods: {
+      play() {
+        this.$store.commit('changePlay', !this.playState)
+      }
+    },
+    computed: {
+      playState() {
+        return this.$store.state.songState.play
+      }
     }
   }
 </script>

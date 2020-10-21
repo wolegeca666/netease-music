@@ -39,8 +39,8 @@
 </template>
 
 <script>
-  import NavBar from "../../../../../components/reusable/navbar/NavBar";
-  import Album from "../../../../../components/common/album/Album";
+  import NavBar from "../../../../../components/common/navbar/NavBar";
+  import Album from "../../../../../components/content/album/Album";
 
   import {request} from "../../../../../api/request";
 

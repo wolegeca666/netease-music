@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import ProgressBar from "../../reusable/progress/ProgressBar";
+  import ProgressBar from "../../common/progress/ProgressBar";
 
   export default {
     name: "VoiceBar",
@@ -102,6 +102,7 @@
   }
 
   .active {
+    visibility: hidden;
     opacity: 0;
   }
 
@@ -110,7 +111,7 @@
   }
 
   #voice-progress {
-    transition: opacity 300ms;
+    transition: all 500ms;
     position: absolute;
     right: 1rem;
     bottom: 8rem;

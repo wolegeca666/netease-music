@@ -35,6 +35,10 @@ export default {
     }
   },
 
+  load(state, flag) {
+    state.load = flag;
+  },
+
   width(state, width) {
     state.windowsWidth = width;
   },

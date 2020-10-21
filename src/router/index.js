@@ -7,6 +7,8 @@ import Recommend from "../views/discover/childComp/recommend/Recommend";
 const Search = () => import('../views/search/Search');
 const Mv = () => import('../views/mv/Mv');
 const PlayList = () => import('../views/playlist/PlayList');
+const NotFound = () =>import('../views/notfound/NotFound');
+const Login = () =>import('../views/login/Login');
 
 const DPlayList = () => import('../views/discover/childComp/playlist/PlayList');
 
@@ -46,6 +48,16 @@ const routes = [
     path: '/playlist',
     name: 'PlayList',
     component: PlayList
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '*',
+    name: 'NotFound',
+    component: NotFound
   }
 ];
 

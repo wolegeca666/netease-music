@@ -1,5 +1,6 @@
 <template>
   <div class="recommend" v-show="load">
+    <banner></banner>
     <personalized  @listLoad="show"></personalized>
     <private></private>
     <new-song></new-song>
@@ -9,11 +10,7 @@
 </template>
 
 <script>
-  import Personalized from "./personalized/Personalized";
-  import Private from "./private/Private";
-  import NewSong from "./newsong/NewSong";
-  import ReMv from "./mv/ReMv";
-  import ReDj from "./radio/ReDj";
+  import {Banner,Personalized, Private, NewSong, ReMv,ReDj} from "./index"
 
   export default {
     name: "Recommend",
@@ -21,7 +18,7 @@
       return {load: false}
     },
     components: {
-      Personalized, Private, NewSong, ReMv,ReDj
+      Banner,Personalized, Private, NewSong, ReMv,ReDj
     },
     methods: {
       show() {

@@ -18,7 +18,7 @@
           </template>
         </album>
       </div>
-      <div class="play-bar" v-show="load">播放全部({{ length || '' }})</div>
+
       <div class="play-lists" v-show="load">
         <song-list :list="playlist.trackIds" @show="listLoad"></song-list>
       </div>
@@ -58,8 +58,12 @@
             this.playlist = res.playlist;
             this.length = this.playlist.trackIds.length;
           }
+        }).catch(e => {
+          console.log(e);
+          this.update();
         });
       },
+
       listLoad(flag) {
         this.load = flag
       }
@@ -95,11 +99,6 @@
   .play-list-msg {
     width: 100%;
     font-size: 14px;
-  }
-
-  .play-bar {
-    font-size: 14px;
-    padding: 2rem 0;
   }
 
   .play-lists {

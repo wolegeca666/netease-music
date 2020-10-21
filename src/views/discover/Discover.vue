@@ -18,8 +18,8 @@
 </template>
 
 <script>
-  import vTitle from "../../components/reusable/title/Title";
-  import NavBar from "../../components/reusable/navbar/NavBar";
+  import vTitle from "../../components/common/title/Title";
+  import NavBar from "../../components/common/navbar/NavBar";
 
   export default {
     name: 'Home',
@@ -58,6 +58,8 @@
 
 <style scoped>
   .discover {
+    position: relative;
+    overflow: auto;
     min-width: 100rem;
     background-color: #fff;
     padding-bottom: 20rem;
@@ -83,7 +85,6 @@
   main {
     width: 100rem;
     position: relative;
-    top: 3rem;
     margin: 0 auto;
     padding: 0 2rem;
   }

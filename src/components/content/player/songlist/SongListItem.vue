@@ -1,6 +1,6 @@
 <template>
   <div style="perspective: 1000px;" class="hover"
-       :class="{'odd': !isOdd()}" @dblclick="musicPlay"
+       :class="{'odd': !isOdd(), 'red': song.id === playId}" @dblclick="musicPlay"
        @mousedown="animation" @click="clickHandle"><!--设置缩放定位-->
     <div class="song-item"
          :class="{'animate': animate, 'active': isActive}">
@@ -165,13 +165,17 @@
     }
   }
 
+  .red {
+    color: var(--color-background);
+  }
+
   .hover:hover {
     z-index: 99;
     background-color: rgba(0, 0, 0, 0.06);
   }
 
   .odd {
-    background-color: var(--color-bgc);
+    background-color: rgba(0, 0, 0, 0.02);
   }
 
   .odd:hover {

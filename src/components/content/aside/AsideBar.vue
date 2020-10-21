@@ -12,7 +12,7 @@
         <img src="./icon/discover.svg" alt="">
       </template>
     </nav-bar>
-    <nav-bar title="MV" :index="2" path="/mv"
+    <nav-bar title="视频" :index="2" path="/mv"
              :current-index="currentIndex" @active="activeIndex">
       <template v-slot:img>
         <img src="./icon/discover.svg" alt="">

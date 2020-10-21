@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import NavBar from "../../../../../components/reusable/navbar/NavBar";
+  import NavBar from "../../../../../components/common/navbar/NavBar";
   import SongList from "./ReDjList";
 
   import {request} from "../../../../../api/request";

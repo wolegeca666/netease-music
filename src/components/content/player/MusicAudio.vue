@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import ProgressBar from "../../reusable/progress/ProgressBar";
+  import ProgressBar from "../../common/progress/ProgressBar";
 
   import utils from "../../../common/utils";
   import {request} from "../../../api/request";
@@ -92,6 +92,7 @@
         }
         if (this.id !== 27580521) {
           this.$store.commit("changePlay", true);
+          this.musicPlay()
         }
       },
       // 播放结束后
@@ -187,7 +188,7 @@
 
   #music-progress {
     position: relative;
-    bottom: 1rem;
+    bottom: 1.2rem;
   }
 
   /*歌曲信息*/

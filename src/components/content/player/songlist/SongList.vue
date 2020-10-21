@@ -6,6 +6,7 @@
                         @itemClick="itemClick"
                         @play="playSong"></song-list-item>
       </li>
+      <li v-if="!playLists.length" class="no-song">没有歌曲啦>_<</li>
     </ul>
   </div>
 </template>
@@ -90,5 +91,11 @@
     background-color: transparent;
     height: 45rem;
     width: 55rem;
+  }
+
+  .no-song {
+    font-size: 14px;
+    text-align: center;
+    line-height: 4.5rem;
   }
 </style>

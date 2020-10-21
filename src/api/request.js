@@ -7,10 +7,10 @@ export function request(config) {
         method: "get",
         headers: { 'Content-Type': 'application/json;charset=utf-8' },
         withCredentials: true,
-        timeout: 5000
+        timeout: 10000
     });
 
-    // instance.defaults.headers.common['Authorization'] = ""; // 添加token
+    // instance.defaults.headers.content['Authorization'] = ""; // 添加token
     // instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
     // axios的拦截器

@@ -1,8 +1,9 @@
 <template>
-  <div class="album-item">
+  <div class="album-item" :class="{'on': on, 'off' : !on}">
     <slot name="slot"></slot>
     <div class="album">
-      <div class="album-cover" style="position: relative; transition: all 200ms;">
+      <div class="album-cover"
+           style="position: relative; transition: all 200ms;">
         <img :src="picUrl()" v-show="show" @load="isLoad"/>
         <div class="play-count" v-if="item.playCount"><!--播放数量-->
           <slot name="icon" class="icon"></slot>
@@ -15,17 +16,41 @@
           <img v-if="item.creator" :src="item.creator.avatarUrl" alt="">
           <span v-if="item.creator">{{ item.creator.nickname }}</span>
         </div>
-        <div class="tag"  v-if="item.tags">
+        <div class="tag" v-if="item.tags">
           <p>标签：</p>
           <div v-for="tag in item.tags">
-            <p><a href="#">{{tag}}</a></p>
+            <p @click="routerTo(tag)"><a href="javascript:;">{{tag}}</a></p>
           </div>
         </div>
         <div class="des">
-          <p v-if="item.description"><span style="color: #555;">介绍：</span>{{ des }}</p>
+          <p v-if="item.description"><span style="color: #555;">介绍：</span>{{ des
+            }}</p>
         </div>
       </div>
     </div>
+    <div class="unfold" @click="on = !on">
+      <div v-show="!on">
+        <svg t="1603280462713" class="icon" viewBox="0 0 1024 1024"
+             version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8135"
+             width="128" height="128">
+          <path d="M509.002 664.125a22.334 22.334 0 0 1-15.86-6.562L239.688 404.11a22.421 22.421 0 0 1 31.72-31.676l253.454 253.41a22.421 22.421 0 0 1-15.86 38.282"
+                p-id="8136" fill="#8a8a8a"></path>
+          <path d="M509.002 664.125a22.334 22.334 0 0 1-15.86-38.238l259.45-259.407a22.421 22.421 0 0 1 31.677 31.676L524.905 657.563a22.508 22.508 0 0 1-15.903 6.562"
+                p-id="8137" fill="#8a8a8a"></path>
+        </svg>
+      </div>
+      <div v-show="on">
+        <svg t="1603280492406" class="icon" viewBox="0 0 1024 1024"
+             version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8469"
+             width="128" height="128">
+          <path d="M514.998 359.875a22.334 22.334 0 0 1 15.86 6.562L784.312 619.89a22.421 22.421 0 0 1-31.72 31.676l-253.454-253.41a22.421 22.421 0 0 1 15.86-38.28199999"
+                p-id="8470" fill="#8a8a8a"></path>
+          <path d="M514.998 359.875a22.334 22.334 0 0 1 15.86 38.238l-259.45 259.407a22.421 22.421 0 0 1-31.677-31.676L499.095 366.437a22.508 22.508 0 0 1 15.903-6.562"
+                p-id="8471" fill="#8a8a8a"></path>
+        </svg>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -46,7 +71,8 @@
     data() {
       return {
         active: false,
-        show: false
+        show: false,
+        on: false
       }
     },
     methods: {
@@ -56,7 +82,10 @@
       },
       picUrl() {
         return this.item.coverImgUrl
-      }
+      },
+      routerTo(cat) {
+        this.$router.push({name: 'DPlayList', query: {cat: cat}})
+      },
     },
     computed: {
       des() {
@@ -70,7 +99,30 @@
 
   .album-item {
     width: 100%;
+    position: relative;
   }
+
+  .on {
+    padding-bottom: 1rem;
+  }
+
+  .off {
+    height: 21rem;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+
+  .unfold {
+    position: absolute;
+    right: 0;
+    bottom: -1.4rem;
+    opacity: 0.5;
+  }
+
+.unfold .icon {
+  width: 3rem;
+  height: 3rem;
+}
 
   .album-cover img {
     width: 20rem;
@@ -163,12 +215,11 @@
   .album-msg .des {
     padding: 1rem 0;
     font-size: 13px;
-    color: rgba(0,0,0,0.4);
+    color: rgba(0, 0, 0, 0.4);
     font-weight: 600;
     white-space: pre-wrap;
     word-wrap: break-word;
     line-height: 2.5rem;
   }
-
 
 </style>

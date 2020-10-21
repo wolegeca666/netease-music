@@ -1,5 +1,6 @@
 <template>
   <div class="list">
+    <div class="play-bar" @click="playSong(0)">播放全部({{ listLength || '' }})</div>
     <ul>
       <li v-for="(item, index) in playLists" :key="index">
         <song-list-item :song="item" :num="index" :current-index="currentIndex"
@@ -26,6 +27,7 @@
         currentIndex: -1,
         playLists: [],
         length: 0,
+        listLength: 0,
         maxLength: 8,
         flag: false
       }
@@ -146,15 +148,11 @@
         }
       },
     },
-    computed: {
-      listLength() {
-        return this.list.length
-      }
-    },
     watch: {
       list() {
         this.flag = false;
         this.$emit('show', false);
+        this.listLength = this.list.length;
         this.currentIndex = -1;
         this.playLists = [];
         this.add();
@@ -177,5 +175,10 @@
 </script>
 
 <style scoped>
+
+  .play-bar {
+    font-size: 14px;
+    padding: 3rem 0 2rem;
+  }
 
 </style>

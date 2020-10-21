@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   router,
@@ -12,6 +12,15 @@ new Vue({
 }).$mount('#app');
 
 import state from '../src/store/index';
+
+document.addEventListener("keypress", e => {
+  e.preventDefault();
+  const space = 'Space';
+  if (e.code === space) {
+    // console.log(state);
+    state.commit('changePlay', !state.state.songState.play);
+  }
+});
 
 window.onload = e =>{
   state.commit('width', document.documentElement.clientWidth);

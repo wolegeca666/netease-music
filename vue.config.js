@@ -6,7 +6,7 @@ module.exports = {
       alias: {
         //别名
         'assets': '@/assets',
-        'common':  '@/common',
+        'common':  '@/content',
         'components': '@/components',
         'network': '@/network',
         'views': '@/views'

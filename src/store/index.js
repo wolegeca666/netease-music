@@ -21,10 +21,9 @@ export default new Vuex.Store({
       playOrder: 'loop',
       voice: 0.5
     },
-    playList: [
-
-    ],
+    playList: [],
     playSongIndex: 0,
+    load: false,
     windowsWidth: '',
     widowsHeight: ''
   },

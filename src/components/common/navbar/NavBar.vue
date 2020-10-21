@@ -65,7 +65,7 @@
     position: relative;
     display: flex;
     background-color: #fff;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
   .row-nav {
