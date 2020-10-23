@@ -4,8 +4,8 @@
          @touchend="touchEnd" :style="swiperStyle">
       <slot name="swiper"></slot>
     </div>
-    <div class="previous" @click="previous" v-show="control">
-      <a href="javascript:;">
+    <a class="previous" @click="previous" v-show="control" href="javascript:;">
+      <span >
         <svg t="1603289939382" class="icon" viewBox="0 0 1024 1024"
              version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9852"
              width="128" height="128">
@@ -14,10 +14,10 @@
           <path d="M287.936 507.58399999a32.896 32.896 0 0 1 56.32-23.35999999l382.08 382.144a33.024 33.024 0 0 1-46.656 46.656l-382.08-382.016a33.152 33.152 0 0 1-9.664-23.42400001"
                 fill="#ffffff" p-id="9854"></path>
         </svg>
-      </a>
-    </div>
-    <div class="next" @click="next" v-show="control">
-      <a href="javascript:;">
+      </span>
+    </a>
+    <a class="next" @click="next" v-show="control" href="javascript:;">
+      <span>
         <svg t="1603287569301" class="icon" viewBox="0 0 1024 1024"
              version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9518"
              width="128" height="128">
@@ -26,13 +26,13 @@
           <path d="M736.064 516.41600001a32.896 32.896 0 0 1-56.32 23.35999999l-382.08-382.144a33.024 33.024 0 0 1 46.656-46.656l382.08 382.016a33.152 33.152 0 0 1 9.664 23.42400001"
                 fill="#ffffff" p-id="9520"></path>
         </svg>
-      </a>
-    </div>
+      </span>
+    </a>
     <div class="indicator">
       <slot name="indicator" v-if="showIndicator">
-        <div class="indi-item" v-for="(item, index) in slideCount"
+        <a href="javascript:;" class="indi-item" v-for="(item, index) in slideCount"
              :class="{active: index === currentIndex - 1}"
-             :key="index" @mousedown="changeItemNow(index + 1)"></div>
+             :key="index" @mousedown="changeItemNow(index + 1)"></a>
       </slot>
     </div>
   </div>
@@ -82,16 +82,12 @@
         this.handleDom();
         // 开启定时器
         this.startTimer();
-      }, 100)
+      }, 500)
     },
     activated() {
       this.startTimer();
     },
     deactivated() {
-      this.stopTimer();
-    },
-
-    destroyed() {
       this.stopTimer();
     },
     methods: {
@@ -260,23 +256,28 @@
   .indi-item {
     box-sizing: border-box;
     margin: 0 5px;
-    width: 8px;
-    height: 8px;
-    line-height: 8px;
-    border-radius: 4px;
+    width: 12px;
+    height: 12px;
+    line-height: 12px;
+    border-radius: 6px;
     background-color: #fff;
     text-align: center;
     font-size: 12px;
   }
 
   .indi-item.active {
+    border: 3px solid #fff;
     background-color: var(--color-background);
   }
 
   .previous,
   .next {
+    display: flex;
+    align-items: center;
     position: absolute;
-    bottom: 11rem;
+    top: 0;
+    width: 5%;
+    height: 100%;
   }
 
   .next {
@@ -284,8 +285,9 @@
   }
 
   .icon {
-    opacity: 0.8;
-    width: 5rem;
-    height: 5rem;
+    border-radius: 0.8rem;
+    background-color: rgba(0,0,0,0.2);
+    width: 4rem;
+    height: 4rem;
   }
 </style>

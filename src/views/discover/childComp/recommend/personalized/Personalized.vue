@@ -1,14 +1,11 @@
 <template>
 
-  <div class="personalized">
-    <a href="/discover/playlist">
-      <nav-bar :msg="[{name: '推荐歌单'}]">
+  <div class="personalized" >
+      <nav-bar :msg="[{name: '推荐歌单', path: '/discover/playlist'}]">
         <template v-slot:img>
           <img class="personalized-img" src="../../icon/tuijian.svg" alt="">
         </template>
       </nav-bar>
-    </a>
-
 
     <main>
       <ul class="music-list">

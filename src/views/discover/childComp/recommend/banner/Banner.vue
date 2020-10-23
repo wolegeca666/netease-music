@@ -3,7 +3,7 @@
     <swiper v-if="load" :load="load">
       <template v-slot:swiper="item">
         <swiper-item v-for="item in banner">
-          <a :href="item.url || 'javascript:;'">
+          <a :href="item.url || '#'">
             <img :src="item.imageUrl" alt="">
           </a>
         </swiper-item>
@@ -41,6 +41,6 @@
 
   #banner {
     width: 80%;
-    margin: 0 auto 3rem;
+    margin: -1rem auto 3rem;
   }
 </style>

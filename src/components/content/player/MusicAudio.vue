@@ -99,8 +99,10 @@
       ended() {
         // console.log(flag);
         this.$store.commit("changePlay", false);
-        if (this.playOrder !== this.inOrder) {
-          this.$emit('cIndex', 1)
+        if (this.playOrder === this.inOrder) {
+          this.$store.commit('changePlaySongIndex', ++this.index);
+        }else {
+          this.$emit('cIndex', 1);
         }
       },
       //播放和暂停

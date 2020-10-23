@@ -1,6 +1,6 @@
 <template>
-  <div class="list">
-    <div class="play-bar" @click="playSong(0)">播放全部({{ listLength || '' }})</div>
+  <div class="list" v-show="playLists.length !== 0">
+    <div v-if="allShow" class="play-bar" @click="playSong(0)">播放全部({{ listLength || '' }})</div>
     <ul>
       <li v-for="(item, index) in playLists" :key="index">
         <song-list-item :song="item" :num="index" :current-index="currentIndex"
@@ -13,13 +13,17 @@
 
 <script>
   import SongListItem from "./SongListItem";
-  import {request} from "../../api/request";
+  import {request} from "../../../api/request";
 
   export default {
     name: "SongList",
     props: {
       list: {
         type: Array
+      },
+      allShow: {
+        type:Boolean,
+        default: true
       }
     },
     data() {

@@ -2,12 +2,12 @@
   <div class="album-item" :style="{width: size.width}" @click="playlist">
     <slot name="slot"></slot>
 
-    <a href="javascript:;" class="album" @mouseleave="active = false"
+    <a class="album" @mouseleave="active = false"
        @click="active = false">
-      <div style="position: relative; transition: all 200ms;"
+      <div class="img-container" :style="{width: size.width, height: size.height}"
            :class="{'active': active}">
         <img :src="picUrl()" alt="" :class="{'active': active}"
-             @mouseenter="active = true"
+             @mouseenter="active = true" v-show="load"
              :style="{width: size.width, height: size.height}" @load="isLoad"/>
         <div class="play-count" v-if="show"><!--播放数量-->
           <slot name="icon" class="icon"></slot>
@@ -62,8 +62,12 @@
     },
     data() {
       return {
-        active: false
+        active: false,
+        load: false
       }
+    },
+    mounted() {
+      this.load = false
     },
     methods: {
       cutContext(str) {
@@ -74,7 +78,8 @@
         }
       },
       isLoad() {
-        this.$emit('imgLoad')
+        this.$emit('imgLoad');
+        this.load = true
       },
       picUrl() {
         return this.item.sPicUrl ? this.item.sPicUrl : this.item.coverImgUrl ? this.item.coverImgUrl : this.item.picUrl
@@ -148,6 +153,11 @@
 
   .active {
     margin: -5px 0 5px;
+  }
+
+  .img-container {
+    position: relative;
+    transition: all 200ms;
   }
 
   img.active {

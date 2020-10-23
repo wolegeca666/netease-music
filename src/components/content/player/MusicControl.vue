@@ -47,7 +47,6 @@
     name: "musicControl",
     data() {
       return {
-        loop: 'loop',
         random: 'random',
       }
     },
@@ -63,16 +62,12 @@
         if (index < 0) {
           index = this.playlist.length - 1
         }
-        switch (this.playOrder) {
-          case this.loop :
-            index = index >= this.playlist.length ? 0 : index;
-            break;
-          case this.random :
-            index = Math.floor(Math.random()*this.playlist.length)
-            break
+        if (this.playOrder === this.random) {
+          index = Math.floor(Math.random()*this.playlist.length)
+        }else {
+          index = index >= this.playlist.length ? 0 : index;
         }
         this.$store.commit('changePlaySongIndex', index);
-        this.$store.commit('changePlaySongIndex', index)
       }
     },
     computed: {

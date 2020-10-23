@@ -1,52 +1,59 @@
 <template>
-  <div class="album-item" :class="{'on': on, 'off' : !on}">
+  <div :class="{'on': on, 'off' : !on}" class="album-item">
     <slot name="slot"></slot>
     <div class="album">
       <div class="album-cover"
            style="position: relative; transition: all 200ms;">
-        <img :src="picUrl()" v-show="show" @load="isLoad"/>
+        <img :src="picUrl()" @load="isLoad" v-show="show"/>
         <div class="play-count" v-if="item.playCount"><!--播放数量-->
-          <slot name="icon" class="icon"></slot>
-          <span style="font-size: 10px;">{{item.playCount > 100000 ? Math.floor(item.playCount/10000)+'万' : item.playCount}}</span>
+          <slot class="icon" name="icon"></slot>
+          <span style="font-size: 10px;">{{numHandle(item.playCount)}}</span>
         </div>
       </div>
       <div class="album-msg">
         <span class="name">{{ item.name }}</span>
         <div class="artist">
-          <img v-if="item.creator" :src="item.creator.avatarUrl" alt="">
+          <img :src="item.creator.avatarUrl" alt="" v-if="item.creator">
           <span v-if="item.creator">{{ item.creator.nickname }}</span>
+          <span v-if="item.createTime" style="opacity: 0.5;">{{item.createTime}} 创建</span>
+        </div>
+        <div class="count">
+          <div class="subCount">已收藏({{numHandle(item.subscribedCount)}})</div>
+          <div class="subCount">评论({{numHandle(item.commentCount)}})</div>
+          <div class="subCount">分享({{numHandle(item.shareCount)}})</div>
         </div>
         <div class="tag" v-if="item.tags">
           <p>标签：</p>
           <div v-for="tag in item.tags">
-            <p @click="routerTo(tag)"><a href="javascript:;">{{tag}}</a></p>
+            <p @click="routerTo(tag)"><a>{{tag}}</a></p>
           </div>
         </div>
         <div class="des">
-          <p v-if="item.description"><span style="color: #555;">介绍：</span>{{ des
-            }}</p>
+          <p v-if="item.description">
+            <span style="color: #555;">介绍：</span>{{ des }}
+          </p>
         </div>
       </div>
     </div>
-    <div class="unfold" @click="on = !on">
+    <div @click="on = !on" class="unfold">
       <div v-show="!on">
-        <svg t="1603280462713" class="icon" viewBox="0 0 1024 1024"
-             version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8135"
-             width="128" height="128">
+        <svg class="icon" height="128" p-id="8135"
+             t="1603280462713" version="1.1" viewBox="0 0 1024 1024"
+             width="128" xmlns="http://www.w3.org/2000/svg">
           <path d="M509.002 664.125a22.334 22.334 0 0 1-15.86-6.562L239.688 404.11a22.421 22.421 0 0 1 31.72-31.676l253.454 253.41a22.421 22.421 0 0 1-15.86 38.282"
-                p-id="8136" fill="#8a8a8a"></path>
+                fill="#8a8a8a" p-id="8136"></path>
           <path d="M509.002 664.125a22.334 22.334 0 0 1-15.86-38.238l259.45-259.407a22.421 22.421 0 0 1 31.677 31.676L524.905 657.563a22.508 22.508 0 0 1-15.903 6.562"
-                p-id="8137" fill="#8a8a8a"></path>
+                fill="#8a8a8a" p-id="8137"></path>
         </svg>
       </div>
       <div v-show="on">
-        <svg t="1603280492406" class="icon" viewBox="0 0 1024 1024"
-             version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8469"
-             width="128" height="128">
+        <svg class="icon" height="128" p-id="8469"
+             t="1603280492406" version="1.1" viewBox="0 0 1024 1024"
+             width="128" xmlns="http://www.w3.org/2000/svg">
           <path d="M514.998 359.875a22.334 22.334 0 0 1 15.86 6.562L784.312 619.89a22.421 22.421 0 0 1-31.72 31.676l-253.454-253.41a22.421 22.421 0 0 1 15.86-38.28199999"
-                p-id="8470" fill="#8a8a8a"></path>
+                fill="#8a8a8a" p-id="8470"></path>
           <path d="M514.998 359.875a22.334 22.334 0 0 1 15.86 38.238l-259.45 259.407a22.421 22.421 0 0 1-31.677-31.676L499.095 366.437a22.508 22.508 0 0 1 15.903-6.562"
-                p-id="8471" fill="#8a8a8a"></path>
+                fill="#8a8a8a" p-id="8471"></path>
         </svg>
       </div>
     </div>
@@ -83,6 +90,10 @@
       picUrl() {
         return this.item.coverImgUrl
       },
+      numHandle(num) {
+        num = num || 0;
+        return num > 100000 ? Math.floor(num / 10000) + '万' : num
+      },
       routerTo(cat) {
         this.$router.push({name: 'DPlayList', query: {cat: cat}})
       },
@@ -102,6 +113,12 @@
     position: relative;
   }
 
+  .count {
+    display: flex;
+    padding:1rem 0 2rem;
+    color: rgba(0,0,0,0.5);
+  }
+
   .on {
     padding-bottom: 1rem;
   }
@@ -113,16 +130,17 @@
   }
 
   .unfold {
+    background-color: #fff;
     position: absolute;
     right: 0;
-    bottom: -1.4rem;
-    opacity: 0.5;
+    top: 18.5rem;
   }
 
-.unfold .icon {
-  width: 3rem;
-  height: 3rem;
-}
+  .unfold .icon {
+    opacity: 0.5;
+    width: 3rem;
+    height: 3rem;
+  }
 
   .album-cover img {
     width: 20rem;
@@ -202,7 +220,7 @@
   }
 
   .album-msg .tag a {
-    color: rgba(0, 0, 255, 0.6);
+    color: rgba(0, 118, 195, 0.8);
     font-size: 13px;
     font-weight: 600;
     padding: 0 3px;
@@ -213,6 +231,7 @@
   }
 
   .album-msg .des {
+    width: 95%;
     padding: 1rem 0;
     font-size: 13px;
     color: rgba(0, 0, 0, 0.4);
