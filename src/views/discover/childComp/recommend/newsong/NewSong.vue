@@ -3,7 +3,7 @@
     <div class="song-nav">
       <nav-bar :msg="[{name:'最新音乐'}]">
         <template v-slot:img>
-          <img class="personalized-img" src="../../icon/newsong.svg" alt="">
+          <img class="personalized-img" src="../../../../../assets/imgs/icon/discover/newsong.svg" alt="">
         </template>
       </nav-bar>
     </div>

@@ -3,7 +3,7 @@
   <div class="personalized" >
       <nav-bar :msg="[{name: '推荐歌单', path: '/discover/playlist'}]">
         <template v-slot:img>
-          <img class="personalized-img" src="../../icon/tuijian.svg" alt="">
+          <img class="personalized-img" src="../../../../../assets/imgs/icon/discover/tuijian.svg" alt="">
         </template>
       </nav-bar>
 

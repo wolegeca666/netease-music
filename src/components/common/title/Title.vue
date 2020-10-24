@@ -1,6 +1,6 @@
 <template>
   <div class="title" @click="clickHandle">
-    <p>{{title}}</p>
+    <p>{{title.name}}</p>
   </div>
 </template>
 
@@ -9,32 +9,34 @@
     name: "Title",
     props: {
       title: {
-        type: String,
-        default: '标题'
+        type: Object,
+        default() {
+          return {
+            name: '标题'
+          }
+        }
       },
-      path: {
-        type: String
-      }
     },
     methods: {
       clickHandle() {
         // console.log(this.title);
-        this.$emit('titleClick', this.title);
-        if (this.path && this.path !== this.$route.path) {
-          this.$router.push(this.path)
+        this.$emit('titleClick', this.title.name);
+        if (this.title.path && this.title.path !== this.$route.path) {
+          this.$router.push(this.title.path)
         }
+        this.$emit('titleObj', this.title);
       }
     },
     mounted() {
-      if (this.path && this.$route.path === this.path) {
-        this.$emit('titleClick', this.title);
+      if (this.title.path && this.$route.path === this.title.path) {
+        this.$emit('titleClick', this.title.name);
       }
     },
     watch:{
       $route() {
-        if (this.path && this.$route.path === this.path) {
+        if (this.title.path && this.$route.path === this.title.path) {
           // console.log(this.$route.path);
-          this.$emit('titleClick', this.title);
+          this.$emit('titleClick', this.title.name);
         }
       }
     },

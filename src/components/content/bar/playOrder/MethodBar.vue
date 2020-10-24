@@ -2,16 +2,16 @@
   <div class="method">
     <div style="margin-left: 2rem;">
       <div v-show="orderList[0] === playOrder" @click="change(orderList[1])">
-        <img src="./icon/inOrder.svg" alt="">
+        <img src="../../../../assets/imgs/icon/playorder/inOrder.svg" alt="">
       </div>
       <div v-show="orderList[1] === playOrder" @click="change(orderList[2])">
-        <img src="./icon/loop.svg" alt="">
+        <img src="../../../../assets/imgs/icon/playorder/loop.svg" alt="">
       </div>
       <div v-show="orderList[2] === playOrder" @click="change(orderList[3])">
-        <img src="./icon/single.svg" alt="">
+        <img src="../../../../assets/imgs/icon/playorder/single.svg" alt="">
       </div>
       <div v-show="orderList[3] === playOrder" @click="change(orderList[0])">
-        <img src="./icon/random.svg" alt="">
+        <img src="../../../../assets/imgs/icon/playorder/random.svg" alt="">
       </div>
     </div>
   </div>

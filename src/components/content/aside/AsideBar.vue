@@ -3,19 +3,19 @@
     <nav-bar title="搜索" :index="0" path="/search"
              :current-index="currentIndex" @active="activeIndex">
       <template v-slot:img>
-        <img src="./icon/discover.svg" alt="">
+        <img src="../../../assets/imgs/icon/aside/discover.svg" alt="">
       </template>
     </nav-bar>
     <nav-bar title="发现音乐" :index="1" path="/"
              :current-index="currentIndex" @active="activeIndex">
       <template v-slot:img>
-        <img src="./icon/discover.svg" alt="">
+        <img src="../../../assets/imgs/icon/aside/discover.svg" alt="">
       </template>
     </nav-bar>
     <nav-bar title="视频" :index="2" path="/mv"
              :current-index="currentIndex" @active="activeIndex">
       <template v-slot:img>
-        <img src="./icon/discover.svg" alt="">
+        <img src="../../../assets/imgs/icon/aside/discover.svg" alt="">
       </template>
     </nav-bar>
   </div>

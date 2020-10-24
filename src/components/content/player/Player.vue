@@ -56,6 +56,7 @@
   }
   #player .pic img {
     width: 6rem;
+    height: 6rem;
     border-radius: 0.5rem;
   }
 

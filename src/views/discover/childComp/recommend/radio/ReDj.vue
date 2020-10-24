@@ -3,7 +3,7 @@
     <div class="song-nav">
       <nav-bar :msg="[{name: '主播电台'}]">
         <template v-slot:img>
-          <img class="personalized-img" src="../../icon/dj.svg" alt="">
+          <img class="personalized-img" src="../../../../../assets/imgs/icon/discover/dj.svg" alt="">
         </template>
       </nav-bar>
     </div>

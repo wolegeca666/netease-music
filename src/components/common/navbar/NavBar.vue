@@ -3,9 +3,9 @@
     <slot name="img"></slot>
     <div class="container">
       <div class="row-nav">
-          <v-title v-for="(item, index) in msg" :title="item.name" :key="index" :path="item.path"
+          <v-title v-for="(item, index) in msg" :title="item" :key="index"
                    :class="{'active': activeTitle === item.name}"
-                   class="nav-title" @titleClick="clickHandle">
+                   class="nav-title" @titleClick="clickHandle" @titleObj="emitClick">
           </v-title>
       </div>
     </div>
@@ -50,6 +50,10 @@
       clickHandle(title) {
         // console.log(title);
         this.$emit('titleClick', title)
+      },
+      emitClick(title) {
+        // console.log(title);
+        this.$emit('typeClick', title)
       }
     }
   }

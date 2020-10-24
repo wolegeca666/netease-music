@@ -3,7 +3,7 @@
 
     <nav-bar :msg="[{name: '推荐MV'}]">
       <template v-slot:img>
-        <img class="personalized-img" src="../../icon/mv.svg" alt="">
+        <img class="personalized-img" src="../../../../../assets/imgs/icon/discover/mv.svg" alt="">
       </template>
     </nav-bar>
 

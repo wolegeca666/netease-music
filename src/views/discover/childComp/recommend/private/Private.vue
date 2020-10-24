@@ -3,7 +3,7 @@
 
     <nav-bar :msg="[{name: '独家放送'}]">
       <template v-slot:img>
-        <img class="personalized-img" src="../../icon/dujia.svg" alt="">
+        <img class="personalized-img" src="../../../../../assets/imgs/icon/discover/dujia.svg" alt="">
       </template>
     </nav-bar>
 

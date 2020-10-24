@@ -194,7 +194,7 @@
   .song-item {
     display: flex;
     align-items: center;
-    height: 4.5rem;
+    height: 5rem;
   }
 
   .song-msg {
@@ -212,7 +212,7 @@
 
   .song-msg .song-name {
     width: 40%;
-    font-size: 1.39rem;
+    font-size: 13.5px;
   }
 
   .others {

@@ -142,7 +142,9 @@
        */
       setTransform(position) {
         this.el = document.querySelector('.swiper');
-        this.el.style.transform = `translate(${position}px)`;
+        if (this.el) {
+          this.el.style.transform = `translate(${position}px)`;
+        }
       },
 
       /**
