@@ -2,7 +2,7 @@
 
 :root {
   --color-hover: rgba(0, 0, 0, 0.02);
-  --color-active: rgba(0,0,0,0.09);
+  --color-active: rgba(0, 0, 0, 0.1);
   --color-text: rgba(0,0,0,0.4);
   --color-bgc: #f5f5f5;
   --color-background: #d81e06;
@@ -47,7 +47,7 @@ a {
 
 .hr {
   width: 100%;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .d-title {

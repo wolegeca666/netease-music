@@ -18,7 +18,7 @@ import state from '../src/store/index';
 //   const space = 'Space';
 //   if (e.code === space) {
 //     // console.log(state);
-//     state.commit('changePlay', !state.state.songState.play);
+//     state.commit('changePlay', !state.state.songState.playview);
 //   }
 // });
 

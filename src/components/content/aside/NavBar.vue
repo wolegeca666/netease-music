@@ -48,26 +48,25 @@
 
   .nav-bar-item {
     display: flex;
-    padding-left: 3px;
     align-items: center;
+    padding: 5px 0 5px 3px;
   }
 
   .icon {
-    padding: 1rem;
+    padding: 1rem 1rem 0.6rem;
   }
 
   .icon img {
-    width: 2rem;
-    height: 2rem;
+    width: 1.6rem;
+    height: 1.6rem;
   }
-
 
   .off:hover {
     background-color: var(--color-hover);
   }
 
   .active {
-    padding: 0;
+    padding: 5px 0;
     border-left: 3px solid var(--color-background);
     background-color: var(--color-active);
   }

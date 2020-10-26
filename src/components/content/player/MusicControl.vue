@@ -83,6 +83,7 @@
 
 <style scoped>
   .music-control {
+    z-index: 999;
     flex: 1;
     display: flex;
     align-items: center;

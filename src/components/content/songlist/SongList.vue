@@ -1,6 +1,9 @@
 <template>
   <div class="list" >
-    <div v-if="allShow" class="play-bar" @click="playSong(0)">播放全部({{ listLength || '' }})</div>
+    <div v-if="allShow" class="play-bar" @click="playSong(0)">
+      <svg t="1603614206566" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7602" width="128" height="128"><path d="M904.1 347c-21.4-50.6-52-96-91-135s-84.4-69.6-135-91c-52.4-22.2-108-33.4-165.4-33.4s-113 11.2-165.4 33.4c-50.6 21.4-96 52-135 91s-69.6 84.4-91 135c-22.2 52.4-33.4 108-33.4 165.4 0 57.3 11.2 113 33.4 165.4 21.4 50.6 52 96 91 135s84.4 69.6 135 91c52.4 22.2 108 33.4 165.4 33.4s113-11.2 165.4-33.4c50.6-21.4 96-52 135-91s69.6-84.4 91-135c22.2-52.4 33.4-108 33.4-165.4 0-57.3-11.3-113-33.4-165.4zM512.6 877.3c-201.2 0-364.9-163.7-364.9-364.9s163.7-364.9 364.9-364.9 364.9 163.7 364.9 364.9-163.7 364.9-364.9 364.9z" p-id="7603" fill="#d81e06"></path><path d="M709.9 512.2L417.4 343.3V681z" p-id="7604" fill="#d81e06"></path></svg>
+      <p>播放全部({{ listLength || '' }})</p>
+    </div>
     <ul>
       <li v-for="(item, index) in playLists" :key="index">
         <song-list-item :song="item" :num="index" :current-index="currentIndex"
@@ -139,56 +142,16 @@
 <style scoped>
 
   .play-bar {
+    display: flex;
+    align-items: center;
     font-size: 14px;
     padding: 3rem 0 2rem;
   }
 
+  .icon {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-right: 0.5rem;
+  }
+
 </style>
-/*      // 列表获取
-      getListDetails(arr) {
-        let request = arr.map(item => this.getMusicDetail(item.id));
-        return Promise.all(request)
-        /!*Promise.all(
-            new Promise(function (resolve, reject) {
-              this.getMusicDetail().then(res => {
-                resolve(res)
-              }).catch(e =>reject(e))
-            }),
-            new Promise(function (resolve, reject) {
-              this.getMusicDetail().then(res => {
-                resolve(res)
-              }).catch(e =>reject(e))
-            }),
-        ).then (res => console.log(res))*!/
-      },
-      // 剪切列表
-      cutList(length) {
-        let slist = [];
-        this.list.forEach((item, index) => {
-          if (length <= index && index < length + 10) {
-            slist.push(item)
-          }
-        });
-        return this.getListDetails(slist)
-      },
-      // 循环获取数据
-      callBack() {
-        this.cutList(this.length).then(e => {
-          this.playLists.push(...e);
-          this.length += 10;
-          this.request();
-        }).catch(e => this.request())
-      },
-
-      request() {
-        if (this.length < this.listLength) {
-          this.callBack();
-          if (this.length > this.maxLength) {
-            this.show = true;
-            this.$emit('show', true);
-          }
-        } else {
-
-          // console.log(this.playLists[0]);
-        }
-      },*/

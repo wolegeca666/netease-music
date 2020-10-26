@@ -3,7 +3,7 @@
     <nav-bar title="搜索" :index="0" path="/search"
              :current-index="currentIndex" @active="activeIndex">
       <template v-slot:img>
-        <img src="../../../assets/imgs/icon/aside/discover.svg" alt="">
+        <img src="../../../assets/imgs/icon/aside/search.svg" alt="">
       </template>
     </nav-bar>
     <nav-bar title="发现音乐" :index="1" path="/"
@@ -15,7 +15,19 @@
     <nav-bar title="视频" :index="2" path="/mv"
              :current-index="currentIndex" @active="activeIndex">
       <template v-slot:img>
-        <img src="../../../assets/imgs/icon/aside/discover.svg" alt="">
+        <img src="../../../assets/imgs/icon/aside/video.svg" alt="">
+      </template>
+    </nav-bar>
+    <nav-bar title="最近播放" :index="3" path="/"
+             :current-index="currentIndex" @active="activeIndex">
+      <template v-slot:img>
+        <img src="../../../assets/imgs/icon/aside/record.svg" alt="">
+      </template>
+    </nav-bar>
+    <nav-bar title="我喜欢的音乐" :index="4" path="/"
+             :current-index="currentIndex" @active="activeIndex">
+      <template v-slot:img>
+        <img src="../../../assets/imgs/icon/aside/likemusic.svg" alt="">
       </template>
     </nav-bar>
   </div>
@@ -54,5 +66,9 @@
 
   .aside-bar {
     min-width: 10rem;
+  }
+
+  img {
+    border-radius: 0;
   }
 </style>

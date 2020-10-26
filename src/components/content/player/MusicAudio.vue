@@ -94,6 +94,7 @@
           this.$store.commit("changePlay", true);
           this.musicPlay()
         }
+        this.$store.commit('timeChange', 0)
       },
       // 播放结束后
       ended() {
@@ -124,6 +125,7 @@
       progress() {
         const music = this.music;
         this.currentTime = utils.getTime(music.currentTime);
+        this.$store.commit('timeChange', music.currentTime);
         music.volume = this.$store.state.songState.voice;
         let percent = Math.floor(music.currentTime) / music.duration;
         if (percent) {
@@ -180,7 +182,7 @@
 
 <style scoped>
   .audio {
-    z-index: 99;
+    z-index: 999;
     position: relative;
     flex: 1;
     min-width: 7.8rem;

@@ -82,7 +82,7 @@
         this.handleDom();
         // 开启定时器
         this.startTimer();
-      }, 500)
+      }, 1000)
     },
     activated() {
       this.startTimer();

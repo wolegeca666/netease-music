@@ -1,32 +1,36 @@
 <template>
-  <div id="player">
-    <div class="pic">
-      <img :src="url" alt="0">
+    <div id="player">
+      <div class="view" :class="{'un-play': !play}">
+        <play-view :active="play"></play-view>
+      </div>
+      <div class="pic" @click="view">
+        <img :src="url" alt="0">
+      </div>
+      <music-control></music-control>
+      <music-handle @list="listShow"></music-handle>
+      <div class="list" v-show="show">
+        <div class="title">播放列表</div>
+        <song-list :show="show"></song-list>
+      </div>
     </div>
-    <music-control></music-control>
-    <music-handle @list="listShow"></music-handle>
-    <div class="list" v-show="show">
-      <div class="title">播放列表</div>
-      <song-list :show="show"></song-list>
-      <div class="footer"></div>
-    </div>
-  </div>
 </template>
 
 <script>
+  import PlayView from "./playview/PlayView";
   import MusicControl from "./MusicControl";
   import MusicHandle from "./MusicHandle";
-  import SongList from "./songlist/SongList";
+  import SongList from "./songlist/PlaySongList";
 
   export default {
     name: "player",
     data() {
       return {
-        show: false
+        show: false,
+        play: false
       }
     },
     components: {
-      MusicControl,MusicHandle,SongList
+      PlayView,MusicControl,MusicHandle,SongList
     },
     computed: {
       url() {
@@ -36,6 +40,10 @@
     methods: {
       listShow() {
         this.show = !this.show;
+      },
+
+      view() {
+        this.play = !this.play
       }
     }
   }
@@ -60,7 +68,22 @@
     border-radius: 0.5rem;
   }
 
+  .view {
+    transition: all 600ms;
+    position: absolute;
+    bottom: 6.5rem;
+    left: 0;
+    width: 100vw;
+    height: 91vh;
+  }
+
+  .un-play {
+    visibility: hidden;
+    opacity: 0;
+  }
+
   .list {
+    z-index: 200;
     background-color: #fff;
     position: absolute;
     right: 0;
@@ -80,12 +103,4 @@
     box-shadow: 0 2px 2px #CCCCCC;
   }
 
-  .footer {
-    z-index: 200;
-    position: absolute;
-    background-color: #fff;
-    bottom: 0;
-    width: 100%;
-    height: 2rem;
-  }
 </style>

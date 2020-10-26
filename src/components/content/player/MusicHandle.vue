@@ -28,10 +28,11 @@
 
 <style scoped>
   .right {
+    z-index: 999;
     position: relative;
     background-color: #fff;
     width: 25rem;
-    margin-right: 2rem;
+    padding-right: 2rem;
     display: flex;
     align-items: center;
   }

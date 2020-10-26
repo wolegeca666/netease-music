@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import SongListItem from "./SongListItem";
+  import SongListItem from "./PlaySongListItem";
   import {mapState} from "vuex"
 
   export default {
@@ -42,6 +42,9 @@
           author: this.authorHandle(this.playLists[num]),
           picUrl: this.playLists[num].al.picUrl
         });
+        if (num !== this.index) {
+          this.$store.commit('changePlaySongIndex', num)
+        }
       },
       authorHandle(obj) {
         let arr = [];
@@ -88,6 +91,7 @@
   .song-list {
     position: relative;
     overflow: scroll;
+    overflow-x: hidden;
     background-color: transparent;
     height: 45rem;
     width: 55rem;

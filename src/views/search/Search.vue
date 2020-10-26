@@ -2,35 +2,56 @@
   <div class="search">
     <div class="search-bar">
       <input id="search" type="text" autocomplete="off" spellcheck="false"
-             v-model="input" @keydown.enter="searchHandle" @input="suggestHandle"/>
+             v-model="input" @keydown.enter="searchHandle"
+             @input="suggestHandle"/>
       <label for="search"></label>
-      <div class="icon">
+      <div class="icon" @click="searchHandle">
         <img src="../../assets/imgs/icon/search/search.svg" alt="">
       </div>
       <div class="suggest" v-show="suggest">
         <div class="head">相关结果</div>
         <div v-if="suggest.songs">
-          <div class="title"><img src="../../assets/imgs/icon/search/song.svg" alt="">单曲</div>
-          <div class="item" v-for="msg in suggest.songs" @click="sugSearch(msg.name)">
+          <div class="title"><img src="../../assets/imgs/icon/search/song.svg"
+                                  alt="">单曲
+          </div>
+          <div class="item" v-for="msg in suggest.songs"
+               @click="sugSearch(msg.name)">
             {{msg.name }}
           </div>
         </div>
         <div v-if="suggest.albums">
-          <div class="title"><img src="../../assets/imgs/icon/search/album.svg" alt="">专辑</div>
-          <div class="item" v-for="msg in suggest.albums" @click="sugSearch(msg.name)">
+          <div class="title"><img src="../../assets/imgs/icon/search/album.svg"
+                                  alt="">专辑
+          </div>
+          <div class="item" v-for="msg in suggest.albums"
+               @click="sugSearch(msg.name)">
             {{msg.name }}
           </div>
         </div>
         <div v-if="suggest.artists">
-          <div class="title"><img src="../../assets/imgs/icon/search/artist.svg" alt="">歌手</div>
-          <div class="item" v-for="msg in suggest.artists" @click="sugSearch(msg.name)">
+          <div class="title"><img src="../../assets/imgs/icon/search/artist.svg"
+                                  alt="">歌手
+          </div>
+          <div class="item" v-for="msg in suggest.artists"
+               @click="sugSearch(msg.name)">
             {{msg.name }}
           </div>
         </div>
       </div>
     </div>
-    <div class="hot-search">
-
+    <div class="search-msg" v-show="hotShow">
+      <div class="hot-search">
+        <div class="head">热门搜索</div>
+        <div class="hr"></div>
+        <div class="hot-item" v-for="item in hot"
+             @click="sugSearch(item.first)">{{item.first}}
+        </div>
+      </div>
+      <div class="search-history">
+        <div class="head">搜索历史</div>
+        <div class="hr"></div>
+        <!--      <div class="hot-item" v-for="item in hot" @click="sugSearch(item.first)">{{item.first}}</div>-->
+      </div>
     </div>
     <main>
       <keep-alive>
@@ -49,19 +70,30 @@
     components: {VTitle},
     data() {
       return {
+        hot: '',
         input: '',
         keywords: '',
         suggest: '',
         order: '',
-        flag: true
+        flag: true,
+        hotShow: true
       };
     },
     activated() {
       if (this.$route.path === '/search/multimatch') {
+        this.hotShow = false;
         this.input = this.$route.query.keywords;
-      }else if (this.$route.path === '/search') {
+      } else if (this.$route.path === '/search') {
         this.input = '';
       }
+      request('/search/hot').then(res => {
+        // console.log(res);
+        if (res.result.hots) {
+          this.hot = res.result.hots;
+        }
+      }).catch(e => {
+        console.log(e)
+      })
     },
     methods: {
       suggestHandle() {
@@ -84,6 +116,12 @@
         this.playlist = []
       },
 
+      sugSearch(msg) {
+        this.input = msg;
+        this.suggest = '';
+        this.searchHandle();
+      },
+
       searchHandle() {
         if (this.input && this.input !== this.$route.query.keywords) {
           this.keywords = this.input;
@@ -95,18 +133,12 @@
         }
       },
 
-      sugSearch(msg) {
-        this.input = msg;
-        this.suggest = '';
-        this.searchHandle();
-      },
-
       // 搜索建议
       getSug() {
         // console.log(this.input);
         request('/search/suggest?keywords=' + this.input)
             .then(res => {
-              console.log(res);
+              // console.log(res);
               if (this.flag && res.result.order) {
                 this.order = res.result.order || '';
                 this.suggest = res.result || '';
@@ -121,7 +153,15 @@
     watch: {
       input() {
         if (!this.input) {
-          this.flag = false
+          this.flag = false;
+          this.hotShow = true;
+        }
+      },
+      $route() {
+        this.flag = false;
+        this.hotShow = !this.input;
+        if (this.$route.path === '/search') {
+          this.input = ''
         }
       }
     }
@@ -196,8 +236,43 @@
     background-color: var(--color-hover);
   }
 
+  .search-msg {
+    position: relative;
+    width: 100%;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0.5;
+  }
+
+  .search-msg .head {
+    font-size: 14px;
+    margin: 1rem 0;
+    padding: 0.3rem 1.3rem;
+    opacity: 0.6;
+  }
+
+  .hot-search {
+    width: 49%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .hot-search .hot-item {
+    margin: 1rem 0.5rem;
+    padding: 0.3rem 1.3rem;
+    border: 1px solid #ccc;
+    border-radius: 1.5rem;
+  }
+
+  .search-history {
+    width: 48%;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
   main {
     padding-top: 2rem;
   }
-  
+
 </style>

@@ -18,6 +18,7 @@ export default new Vuex.Store({
     },
     songState: {
       play: false,
+      playtime: 0,
       playOrder: 'loop',
       voice: 0.5
     },

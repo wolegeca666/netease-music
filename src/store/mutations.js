@@ -8,6 +8,10 @@ export default {
     // console.log(state.song);
   },
 
+  timeChange(state, time) {
+    state.songState.playtime = time
+  },
+
   changePlaySongIndex(state, index) {
     state.playSongIndex = index;
     // console.log(index);
