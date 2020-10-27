@@ -58,16 +58,16 @@
             arr.push(obj)
           }
         });
-        console.log(arr);
+        // console.log(arr);
         this.lyric = arr;
       },
 
       isNow(index) {
         let flag;
         if (this.playtime) {
-           flag = this.lyric[index].time <= this.nowTime
-              && this.nowTime < (this.lyric[index+1]
-                  ? this.lyric[index+1].time : this.nowTime + 0.5);
+          flag = this.lyric[index].time <= this.nowTime
+              && this.nowTime < (this.lyric[index + 1]
+                  ? this.lyric[index + 1].time : this.nowTime + 0.5);
         }
         if (flag) {
           this.current = index;
@@ -85,7 +85,7 @@
       nowTime() {
         const time = this.playtime;
         let h = 0;
-        let m = Math.floor( time / 60);
+        let m = Math.floor(time / 60);
         let s = (time % 60).toFixed(3);
         if (m > 60) {
           h = Math.floor(time / 60);
@@ -100,7 +100,7 @@
         }
       },
 
-      handleDom () {
+      handleDom() {
         return document.querySelector('.lrc');
       },
     },
@@ -115,7 +115,8 @@
       current() {
         // console.log(this.current);
         this.handleDom.scrollTop = this.current > 5 ?
-           this.handleDom.scrollHeight*(this.current/this.lyric.length) - 150 : 0;
+            this.handleDom.scrollHeight * (this.current / this.lyric.length) - 180
+            : 0;
       }
     }
   }
@@ -145,6 +146,7 @@
   }
 
   .lrc {
+    padding-left: 1rem;
     font-size: 16px;
     line-height: 40px;
     overflow: scroll;

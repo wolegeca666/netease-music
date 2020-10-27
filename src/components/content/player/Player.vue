@@ -70,6 +70,7 @@
 
   .view {
     transition: all 600ms;
+    overflow: hidden;
     position: absolute;
     bottom: 6.5rem;
     left: 0;
