@@ -169,26 +169,13 @@
     color: var(--color-background);
   }
 
-  .hover:hover {
-    z-index: 99;
-    background-color: rgba(0, 0, 0, 0.06);
-  }
-
-  .odd {
-    background-color: rgba(0, 0, 0, 0.02);
-  }
-
-  .odd:hover {
-    background-color: rgba(0, 0, 0, 0.06);
-  }
-
   .animate {
     transform: translateZ(-24px);
   }
 
   .active {
     animation: click 200ms;
-    background-color: var(--color-active);
+    background-color: rgba(0, 0, 0, 0.08);
   }
 
 

@@ -76,14 +76,6 @@
         Time: 0
       }
     },
-    mounted() {
-      // 添加slide
-      setTimeout(() => {
-        this.handleDom();
-        // 开启定时器
-        this.startTimer();
-      }, 1000)
-    },
     activated() {
       this.startTimer();
     },
@@ -91,6 +83,15 @@
       this.stopTimer();
     },
     methods: {
+      init() {
+        // 添加slide
+        setTimeout(() => {
+          this.handleDom();
+          // 开启定时器
+          this.startTimer();
+        }, 100)
+          
+      },
       /**
        *  定时器操作
        */
@@ -229,9 +230,7 @@
     },
     watch: {
       load() {
-        if (!this.load) {
-          this.stopTimer()
-        }
+        this.init()
       }
     }
   }

@@ -2,15 +2,20 @@
     <div id="player">
       <div class="view" :class="{'un-play': !play}">
         <play-view :active="play"></play-view>
+        <div class="close" @click="view">
+          <img src="../../../assets/imgs/icon/close/innerclose.svg"/>
+        </div>
       </div>
       <div class="pic" @click="view">
         <img :src="url" alt="0">
       </div>
       <music-control></music-control>
       <music-handle @list="listShow"></music-handle>
-      <div class="list" v-show="show">
-        <div class="title">播放列表</div>
-        <song-list :show="show"></song-list>
+      <div id="play-list-s" class="list" :class="{'show': !show}" @click="stop($event)">
+        <div class="title">
+          <p>播放列表</p>
+        </div>
+        <song-list :show="show" @close="listShow"></song-list>
       </div>
     </div>
 </template>
@@ -40,10 +45,21 @@
     methods: {
       listShow() {
         this.show = !this.show;
+        if (this.show) {
+          document.onclick = e => {
+            // console.log(e)
+            this.show = false
+            document.onclick = null;
+          }
+        }
       },
-
       view() {
-        this.play = !this.play
+        this.play = !this.play;
+        document.querySelector('.view')
+      },
+      stop(e) {
+        // console.log(e);
+        e.stopPropagation()
       }
     }
   }
@@ -54,7 +70,7 @@
     z-index: 999;
     width: 100vw;
     min-width: 100em;
-    padding: 1px 0.5rem;
+    padding: 2px 0 2px 0.5rem;
     display: flex;
     position: fixed;
     bottom: 0;
@@ -75,6 +91,7 @@
     bottom: 6.5rem;
     left: 0;
     width: 100vw;
+    min-width: 100rem;
     height: 91vh;
   }
 
@@ -82,14 +99,32 @@
     visibility: hidden;
     opacity: 0;
   }
+  
+  .view .close {
+    z-index: 999;
+    position: fixed;
+    top: 2.5rem;
+    right: 5rem;
+  }
+  
+  .view .close img {
+    width: 3rem;
+  }
 
   .list {
+    transition: all 500ms;
     z-index: 200;
     background-color: #fff;
     position: absolute;
     right: 0;
     bottom: 6rem;
+    height: 50rem;
     border: 1px solid var(--color-active);
+  }
+  
+  .show {
+    height: 0;
+    visibility: hidden;
   }
 
   .title {

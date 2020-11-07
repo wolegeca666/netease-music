@@ -4,7 +4,7 @@
     <div :class="{'hover': !animate}" style="perspective: 1000px;"
          @mousedown="animation" @click="clickHandle">
       <div class="song-item"
-           :class="{'active': isActive, 'animate': animate, 'odd': isOdd(oddIndex)}">
+           :class="{'active': isActive, 'animate': animate}">
         <div class="play-icon" v-show="song.id === playId">
           <svg t="1602691641326" class="icon" viewBox="0 0 1126 1024"
                version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="18323"
@@ -61,9 +61,6 @@
         type: Object,
         require: true
       },
-      oddIndex: {
-        type: Number
-      }
     },
     data() {
       return {
@@ -120,10 +117,6 @@
         }
       },
 
-      isOdd(num) {
-        return num % 2
-      },
-
       // 播放歌曲
       musicPlay() {
         // console.log(this.song.id);
@@ -174,22 +167,14 @@
     }
   }
 
-  .bgc {
-    background-color: #fff;
-  }
+
 
   .hover:hover {
     z-index: 99;
     background-color: rgba(0, 0, 0, 0.06);
   }
 
-  .odd {
-    background-color: var(--color-bgc);
-  }
 
-  .odd:hover {
-    background-color: rgba(0, 0, 0, 0.06);
-  }
 
   .animate {
     background-color: rgba(0, 0, 0, 0.1);

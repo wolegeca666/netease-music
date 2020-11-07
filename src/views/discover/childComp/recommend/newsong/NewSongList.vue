@@ -3,7 +3,7 @@
     <ul class="list">
       <li v-for="(item,index) in list" :key="index"  :class="classHandle(index)">
           <song-list-item class="item" :num="index" :song="item" :song-msg="item.song"
-                          :current-index="currentIndex" :odd-index="odd(index)"
+                          :current-index="currentIndex"
                           @itemClick="clickHandle">
             <template v-slot:left>
               <img :src="item.picUrl" alt="">
@@ -36,9 +36,6 @@
       clickHandle(num) {
         this.currentIndex = num
       },
-      odd(num) {
-        return num % 2 ? (num + 1)/ 2 :  (num + 2)/ 2;
-      },
       classHandle(num) {
         return num % 2 ? 'right' : 'left'
       }
@@ -60,7 +57,11 @@
     width: 50%;
     background-color: #fff;
   }
-
+  
+  .list li:nth-child(4n+2),
+  .list li:nth-child(4n+1) {
+    background-color: var(--color-bgc);
+  }
 
   .list li img {
     width: 5rem;

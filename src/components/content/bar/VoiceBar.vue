@@ -25,7 +25,7 @@
                       @progress="voiceHandle"></progress-bar>
       </div>
     </div>
-    <div class="voice-bar" @mouseup="progress">
+    <div class="voice-bar" @mouseup="progress()">
       <div v-show="voice > 0" class="on">
         <svg t="1602239512909" class="icon" viewBox="0 0 1024 1024"
              version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11321"
@@ -63,14 +63,28 @@
     components: {
       ProgressBar
     },
+    mounted() {
+      document.querySelector('#voice').addEventListener('click', e => {
+        e.stopPropagation();
+        // console.log(e);
+      }, false)
+      
+    },
     methods: {
       progress() {
         this.active = !this.active;
+        if (this.active) {
+          document.onclick = e => {
+            // console.log(e)
+            this.active = false
+            document.onclick = null;
+          }
+        }
       },
       changeLeft(e) {
         if (this.active) {
           const audio = document.getElementById('voice');
-          this.left = this.width - 225;
+          this.left = this.width - 205;
           // console.log(this.left);
         }
         this.percent = this.$store.state.songState.voice;
@@ -84,7 +98,7 @@
     computed: {
       width() {
         return this.$store.state.windowsWidth
-      }
+      },
     }
   }
 </script>
@@ -144,8 +158,8 @@
     content: "";
     position: absolute;
     top: 6.5rem;
-    right: 6rem;
-    border-top: 1rem solid #eee;
+    right: 8rem;
+    border-top: 1rem solid #DD524D;
     border-right: 1rem solid transparent;
     border-bottom: 1rem solid transparent;
     border-left: 1rem solid transparent;

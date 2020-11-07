@@ -60,6 +60,9 @@
       start() {
         this.start ? this.startTimer() : this.stopTimer()
       },
+    },
+    destroyed() {
+      this.stopTimer();
     }
   }
 </script>

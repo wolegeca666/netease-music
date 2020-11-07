@@ -48,13 +48,12 @@
         str.replace(content, (...arg) => {
           // console.log(arg);
           let obj = {text: '', time: ''};
-          obj.text = arg[1].replace(rule, () => {
-            return ''
-          });
+          obj.text = arg[1].replace(rule, () => '');
           arg[1].replace(rule, (...t) => {
             obj.time = t[1];
           });
           if (obj.text) {
+            obj.text = obj.text.trim();
             arr.push(obj)
           }
         });
@@ -139,6 +138,7 @@
   .author {
     font-size: 14px;
     padding: 1rem;
+    margin-bottom: 2rem;
   }
 
   .author span {

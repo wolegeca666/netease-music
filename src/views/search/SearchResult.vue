@@ -26,7 +26,7 @@
     </div>
     <div v-show="most && type === 1" class="hr"></div>
     <div class="list">
-
+      
       <div v-show="type === 1">
         <song-list :list="playlist || []" :all-show="false" :load-show="true"></song-list>
       </div>
@@ -115,9 +115,7 @@
         request('/search/multimatch?keywords=' + this.keywords)
             .then(res => {
               // console.log(res);
-              if (res.result.orders) {
-                this.most = res.result.orders.length ? res.result : '';
-              }
+              this.most = res.result.orders?.length ? res.result : '';
             })
             .catch(e => console.log(e));
       },
@@ -126,7 +124,7 @@
         if (this.keywords) {
           this.offset = 0;
           request('/cloudsearch?keywords=' + this.keywords + '&type=' + this.type).then(res => {
-            // console.log(res);
+            console.log(res);
             this.result = res.result;
           }).catch(e => {
             console.log(e)
@@ -144,6 +142,7 @@
             if (res.needlogin) {
               this.updateData();
             }else {
+              console.log(res);
               let result = res.result;
               if (result.songs) {
                 this.playlist.push(...result.songs);
@@ -200,6 +199,7 @@
       keywords() {
         if (this.keywords) {
           this.show = false;
+          this.init();
           this.getSearch();
         }
       },

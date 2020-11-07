@@ -1,5 +1,5 @@
 <template>
-  <div class="play-list" @click="click">
+  <div class="play-list-bar" @click="click($event)">
     <div class="list">
       <svg t="1602293901924" class="icon" viewBox="0 0 1495 1024" version="1.1"
            xmlns="http://www.w3.org/2000/svg" p-id="5903" width="128"
@@ -15,15 +15,17 @@
   export default {
     name: "PlayList",
     methods: {
-      click() {
-        this.$emit('list')
+      click(e) {
+        e.stopPropagation();
+        // console.log(e);
+        this.$emit('list');
       }
     }
   }
 </script>
 
 <style scoped>
-  .play-list {
+  .play-list-bar {
     flex: 1;
   }
 

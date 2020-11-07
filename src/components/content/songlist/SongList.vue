@@ -154,4 +154,13 @@
     margin-right: 0.5rem;
   }
 
+  li:nth-child(odd) {
+    background-color: var(--color-bgc);
+  }
+
+  li:hover {
+    z-index: 99;
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+
 </style>

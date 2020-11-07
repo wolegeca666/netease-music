@@ -1,6 +1,6 @@
 <template>
   <div style="perspective: 1000px;" class="hover"
-       :class="{'odd': !isOdd()}" @dblclick="musicPlay"
+        @dblclick="musicPlay"
        @mousedown="animation" @click="clickHandle"><!--设置缩放定位-->
     <div class="song-item"
          :class="{'animate': animate, 'active': isActive}">
@@ -31,15 +31,17 @@
           </div>
           <p class="author">{{ author }}</p>
           <p class="album-name">{{ cutContext(song.al.name) }}</p>
-          <!--<p class="song-time">{{time}}</p>-->
+          
         </div>
       </div>
+      <p class="song-time">{{ time }}</p>
     </div>
   </div>
 </template>
 
 <script>
   import PlayBar from "../../../views/playlist/PlayBar";
+  import utils from "../../../common/utils.js"
 
   export default {
     name: "SongListItem",
@@ -82,11 +84,11 @@
         authors.forEach(function (item) {
           arr.push(item.name)
         });
-        return this.cutContext(arr.join(' / '));
+        return arr.join(' / ');
       },
 
       cutContext(str) {
-        if (str.length > 25) {
+        if (str.length > 20) {
           return str.substring(0, 20) + '...'
         } else {
           return str
@@ -118,10 +120,6 @@
         }
       },
 
-      isOdd() {
-        return this.num % 2
-      },
-
       // 播放歌曲
       musicPlay() {
         // console.log(this.song);
@@ -137,11 +135,11 @@
       },
       isActive() {
         return this.active && this.num === this.currentIndex
+      },
+      time() {
+        // console.log(this.song.dt);
+        return utils.getTime(this.song.dt/1000)
       }
-      /*      time() {
-              console.log(this.song.dt);
-              return utils.getTime(this.song.dt)
-            }*/
     }
   }
 </script>
@@ -168,19 +166,6 @@
     }
   }
 
-  .hover:hover {
-    z-index: 99;
-    background-color: rgba(0, 0, 0, 0.06);
-  }
-
-  .odd {
-    background-color: var(--color-bgc);
-  }
-
-  .odd:hover {
-    background-color: rgba(0, 0, 0, 0.06);
-  }
-
   .animate {
     transform: translateZ(-24px);
   }
@@ -201,6 +186,9 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .song-msg p,
@@ -218,7 +206,7 @@
   .others {
     margin-left: 10rem;
     position: relative;
-    width: 50%;
+    width: 58%;
     display: flex;
     flex-direction: row;
   }
@@ -232,12 +220,18 @@
   }
 
   .song-msg .author {
-    width: 40%;
+    width: 35%;
   }
 
   .song-msg .author,
   .album-name {
     font-size: 12px;
+    color: var(--color-text);
+  }
+  
+  .song-time {
+    position: absolute;
+    right: 5rem;
     color: var(--color-text);
   }
 

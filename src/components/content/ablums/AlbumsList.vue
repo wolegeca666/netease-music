@@ -1,12 +1,12 @@
 <template>
-  <div class="list" >
+  <div class="list" v-show="isLoad">
     <ul>
-      <li v-for="(item, index) in list" :key="index">
+      <li v-for="(item, index) in list" :key="index" v-show="!(errIndex.includes(index))">
         <list-item :song="item" :num="index" :current-index="currentIndex"
                    @itemClick="itemClick">
           <template v-slot:left>
             <div class="image">
-              <img v-show="isLoad" :src="item.picUrl" alt="" @load="imgLoad">
+              <img :src="item.picUrl" alt="404" @load="imgLoad" @error="errorload(index)">
             </div>
           </template>
         </list-item>
@@ -28,7 +28,8 @@
     data() {
       return {
         currentIndex: -1,
-        loadIndex: 0
+        loadIndex: 0,
+        errIndex: []
       }
     },
     components: {
@@ -42,19 +43,21 @@
       imgLoad() {
         this.loadIndex++;
       },
-
-
+      errorload(index) {
+        this.errIndex.push(index);
+      }
     },
     computed: {
       isLoad() {
         if (this.list.length) {
-          return  this.loadIndex >= this.list.length
+          return  this.loadIndex >= (this.list.length - this.errIndex.length)
         }
       }
     },
     watch: {
       list() {
         this.currentIndex = -1;
+        this.loadIndex = 0
       }
     }
   }
