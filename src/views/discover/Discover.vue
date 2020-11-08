@@ -53,6 +53,10 @@
           this.title = this.titles[0].name
         }
       }
+    },
+    activated() {
+      const view = document.getElementById('view');
+      view.scrollTop = 0;
     }
   }
 </script>

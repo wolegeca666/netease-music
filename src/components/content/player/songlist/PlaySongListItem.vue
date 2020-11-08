@@ -1,6 +1,6 @@
 <template>
   <div style="perspective: 1000px;" class="hover"
-       :class="{'odd': !isOdd(), 'red': song.id === playId}" @dblclick="musicPlay"
+        @dblclick="musicPlay"
        @mousedown="animation" @click="clickHandle"><!--设置缩放定位-->
     <div class="song-item"
          :class="{'animate': animate, 'active': isActive}">
@@ -15,20 +15,21 @@
       <span class="index" v-show="song.id !== playId"></span>
       <slot name="left"></slot>
       <div class="song-msg">
-        <div class="song-name">
+        <div class="song-name" :class="{'red': song.id === playId}">
           <p>
-            <span>{{cutContext(song.name)}}</span>
+            <span>{{song.name}}</span>
             <span v-if="song.alia.length !==0" style="color:rgba(0,0,0,0.4);">
-              {{ ' ( ' + cutContext(song.alia[0]) + ' )' }}
+              {{ ' ( ' + song.alia[0] + ' )' }}
             </span>
           </p>
-        </div>
-        <div class="others">
-          <div class="play-bar">
+          <div class="play-bar" v-if="isActive">
             <play-bar v-show="isActive" @itemClick="barClick"
                       @play="musicPlay"></play-bar>
           </div>
-          <p class="author">{{ cutContext(author) }}</p>
+        </div>
+        <div class="others" >
+          <p class="author" :class="{'red': song.id === playId}">{{ author }}</p>
+          <p class="song-time" :class="{'red': song.id === playId}">{{ time }}</p>
         </div>
       </div>
     </div>
@@ -37,6 +38,7 @@
 
 <script>
   import PlayBar from "../../../../views/playlist/PlayBar";
+  import utils from "../../../../common/utils";
 
   export default {
     name: "SongListItem",
@@ -79,15 +81,7 @@
         authors.forEach(function (item) {
           arr.push(item.name)
         });
-        return this.cutContext(arr.join(' / '));
-      },
-
-      cutContext(str, ) {
-        if (str.length > 30) {
-          return str.substring(0, 30) + '...'
-        } else {
-          return str
-        }
+        return arr.join(' / ');
       },
 
       clickHandle() {
@@ -115,9 +109,6 @@
         }
       },
 
-      isOdd() {
-        return this.num % 2
-      },
 
       // 播放歌曲
       musicPlay() {
@@ -134,11 +125,11 @@
       },
       isActive() {
         return this.active && this.num === this.currentIndex
+      },
+      time() {
+        // console.log(this.song.dt);
+        return utils.getTime(this.song.dt/1000)
       }
-      /*      time() {
-              console.log(this.song.dt);
-              return utils.getTime(this.song.dt)
-            }*/
     }
   }
 </script>
@@ -186,7 +177,9 @@
   }
 
   .song-msg {
+    height: 100%;
     width: 100%;
+    line-height: 4.5rem;
     display: flex;
     flex-direction: row;
   }
@@ -199,31 +192,38 @@
   }
 
   .song-msg .song-name {
-    width: 45%;
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
     font-size: 1.39rem;
   }
 
-  .others {
-    margin-left: 8rem;
-    position: absolute;
-    left: 28rem;
-    width: 30%;
-    display: flex;
-    flex-direction: row;
-  }
-
   .play-bar {
-    position: absolute;
-    top: -3px;
-    left: -9rem;
-    width: 8%;
+    position: relative;
+    right: 0;
+    height: 100%;
+    width: 20%;
     background-color: transparent;
   }
 
-
-  .song-msg .author{
+  .others {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 40%;
+    display: flex;
+    flex-direction: row;
     font-size: 12px;
     color: var(--color-text);
+  }
+
+  .song-msg .author{
+    width: 50%;
+  }
+
+  .song-time {
+    position: absolute;
+    right: 2rem;
   }
 
   .play-icon {

@@ -58,15 +58,7 @@
         authors.forEach(function (item) {
           arr.push(item.name)
         });
-        return this.cutContext(arr.join(' / '));
-      },
-
-      cutContext(str) {
-        if (str.length > 35) {
-          return str.substring(0, 30) + '...'
-        } else {
-          return str
-        }
+        return arr.join(' / ');
       }
     },
     computed: {

@@ -33,7 +33,10 @@
         </div>
       </div>
     </div>
-    <div v-show="!show" style="font-size: 14px">加载中...</div>
+    <div class="load" v-show="!show">
+      <loading :show="show"></loading>
+    </div>
+
     <ul class="list" v-show="show">
       <li :key="index" class="play-list" v-for="(item, index) in musicList">
         <album :item="item" :length="11" :playlist-to="true"
@@ -61,6 +64,7 @@
 <script>
   import Album from "../../../../components/content/album/Album";
   import Title from "../../../../components/common/title/Title";
+  import Loading from "../../../../components/common/loading/Loading";
   import {request} from "../../../../api/request";
 
   export default {
@@ -82,6 +86,7 @@
       }
     },
     components: {
+      Loading,
       Title,
       Album
     },
@@ -289,6 +294,14 @@
 
   .cat-hot-msg {
     padding: 0 1rem;
+  }
+
+  .load {
+    width: 100%;
+    height: 30rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .list {

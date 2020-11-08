@@ -82,6 +82,8 @@
       }
     },
     activated() {
+      const view = document.getElementById('view');
+      view.scrollTop = 0;
       if (this.Id !== this.$route.query.id) {
         this.show = false;
         this.load = false;

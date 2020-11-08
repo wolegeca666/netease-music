@@ -89,7 +89,7 @@
           this.handleDom();
           // 开启定时器
           this.startTimer();
-        }, 100)
+        }, 500)
           
       },
       /**

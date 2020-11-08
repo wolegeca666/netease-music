@@ -19,18 +19,18 @@
         <div class="song-name">
           <p>
             <span>{{song.name}}</span>
-            <span v-if="song.alia.length!==0" style="color:rgba(0,0,0,0.4);">
+            <span v-if="song.alia.length!==0" style="color:rgba(0,0,0,0.4);min-width: 10rem">
               {{ ' (' + song.alia[0] + ')' }}
             </span>
           </p>
-        </div>
-        <div class="others">
           <div class="play-bar">
             <play-bar v-show="isActive" @itemClick="barClick"
                       @play="musicPlay"></play-bar>
           </div>
+        </div>
+        <div class="others">
           <p class="author">{{ author }}</p>
-          <p class="album-name">{{ cutContext(song.al.name) }}</p>
+          <p class="album-name">{{ song.al.name }}</p>
           
         </div>
       </div>
@@ -184,11 +184,10 @@
 
   .song-msg {
     width: 100%;
+    height: 100%;
+    line-height: 5rem;
     display: flex;
     flex-direction: row;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
   }
 
   .song-msg p,
@@ -199,34 +198,38 @@
   }
 
   .song-msg .song-name {
-    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    width: 45%;
     font-size: 13.5px;
   }
 
   .others {
-    margin-left: 10rem;
     position: relative;
-    width: 58%;
+    width: 50%;
+    height: 100%;
     display: flex;
     flex-direction: row;
   }
 
   .play-bar {
-    position: absolute;
-    top: -3px;
-    left: -9rem;
-    width: 8%;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 22%;
     background-color: transparent;
-  }
-
-  .song-msg .author {
-    width: 35%;
   }
 
   .song-msg .author,
   .album-name {
+    width: 40%;
+    padding-right: 2rem;
     font-size: 12px;
     color: var(--color-text);
+  }
+
+  .song-msg .author {
+    width: 50%;
   }
   
   .song-time {
@@ -237,7 +240,8 @@
 
   .play-icon {
     opacity: 0.8;
-    margin: 0 2rem 0 1.9rem;
+    padding-top: 0.2rem;
+    margin: 0 2.1rem 0 2rem;
   }
 
   .icon {

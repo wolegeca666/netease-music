@@ -62,11 +62,17 @@
 <style scoped>
 
   .item {
+    height: 100%;
     background-color: transparent;
     display: flex;
+    align-items: center;
     flex-direction: row;
   }
 
+  .play-bar,
+  .more-bar {
+    padding-top: 1rem;
+  }
   .item .icon {
     width: 2rem;
     height: 2rem;
