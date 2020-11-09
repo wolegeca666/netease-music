@@ -1,46 +1,59 @@
 <template>
-  <div class="result" v-show="show">
+  <div class="result">
     <div class="search-nav">
       <nav-bar :msg="titles" :active-title="title" :left-icon="false"
                @typeClick="titleClick"></nav-bar>
     </div>
-    <div class="most" v-show="most && type===1">
+    <div class="most" v-show="most && type===1 && !loading">
       <div class="artist" v-if="most.artist">
         <div class="most-item" v-for="msg in most.artist">
-          <img :src="msg.img1v1Url" alt="">
+          <img :src="msg.img1v1Url" alt="" @load="mostImgLoad">
           <p>歌手： {{ msg.name }}</p>
         </div>
       </div>
       <div class="album" v-if="most.album">
         <div class="most-item" v-for="msg in most.album">
-          <img :src="msg.picUrl" alt="">
+          <img :src="msg.picUrl" alt="" @load="mostImgLoad">
           <p>专辑： {{ msg.name }} - {{ msg.artist.name }}</p>
         </div>
       </div>
       <div class="mv" v-if="most.mv">
         <div class="most-item" v-for="msg in most.mv">
-          <img :src="msg.cover" alt="">
+          <img :src="msg.cover" alt="" @load="mostImgLoad">
           <p>MV： {{ msg.name }}</p>
         </div>
       </div>
+      <div v-if="most.video" v-show="false">
+        <div class="most-item" v-for="msg in most.video">
+          <img :src="msg.coverUrl" alt="" @load="mostImgLoad">
+        </div>
+      </div>
+      <div v-if="most.circle" v-show="false">
+        <div class="most-item" v-for="msg in most.circle">
+          <img :src="msg.circle.image" alt="" @load="mostImgLoad">
+        </div>
+      </div>
     </div>
-    <div v-show="most && type === 1" class="hr"></div>
-    <div class="list">
+    <div v-show="most.orders && type === 1 && !loading" class="hr"></div>
+    <div class="loading" v-show="loading">
+      <loading :show="loading"></loading>
+    </div>
+    <div class="list" v-show="!loading">
       
       <div v-show="type === 1">
         <song-list :list="playlist || []" :all-show="false" :load-show="true"></song-list>
       </div>
 
       <div v-show="type === 100">
-        <artist-list :list="result.artists || []"></artist-list>
+        <artist-list :list="result.artists || []" @isload="loadingEnd"></artist-list>
       </div>
 
       <div v-show="type === 10">
-        <albums-list :list="result.albums || []"></albums-list>
+        <albums-list :list="result.albums || []" @isload="loadingEnd"></albums-list>
       </div>
 
       <div v-show="type === 1000">
-        <play-lists :list="result.playlists || []"></play-lists>
+        <play-lists :list="result.playlists || []" @isload="loadingEnd"></play-lists>
       </div>
     </div>
   </div>
@@ -55,15 +68,17 @@
   import PlayLists from "../../components/content/playlists/PlayLists";
 
   import {request} from "../../api/request";
+  import Loading from "../../components/common/loading/Loading";
 
   export default {
     name: "SearchResult",
-    components: {NavBar, SongList, ArtistList, AlbumsList, PlayLists},
+    components: {Loading, NavBar, SongList, ArtistList, AlbumsList, PlayLists},
     data() {
       return {
         active: false,
-        show: false,
         action: false,
+        loading: false,
+        imgLoadIndex: 0,
         titles: [
           {name: '单曲', type: 1},
           {name: '歌手', type: 100},
@@ -84,11 +99,13 @@
       }
     },
     activated() {
+      this.loading = true;
       this.init();
       this.keywords = this.$route.query.keywords || this.keywords;
       this.getSearch();
     },
     deactivated() {
+      this.loading = false;
       this.init();
     },
     methods: {
@@ -96,35 +113,52 @@
         this.active = false;
         this.title = '单曲';
         this.type = 1;
-        this.show = false;
         this.playlist = [];
         this.result = {};
-        this.most = '';
+        this.most = [];
+        this.imgLoadIndex = 0;
       },
 
+      mostImgLoad() {
+        this.imgLoadIndex++;
+        this.homeLoading();
+      },
+
+      homeLoading() {
+        // console.log(this.imgLoadIndex);
+        // console.log(this.most.orders?.length);
+        if (this.imgLoadIndex >= (this.most.orders?.length || 0)) {
+          this.loadingEnd();
+        }
+      },
+
+      loadingEnd() {
+        this.loading = false;
+      },
       // 搜索结果
       getSearch() {
         request('/cloudsearch?keywords=' + this.keywords)
             .then(res => {
               // console.log(res);
               this.playlist = [...res.result.songs] || [];
-              this.show = true;
               // console.log(this.keywords)
             })
             .catch(e => console.log(e));
         request('/search/multimatch?keywords=' + this.keywords)
             .then(res => {
               // console.log(res);
-              this.most = res.result.orders?.length ? res.result : '';
+              this.most = res.result.orders?.length ? res.result : [];
+              this.homeLoading();
             })
             .catch(e => console.log(e));
       },
 
       getDetails() {
         if (this.keywords) {
+          this.loading = true;
           this.offset = 0;
           request('/cloudsearch?keywords=' + this.keywords + '&type=' + this.type).then(res => {
-            console.log(res);
+            // console.log(res);
             this.result = res.result;
           }).catch(e => {
             console.log(e)
@@ -142,7 +176,7 @@
             if (res.needlogin) {
               this.updateData();
             }else {
-              console.log(res);
+              // console.log(res);
               let result = res.result;
               if (result.songs) {
                 this.playlist.push(...result.songs);
@@ -194,11 +228,11 @@
           this.offset = 0;
         }else {
           this.init();
+          this.loading = false;
         }
       },
       keywords() {
         if (this.keywords) {
-          this.show = false;
           this.init();
           this.getSearch();
         }
@@ -244,6 +278,11 @@
 
   .hr {
     opacity: 0.5;
+  }
+
+  .loading {
+    width: 100%;
+    height: 30rem;
   }
 
   .list {

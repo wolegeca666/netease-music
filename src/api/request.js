@@ -11,7 +11,7 @@ export function request(config) {
     });
 
     // instance.defaults.headers.content['Authorization'] = ""; // 添加token
-    // instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+    // instance.defaults.headers.post['content-Type'] = 'application/x-www-form-urlencoded';
 
     // axios的拦截器
     // 请求拦截

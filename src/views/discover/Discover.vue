@@ -64,7 +64,6 @@
 <style scoped>
   .discover {
     position: relative;
-    overflow: auto;
     min-width: 100rem;
     background-color: #fff;
     padding-bottom: 20rem;

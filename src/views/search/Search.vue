@@ -88,7 +88,7 @@
       }
       request('/search/hot').then(res => {
         // console.log(res);
-        if (res.result.hots) {
+        if (this.hot !== res.result.hots) {
           this.hot = res.result.hots;
         }
       }).catch(e => {

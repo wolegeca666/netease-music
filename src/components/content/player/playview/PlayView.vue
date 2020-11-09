@@ -7,6 +7,7 @@
     </div>
     <div class="main">
       <div class="header">
+        <div class="cross"></div>
         <div class="cover"></div>
         <div class="container">
           <div class="msg">
@@ -21,8 +22,12 @@
       <div class="about">
         <div class="cover"></div>
         <div class="container">
-          <div class="comment"></div>
-        <div class="simi"></div>
+          <div class="comment">
+            <comment></comment>
+          </div>
+          <div class="simi">
+            <Simi></Simi>
+          </div>
         </div>
       </div>
     </div>
@@ -33,6 +38,8 @@
   import {mapState} from "vuex";
   import PlayImg from "./PlayImg";
   import Lyric from "./Lyric";
+  import Comment from "./Comment";
+  import Simi from "./Simi";
 
   export default {
     name: "PlayView",
@@ -42,7 +49,7 @@
         default: false
       }
     },
-    components: {Lyric, PlayImg},
+    components: {Simi, Comment, Lyric, PlayImg},
     computed: {
       ...mapState({
         id: state => state.song.id,
@@ -59,8 +66,8 @@
     min-width: 100rem;
     overflow: scroll;
     overflow-x: hidden;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
   }
   
   .background {
@@ -68,6 +75,7 @@
     position: absolute;
     top: 0;
     background-color: #ccc;
+    min-width: 100rem;
     width: 100%;
     height: 100%;
   }
@@ -99,17 +107,30 @@
     margin: 0 auto;
     min-width: 100rem;
     width: 70%;
-    height: 45rem;
+    height: 43rem;
   }
-  
+
+
+  .header .cross {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 20%;
+    background-image: linear-gradient(to top, rgba(187, 187, 187, 0.5), rgba(204, 204, 204, 0.9));
+    padding-bottom: 1rem;
+  }
+
   .header .cover {
     z-index: 1;
     position: absolute;
+    bottom: 0;
     width: 100%;
-    height: 100%;
+    height: 80%;
     background-color: #bbb;
     opacity: 0.5;
   }
+
 
   .msg {
     z-index: 50;
@@ -124,7 +145,7 @@
   }
   
   .cross {
-    height: 8rem;
+    height: 5rem;
     background-image: linear-gradient(to bottom, rgba(187, 187, 187, 0.5), rgba(204, 204, 204, 0.9));
     padding-bottom: 1rem;
   }
@@ -136,7 +157,7 @@
     height: 100%;
     background-color: #ccc;
     opacity: 0.9;
-    padding: 1rem 0;
+    padding-bottom: 10rem;
   }
   
   .about .container {
@@ -146,16 +167,16 @@
     min-width: 100rem;
     margin: 0 auto;
   }
+
+
   .comment {
     width: 68%;
-    background-color: #ddd;
-    height: 100rem;
+    min-height: 30rem;
   }
 
   .simi {
     width: 28%;
-    background-color: #ddd;
-    height: 100rem;
+    min-height: 30rem;
   }
 
 </style>

@@ -1,17 +1,19 @@
 <template>
-    <div class="container">
-      <nav-aside @asideShow="navShow"></nav-aside>
-      <div class="nav-page" v-show="aside" ></div>
-      <div class="nav-list" v-show="!aside"></div>
-      <div id="view" @scroll="scroll($event)">
-        <keep-alive>
-          <router-view/>
-        </keep-alive>
-        <div class="to-top-bar" :class="{'bottom': barShow, 'top': !barShow, 'to-top-animate': animate}"  @click="toTop">
-          <to-top></to-top>
-        </div>
+  <div class="container">
+    <nav-aside @asideShow="navShow"></nav-aside>
+    <div class="nav-page" v-show="aside"></div>
+    <div class="nav-list" v-show="!aside"></div>
+    <div id="view" @scroll="scroll($event)">
+      <keep-alive>
+        <router-view/>
+      </keep-alive>
+      <div class="to-top-bar"
+           :class="{'bottom': barShow, 'top': !barShow, 'to-top-animate': animate}"
+           @click="toTop">
+        <to-top></to-top>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -36,7 +38,8 @@
       },
       // 回到顶部
       scroll(e) {
-        e.target.scrollTop > this.height/1.5 ?
+        // console.log(e);
+        e.target.scrollTop > this.height / 1.5 ?
             this.barShow = true :
             this.barShow = false;
         const bottom = e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight;
@@ -45,8 +48,7 @@
 
       toTop() {
         this.animate = true;
-        const view = document.getElementById('view');
-
+        const view = document.querySelector('#view');
         let step;
         let that = this;
         view.timer = setInterval(function () {

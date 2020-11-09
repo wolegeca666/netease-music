@@ -57,6 +57,11 @@
       list() {
         this.currentIndex = -1;
         this.loadIndex = 0
+      },
+      isLoad() {
+        if (this.isLoad) {
+          this.$emit('isload')
+        }
       }
     }
   }

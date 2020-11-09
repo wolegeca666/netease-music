@@ -58,12 +58,22 @@
       list() {
         this.currentIndex = -1;
         this.loadIndex = 0
+      },
+      isLoad() {
+        if (this.isLoad) {
+          this.$emit('isload')
+        }
       }
     }
   }
 </script>
 
 <style scoped>
+
+  .loading {
+    width: 100%;
+    height: 20rem;
+  }
 
   .image img {
     border-radius: 2px;

@@ -19,7 +19,9 @@
           </template>
         </album>
       </div>
-
+      <div class="load" v-show="!load">
+        <loading :show="!load"></loading>
+      </div>
       <div class="play-lists" v-show="load">
         <song-list :list="playlist.trackIds" @show="listLoad"></song-list>
       </div>
@@ -31,12 +33,14 @@
 <script>
   import Album from "./PlatListAlbum";
   import SongList from "../../components/content/songlist/SongList";
-
+  import Loading from "../../components/common/loading/Loading";
   import {request} from "../../api/request";
+
 
   export default {
     name: "PlayList",
     components: {
+      Loading,
       Album, SongList
     },
     data() {
@@ -123,5 +127,10 @@
   img {
     width: 20rem;
     height: 20rem;
+  }
+
+  .load {
+    width: 100%;
+    height: 30rem;
   }
 </style>

@@ -5,6 +5,9 @@
     <div class="lrc">
       <p :class="{'playtime':  isNow(index)}"
          v-for="(item, index) in lyric" :key="index">{{item.text}}</p>
+      <div class="load" v-show="!lyric">
+        <loading :show="!lyric"></loading>
+      </div>
     </div>
   </div>
 
@@ -13,9 +16,11 @@
 <script>
   import {request} from "../../../../api/request";
   import {mapState} from "vuex";
+  import Loading from "../../../common/loading/Loading";
 
   export default {
     name: "Lyric",
+    components: {Loading},
     data() {
       return {
         lyric: '',
@@ -35,7 +40,7 @@
           } else if (res.nolyric) {
             this.lyric = '纯音乐';
           } else {
-            this.lyric = '';
+            this.lyric = '暂无歌词';
           }
         }).catch(e => console.log(e))
       },
@@ -106,6 +111,7 @@
     watch: {
       id() {
         this.current = 0;
+        this.lyric = '';
         this.getLrc();
       },
       playtime() {
@@ -113,8 +119,8 @@
       },
       current() {
         // console.log(this.current);
-        this.handleDom.scrollTop = this.current > 5 ?
-            this.handleDom.scrollHeight * (this.current / this.lyric.length) - 180
+        this.handleDom.scrollTop = this.current > 3 ?
+            this.handleDom.scrollHeight * (this.current / this.lyric.length) - 140
             : 0;
       }
     }
@@ -136,13 +142,17 @@
   }
 
   .author {
-    font-size: 14px;
-    padding: 1rem;
+    font-size: 12px;
+    padding: 0.5rem 1rem;
     margin-bottom: 2rem;
   }
 
   .author span {
-    color: rgb(0, 121, 205);
+    color: rgb(0, 100, 175);
+  }
+
+  .load {
+    height: 30rem;
   }
 
   .lrc {

@@ -66,6 +66,7 @@
       },
 
       add() {
+        // console.log(2);
         let Ids = this.list.map(item => item.id);
         // console.log(Ids.join(','))
         this.getMusicDetail(Ids.join(',')).then(res => {

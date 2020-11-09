@@ -1,60 +1,31 @@
 <template>
-  <div v-show="!show" class="loading-img">
-    <img src="../../../assets/imgs/icon/loading/loading.svg" alt="">
+  <div v-show="show" class="loading-container">
+    <loading-item :show="show"></loading-item>
   </div>
+
 </template>
 
 <script>
+  import LoadingItem from "./LoadingItem";
   export default {
     name: "Loading",
+    components: {LoadingItem},
     props: {
       show: {
         type: Boolean,
         default: true
       }
     },
-    data() {
-      return {
-        rotate: 0
-      }
-    },
-    mounted() {
-      this.startTimer()
-    },
-    destroyed() {
-      this.stopTimer();
-    },
-    methods: {
-      rotateTo() {
-        const el = document.querySelector('.loading-img');
-        el.style.transform = `rotateZ(${this.rotate}deg)`
-      },
-      startTimer() {
-        this.rotateTimer = window.setInterval(() => {
-          this.rotate+= 1;
-          this.rotateTo();
-        }, 5)
-      },
-      stopTimer() {
-        window.clearInterval(this.rotateTimer);
-      },
-    },
-    watch: {
-      show() {
-        this.show ? this.startTimer() : this.stopTimer();
-      }
-    }
   }
 </script>
 
 <style scoped>
-  .loading-img {
-    width: 3rem;
-    height: 3rem;
+  .loading-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  img {
-    width: 3rem;
-    height: 3rem;
-  }
 </style>

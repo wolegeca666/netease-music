@@ -70,13 +70,18 @@
     z-index: 999;
     width: 100vw;
     min-width: 100em;
-    padding: 2px 0 2px 0.5rem;
     display: flex;
     position: fixed;
     bottom: 0;
     border-top: 1px solid #ccc;
     box-shadow: 0 -2px 1px var(--color-active);
     background-color: #fff;
+  }
+  
+  #player .pic {
+    z-index: 999;
+    background-color: #fff;
+    padding: 2px 0.5rem;
   }
   #player .pic img {
     width: 6rem;
@@ -85,26 +90,32 @@
   }
 
   .view {
-    transition: all 600ms;
+    transition: all 300ms;
     overflow: hidden;
     position: absolute;
-    bottom: 6.5rem;
+    bottom: 0;
     left: 0;
     width: 100vw;
-    min-width: 100rem;
-    height: 91vh;
+    height: 100vh;
   }
 
   .un-play {
-    visibility: hidden;
+    width: 0;
+    height: 10vh;
     opacity: 0;
+    visibility: hidden;
   }
   
   .view .close {
     z-index: 999;
-    position: fixed;
+    position: absolute;
     top: 2.5rem;
     right: 5rem;
+    width: 3rem;
+    height: 3rem;
+    background-color: #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #aaa;
   }
   
   .view .close img {
