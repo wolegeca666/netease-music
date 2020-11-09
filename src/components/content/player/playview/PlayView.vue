@@ -6,6 +6,9 @@
       </div>
     </div>
     <div class="main">
+      <div class="close" @click="view">
+        <img src="../../../../assets/imgs/icon/close/innerclose.svg" alt=""/>
+      </div>
       <div class="header">
         <div class="cross"></div>
         <div class="cover"></div>
@@ -26,7 +29,7 @@
             <comment></comment>
           </div>
           <div class="simi">
-            <Simi></Simi>
+            <Simi @close="view"></Simi>
           </div>
         </div>
       </div>
@@ -50,13 +53,22 @@
       }
     },
     components: {Simi, Comment, Lyric, PlayImg},
+    methods: {
+      view() {
+        this.$emit('close')
+      }
+    },
     computed: {
       ...mapState({
         id: state => state.song.id,
-        play: state => state.songState.play,
         playSong: state => state.song,
       })
     },
+    watch: {
+      id() {
+        this.$el.scrollTop = 0;
+      }
+    }
   }
 </script>
 
@@ -69,6 +81,7 @@
     width: 100vw;
     height: 100vh;
   }
+
   
   .background {
     z-index: -2;
@@ -76,8 +89,8 @@
     top: 0;
     background-color: #ccc;
     min-width: 100rem;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
   }
 
   .image {
@@ -97,6 +110,22 @@
     position: relative;
     width: 100%;
   }
+
+  .main .close {
+    z-index: 999;
+    position: absolute;
+    top: 2.5rem;
+    right: 5rem;
+    width: 3rem;
+    height: 3rem;
+    background-color: #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #aaa;
+  }
+
+  .main .close img {
+    width: 3rem;
+  }
   
   .header {
     position: relative;
@@ -104,9 +133,10 @@
   }
   
   .header .container {
+    padding:0 5rem;
     margin: 0 auto;
     min-width: 100rem;
-    width: 70%;
+    width: 75%;
     height: 43rem;
   }
 
@@ -134,13 +164,13 @@
 
   .msg {
     z-index: 50;
-    width: 50%;
+    width: 45%;
     height: 100%;
   }
   
   .content {
     z-index: 50;
-    width: 50%;
+    width: 55%;
     height: 100%;
   }
   
@@ -163,19 +193,20 @@
   .about .container {
     display: flex;
     justify-content: space-between;
-    width: 70%;
+    width: 75%;
+    padding:0 5rem;
     min-width: 100rem;
     margin: 0 auto;
   }
 
 
   .comment {
-    width: 68%;
+    width: 60%;
     min-height: 30rem;
   }
 
   .simi {
-    width: 28%;
+    width: 35%;
     min-height: 30rem;
   }
 

@@ -8,7 +8,6 @@
             <div class="image" >
               <img :src="item.coverImgUrl" alt="" @load="imgLoad" @error="errorload(index)">
             </div>
-
           </template>
         </list-item>
       </li>
@@ -30,7 +29,7 @@
       return {
         currentIndex: -1,
         loadIndex: 0,
-        errIndex: []
+        errIndex: [],
       }
     },
     components: {

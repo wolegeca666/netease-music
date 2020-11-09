@@ -120,8 +120,10 @@
 
       routerTo(cat) {
         this.catShow = false;
-        if (cat !== this.$route.query.cat)
-        this.$router.push({name: 'DPlayList', query: {cat: cat}})
+        if (cat !== this.$route.query.cat) {
+          document.querySelector('#view').scrollTop = 0;
+          this.$router.push({name: 'DPlayList', query: {cat: cat}})
+        }
       },
 
       playlistAll() {
@@ -267,8 +269,8 @@
   }
 
   .title-name {
-    width: 15%;
-    padding: 1.2rem 0 0 3rem;
+    width: 12%;
+    padding: 1rem 0 0 3rem;
     font-weight: 600;
     opacity: 0.2;
   }
@@ -277,6 +279,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 80%;
+    text-align: center;
   }
 
   .cat {

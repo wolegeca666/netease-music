@@ -3,31 +3,36 @@
     <ul>
       <li v-for="(item, index) in list || []" :key="index">
         <div class="hr"></div>
-        <div class="content-msg">
-          <div class="head-img">
+        <div class="msg">
+          <div class="creator-img">
             <img :src="item.user.avatarUrl" alt="">
             <div class="details" v-if="item.user.avatarDetail">
               <img :src="item.user.avatarDetail.identityIconUrl" alt="">
             </div>
           </div>
-          <p class="content">
-            <span class="name">{{item.user.nickname}}：</span>
-            <span>{{item.content}}</span>
-          </p>
+          <div class="content-item">
+            <content-item :item="item"></content-item>
+          </div>
         </div>
       </li>
     </ul>
+    <div class="hr"></div>
   </div>
 </template>
 
 <script>
+
+
+  import ContentItem from "./ContentItem";
   export default {
     name: "ContentList",
+    components: {ContentItem},
     props: {
       list: {
         type: Array
       }
-    }
+    },
+
   }
 </script>
 
@@ -38,27 +43,29 @@
     opacity: 0.5;
   }
 
-  .content-msg {
+  .msg {
     display: flex;
     margin-bottom: 1rem;
   }
 
-  .head-img {
+  .creator-img {
     position: relative;
-    width: 4rem;
-    height: 4rem;
+    width: 3.5rem;
+    height: 3.5rem;
     margin: 0 1rem;
   }
 
-  .head-img img{
-    border-radius: 4rem;
-    width: 4rem;
-    height: 4rem;
+  .creator-img img{
+    border-radius: 3.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
   }
 
   .details {
     position: absolute;
-    bottom: 0rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    bottom: 0;
     right: 0;
   }
 
@@ -68,14 +75,8 @@
     height: 1.5rem;
   }
 
-  .name {
-    color: rgb(0, 100, 175);
+  .content-item {
+    flex: 1;
   }
 
-  .content {
-    line-height: 2.5rem;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    font-size: 14px;
-  }
 </style>

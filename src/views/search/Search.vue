@@ -1,14 +1,15 @@
 <template>
   <div class="search">
-    <div class="search-bar">
+    <div class="search-bar" @click="stopP($event)">
       <input id="search" type="text" autocomplete="off" spellcheck="false"
              v-model="input" @keydown.enter="searchHandle"
-             @input="suggestHandle"/>
+             @input="suggestHandle" @focus="suggestHandle"/>
       <label for="search"></label>
+
       <div class="icon" @click="searchHandle">
         <img src="../../assets/imgs/icon/search/search.svg" alt="">
       </div>
-      <div class="suggest" v-show="suggest">
+      <div class="suggest" v-show="order && suggest">
         <div class="head">相关结果</div>
         <div v-if="suggest.songs">
           <div class="title"><img src="../../assets/imgs/icon/search/song.svg"
@@ -108,6 +109,10 @@
         }
       },
 
+      stopP(e) {
+        e.stopPropagation();
+      },
+
       init() {
         this.keywords = '';
         this.suggest = '';
@@ -163,6 +168,16 @@
         if (this.$route.path === '/search') {
           this.input = ''
         }
+      },
+      suggest() {
+        if (this.suggest) {
+          document.onclick = e => {
+            this.suggest = '';
+            document.onclick = null;
+          }
+        }else  {
+          document.onclick = null;
+        }
       }
     }
   };
@@ -188,6 +203,7 @@
 
   .search-bar {
     position: relative;
+    width: 100%;
   }
 
   #search {

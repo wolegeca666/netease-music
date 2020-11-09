@@ -7,14 +7,15 @@
     <div class="msg">
       <div class="song">
         <span class="name">{{ playSong.name || ''}}</span>
-        <span style="color:rgba(0,0,0,0.4);">{{' - '+ ( playSong.author || '')}}</span>
+        <span style="color:rgba(0,0,0,0.4);" v-show="playSong.author">{{' - ' + (playSong.author)}}</span>
       </div>
       <div class="time">
         <span style="font-weight: 500;;">{{ currentTime }}</span> / <span
               style="color: #818181">{{ maxTime }}</span>
       </div>
     </div>
-    <audio id="musicUrl" @canplay="canPLay" :src="url" :loop="playOrder === single"
+    <audio id="musicUrl" @canplay="canPLay" :src="url"
+           :loop="playOrder === single"
            @timeupdate="timeChange" @ended="ended(false)"></audio>
   </div>
 </template>
@@ -50,6 +51,7 @@
     mounted() {
       const audio = document.getElementsByClassName('audio')[0];
       this.left = audio.offsetLeft;
+      this.playId = this.id;
       this.getMusicPlay();
       this.getMusicDetail();
     },
@@ -74,12 +76,14 @@
               this.song = res.songs[0];
               // this.pic = this.song.al.picUrl;
               // console.log(this.song);
-              this.$store.commit('changePlaySong', {
-                id: this.song.id,
-                name: this.song.name,
-                author: this.song.ar[0].name,
-                picUrl: this.song.al.picUrl
-              });
+              if (this.playId === this.song.id) {
+                this.$store.commit('changePlaySong', {
+                  id: this.song.id,
+                  name: this.song.name,
+                  author: this.song.ar[0].name,
+                  picUrl: this.song.al.picUrl
+                });
+              }
             }).catch(e => console.log(e));
       },
 
@@ -102,7 +106,7 @@
         this.$store.commit("changePlay", false);
         if (this.playOrder === this.inOrder) {
           this.$store.commit('changePlaySongIndex', ++this.index);
-        }else {
+        } else {
           this.$emit('cIndex', 1);
         }
       },
@@ -168,13 +172,16 @@
       voice() {
         this.changeVoice();
       },
-      id() {
+      playSong() {
         // console.log(this.id);
-        if (!this.playSong.picUrl) {
-          this.getMusicDetail()
+        if(this.playId !== this.id) {
+          this.$store.commit("changePlay", false);
+          this.playId = this.id;
+          this.getMusicPlay();
         }
-        this.getMusicPlay();
-        this.$store.commit("changePlay", false);
+        if (!this.playSong.picUrl || !this.playSong.author || !this.playSong.name) {
+          this.getMusicDetail();
+        }
       },
     }
   }

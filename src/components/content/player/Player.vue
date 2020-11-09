@@ -1,10 +1,7 @@
 <template>
     <div id="player">
       <div class="view" :class="{'un-play': !play}">
-        <play-view :active="play"></play-view>
-        <div class="close" @click="view">
-          <img src="../../../assets/imgs/icon/close/innerclose.svg"/>
-        </div>
+        <play-view :active="play" @close="view"></play-view>
       </div>
       <div class="pic" @click="view">
         <img :src="url" alt="0">
@@ -48,14 +45,13 @@
         if (this.show) {
           document.onclick = e => {
             // console.log(e)
-            this.show = false
+            this.show = false;
             document.onclick = null;
           }
         }
       },
       view() {
         this.play = !this.play;
-        document.querySelector('.view')
       },
       stop(e) {
         // console.log(e);
@@ -101,25 +97,8 @@
 
   .un-play {
     width: 0;
-    height: 10vh;
     opacity: 0;
     visibility: hidden;
-  }
-  
-  .view .close {
-    z-index: 999;
-    position: absolute;
-    top: 2.5rem;
-    right: 5rem;
-    width: 3rem;
-    height: 3rem;
-    background-color: #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px #aaa;
-  }
-  
-  .view .close img {
-    width: 3rem;
   }
 
   .list {

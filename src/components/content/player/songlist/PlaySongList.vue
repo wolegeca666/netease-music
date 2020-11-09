@@ -1,12 +1,13 @@
 <template>
   <div class="song-list-s">
     <div class="close-bar" @click="$emit('close')">
-        <img src="../../../../assets/imgs/icon/close/close.svg">
+      <img src="../../../../assets/imgs/icon/close/close.svg">
     </div>
     <div class="song-list" :class="{'show': !show}">
       <ul v-if="playLists">
         <li v-for="(item, index) in playLists" :key="index">
-          <song-list-item :song="item" :num="index" :current-index="currentIndex"
+          <song-list-item :song="item" :num="index"
+                          :current-index="currentIndex"
                           @itemClick="itemClick"
                           @play="playSong"></song-list-item>
         </li>
@@ -14,7 +15,7 @@
       </ul>
     </div>
   </div>
-  
+
 </template>
 
 <script>
@@ -46,15 +47,16 @@
           id: this.playLists[num].id,
           name: this.playLists[num].name,
           author: this.authorHandle(this.playLists[num]),
-          picUrl: this.playLists[num].al.picUrl
+          picUrl: this.playLists[num].al.picUrl ?? mp3Url
         });
         if (num !== this.index) {
           this.$store.commit('changePlaySongIndex', num)
         }
       },
+
       authorHandle(obj) {
         let arr = [];
-        let authors = obj.ar;
+        let authors = obj.ar ?? obj.artists;
         authors.forEach(function (item) {
           arr.push(item.name)
         });
@@ -72,7 +74,7 @@
         // console.log(this.index);
         if (this.index < 0 || this.index >= this.playLists.length) {
           this.$store.commit('changePlay', false);
-        }else {
+        } else {
           this.playSong(this.index);
         }
       },
@@ -96,18 +98,18 @@
     height: 45rem;
     width: 50rem;
   }
-  
+
   .show {
     visibility: hidden;
   }
-  
+
   .close-bar {
     z-index: 9999;
     position: absolute;
     top: 1.3rem;
     right: 2.5rem;
   }
-  
+
   .close-bar img {
     width: 2rem;
     height: 2rem;

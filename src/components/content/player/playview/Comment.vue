@@ -1,21 +1,20 @@
 <template>
-  <div>
+  <div class="comment-list">
     <div class="title">
-      <p class="deep">评论</p>
+      <p>评论</p>
       <p class="simple" v-show="result.totalCount">{{'（'+ result.totalCount + '）'}}</p>
     </div>
     <div class="hr"></div>
     <div class="load" v-show="!show">
       <loading :show="!show"></loading>
     </div>
-    <div class="comment-content" v-show="show">
-      <div class="comment-hot">
+    <div class="comment-content" v-show="show && result.totalCount > 0">
+      <div class="comment-hot" v-show="result.totalCount >= 20">
         <div class="title">
           <p class="deep">精彩评论</p>
         </div>
         <content-list :list="result.comments"></content-list>
       </div>
-      <div class="hr"></div>
       <div class="comment-new">
         <div class="title">
           <p class="deep">最新评论</p>
@@ -24,6 +23,7 @@
         <content-list :list="newComment.comments"></content-list>
       </div>
     </div>
+    <div class="no-comment" v-show="newComment.totalCount === 0">暂无评论</div>
   </div>
 
 </template>
@@ -70,7 +70,6 @@
           console.log(e);
         })
       },
-
     },
     computed: {
       ...mapState({
@@ -94,19 +93,31 @@
 
 <style scoped>
 
+  .comment-list {
+    font-size: 16px;
+    margin-top: -1rem;
+  }
+
   .title {
     display: flex;
     align-items: center;
-    padding: 1rem 0;
+    padding: 2rem 0 1rem;
   }
 
   .deep {
-    font-size: 16px;
+    font-weight: 600;
+    opacity: 0.6;
   }
 
   .simple {
     font-size: 13px;
     color: var(--color-text);
+  }
+
+  .no-comment {
+    height: 10rem;
+    line-height: 10rem;
+    text-align: center;
   }
 
   .load {

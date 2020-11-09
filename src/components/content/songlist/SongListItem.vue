@@ -19,7 +19,7 @@
         <div class="song-name">
           <p>
             <span>{{song.name}}</span>
-            <span v-if="song.alia.length!==0" style="color:rgba(0,0,0,0.4);min-width: 10rem">
+            <span v-if="(song.alia.length || 0)!==0" style="color:rgba(0,0,0,0.4);min-width: 10rem">
               {{ ' (' + song.alia[0] + ')' }}
             </span>
           </p>

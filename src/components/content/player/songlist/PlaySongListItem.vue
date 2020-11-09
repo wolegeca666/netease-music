@@ -18,7 +18,7 @@
         <div class="song-name" :class="{'red': song.id === playId}">
           <p>
             <span>{{song.name}}</span>
-            <span v-if="song.alia.length !==0" style="color:rgba(0,0,0,0.4);">
+            <span v-if="(song.alia.length || 0) !== 0" style="color:rgba(0,0,0,0.4);">
               {{ ' ( ' + song.alia[0] + ' )' }}
             </span>
           </p>

@@ -12,20 +12,7 @@ const NotFound = () => import('../views/notfound/NotFound');
 const Login = () => import('../views/login/Login');
 
 const Search = () => import('../views/search/Search');
-const SearchResult = () => import('../views/search/SearchResult')
-
-Vue.use(VueRouter);
-//push
-const VueRouterPush = VueRouter.prototype.push;
-VueRouter.prototype.push = function push(to) {
-  return VueRouterPush.call(this, to).catch(err => err)
-};
-
-//replace
-const VueRouterReplace = VueRouter.prototype.replace;
-VueRouter.prototype.replace = function replace(to) {
-  return VueRouterReplace.call(this, to).catch(err => err)
-};
+const SearchResult = () => import('../views/search/SearchResult');
 
 const routes = [{
   path: '/discover',
@@ -62,7 +49,7 @@ const routes = [{
   {
     path: '/playlist',
     name: 'PlayList',
-    component: PlayList
+    component: PlayList,
   },
   {
     path: '/login',
@@ -75,6 +62,20 @@ const routes = [{
     component: NotFound
   }
 ];
+
+
+Vue.use(VueRouter);
+//push
+const VueRouterPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(to) {
+  return VueRouterPush.call(this, to).catch(err => err)
+};
+
+//replace
+const VueRouterReplace = VueRouter.prototype.replace;
+VueRouter.prototype.replace = function replace(to) {
+  return VueRouterReplace.call(this, to).catch(err => err)
+};
 
 const router = new VueRouter({
   mode: 'history',

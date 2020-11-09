@@ -36,7 +36,6 @@
   import Loading from "../../components/common/loading/Loading";
   import {request} from "../../api/request";
 
-
   export default {
     name: "PlayList",
     components: {
@@ -48,16 +47,14 @@
         playlist: {},
         length: '',
         show: false,
-        load: false
+        load: false,
+        active: false,
+        id: 100
       }
-    },
-    created() {
-      this.Id = this.$route.query.id;
-      this.update();
     },
     methods: {
       update() {
-        request('/playlist/detail?id=' + this.Id).then(res => {
+        request('/playlist/detail?id=' + this.id).then(res => {
           // console.log(res.playlist);
           if (res.playlist) {
             this.playlist = res.playlist;
@@ -69,7 +66,6 @@
           this.update();
         });
       },
-
       countDown(time) {
         const Time = new Date(time);
         let y = Time.getFullYear();
@@ -78,7 +74,7 @@
         m = m > 9 ? m : '0' + m;
         d = d > 9 ? d : '0' + d;
 
-        return y + '-' + m +'-' + d
+        return y + '-' + m + '-' + d
       },
 
       listLoad(flag) {
@@ -86,19 +82,31 @@
       }
     },
     activated() {
+      this.active = true;
       const view = document.getElementById('view');
       view.scrollTop = 0;
-      if (this.Id !== this.$route.query.id) {
-        this.show = false;
-        this.load = false;
-        this.Id = this.$route.query.id;
-        this.update();
+    },
+    deactivated() {
+      this.active = false;
+    },
+    computed: {
+      Id() {
+        if(this.active) {
+          return  this.$route.query.id;
+        }
       }
     },
     watch: {
-      Id() {
-        this.update()
-      }
+      Id: {
+        handler() {
+          if (this.active && this.id !== this.Id) {
+            this.id = this.Id;
+            this.show = false;
+            this.load = false;
+            this.update();
+          }
+        },
+      },
     }
   }
 </script>

@@ -2,13 +2,14 @@
   <div class="song-content">
     <div class="name">{{playSong.name}}</div>
     <div class="author">歌手： <span>{{playSong.author}}</span></div>
-    <div class="lrc">
-      <p :class="{'playtime':  isNow(index)}"
+    <div class="lrc"  v-show="!nolyric">
+      <p :class="{'playtime': isNow(index)}"
          v-for="(item, index) in lyric" :key="index">{{item.text}}</p>
       <div class="load" v-show="!lyric">
         <loading :show="!lyric"></loading>
       </div>
     </div>
+    <div class="nolrc">{{nolyric}}</div>
   </div>
 
 </template>
@@ -23,7 +24,8 @@
     components: {Loading},
     data() {
       return {
-        lyric: '',
+        lyric: [],
+        nolyric:'',
         current: 0
       }
     },
@@ -36,10 +38,13 @@
           // console.log(res);
           if (res.lrc) {
             this.lyric = res.lrc.lyric;
+            this.nolyric = '';
             this.reg();
           } else if (res.nolyric) {
+            this.nolyric = '纯音乐，无歌词';
             this.lyric = '纯音乐';
           } else {
+            this.nolyric = '暂无歌词';
             this.lyric = '暂无歌词';
           }
         }).catch(e => console.log(e))
@@ -169,5 +174,11 @@
     position: relative;
     top: 0;
     color: #fff
+  }
+
+  .nolrc {
+    font-size: 14px;
+    line-height: 30rem;
+    text-align: center;
   }
 </style>
