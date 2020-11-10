@@ -23,6 +23,7 @@ html {
 
 body {
   font-family: Helvetica Neue, Helvetica Neu, PingFang sc, Hiragino Sans GB, Microsoft YaHei, 微软雅黑, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased; /* 字体更平滑 */
   user-select: none; /* 禁止用户选中文字等 */
   -webkit-tap-highlight-color: transparent;
   background-color: #fff;
