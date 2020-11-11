@@ -23,8 +23,8 @@
               {{ ' (' + song.alia[0] + ')' }}
             </span>
           </p>
-          <div class="play-bar">
-            <play-bar v-show="isActive" @itemClick="barClick"
+          <div class="play-bar" v-show="isActive">
+            <play-bar @itemClick="barClick"
                       @play="musicPlay"></play-bar>
           </div>
         </div>
@@ -80,7 +80,7 @@
 
       authorHandle(obj) {
         let arr = [];
-        let authors = obj.ar;
+        let authors = obj.ar || obj.artists;
         authors.forEach(function (item) {
           arr.push(item.name)
         });
@@ -166,6 +166,11 @@
     }
   }
 
+  .hover {
+    width: 100%;
+    height: 100%;
+  }
+
   .animate {
     transform: translateZ(-24px);
   }
@@ -179,12 +184,13 @@
   .song-item {
     display: flex;
     align-items: center;
-    height: 5rem;
+    width: 100%;
+    height: 100%;
   }
 
   .song-msg {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 5rem;
     line-height: 5rem;
     display: flex;
     flex-direction: row;
@@ -198,10 +204,14 @@
   }
 
   .song-msg .song-name {
+    width: 45%;
     display: flex;
     justify-content: space-between;
-    width: 45%;
     font-size: 13.5px;
+  }
+
+  .song-name p {
+    width: 90%;
   }
 
   .others {
@@ -216,7 +226,7 @@
     overflow: hidden;
     position: relative;
     height: 100%;
-    width: 22%;
+    width: 30%;
     background-color: transparent;
   }
 
@@ -239,9 +249,11 @@
   }
 
   .play-icon {
+    width: 6rem;
     opacity: 0.8;
     padding-top: 0.2rem;
-    margin: 0 2.1rem 0 2rem;
+    display: flex;
+    justify-content: center;
   }
 
   .icon {
@@ -250,9 +262,11 @@
   }
 
   .index {
+    width: 6rem;
     font-size: 12px;
-    padding: 0 2rem;
     font-weight: 600;
+    display: flex;
+    justify-content: center;
     opacity: 0.5
   }
 

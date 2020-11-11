@@ -120,7 +120,7 @@
       // 播放歌曲
       musicPlay() {
         // console.log(this.song.id);
-        this.$store.commit('changePlaySong', {
+        this.$store.commit('playlistAdd', {
           id: this.song.id,
           name: this.song.name,
           author: this.author,
@@ -132,12 +132,10 @@
     computed: {
       playId: function () {
         return this.$store.state.song.id
-      }
-      ,
+      },
       author() {
         return this.authorHandle(this.songMsg)
-      }
-      ,
+      },
       isActive() {
         return this.active && this.num === this.currentIndex
       }

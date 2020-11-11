@@ -1,5 +1,5 @@
 <template>
-  <div id="voice" @click="changeLeft($event)">
+  <div id="voice" @click.stop="changeLeft">
     <div id="voice-progress" :class="{'active': !active}">
       <div class="voice-bar-p">
         <div v-show="voice > 0" class="on">
@@ -68,7 +68,6 @@
         e.stopPropagation();
         // console.log(e);
       }, false)
-      
     },
     methods: {
       progress() {
@@ -76,16 +75,14 @@
         if (this.active) {
           document.onclick = e => {
             // console.log(e)
-            this.active = false
+            this.active = false;
             document.onclick = null;
           }
         }
       },
-      changeLeft(e) {
+      changeLeft() {
         if (this.active) {
-          const audio = document.getElementById('voice');
           this.left = this.width - 205;
-          // console.log(this.left);
         }
         this.percent = this.$store.state.songState.voice;
       },

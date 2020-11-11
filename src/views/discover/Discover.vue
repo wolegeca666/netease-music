@@ -31,7 +31,7 @@
           {name: "主播电台", path: ''},
           {name: "排行榜"},
           {name: "歌手"},
-          {name: "最新音乐"},
+          {name: "最新音乐", path: '/discover/newsong'},
         ],
         path: [
 

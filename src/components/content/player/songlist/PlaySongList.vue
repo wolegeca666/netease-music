@@ -48,6 +48,7 @@
           name: this.playLists[num].name,
           author: this.authorHandle(this.playLists[num]),
           picUrl: this.playLists[num].al.picUrl ?? mp3Url
+              ?? 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg'
         });
         if (num !== this.index) {
           this.$store.commit('changePlaySongIndex', num)

@@ -9,13 +9,31 @@
         <path d="M709.9 512.2L417.4 343.3V681z" p-id="7604"
               fill="#d81e06"></path>
       </svg>
-      <p>播放全部({{ listLength || '' }})</p>
+      <p>播放全部<span v-if="listLength">{{'（' +  listLength + '）' }}</span></p>
     </div>
-    <ul>
+    <ul v-if="pic">
       <li v-for="(item, index) in playLists" :key="index">
         <song-list-item :song="item" :num="index" :current-index="currentIndex"
                         @itemClick="itemClick"
-                        @play="playSong"></song-list-item>
+                        @play="playSong">
+          <template v-slot:left>
+            <div class="pic">
+              <album-img>
+                <template v-slot:img>
+                  <img :src="item.al.picUrl" alt="">
+                </template>
+              </album-img>
+            </div>
+          </template>
+        </song-list-item>
+      </li>
+    </ul>
+    <ul v-else>
+      <li v-for="(item, index) in playLists" :key="index">
+        <song-list-item :song="item" :num="index" :current-index="currentIndex"
+                        @itemClick="itemClick"
+                        @play="playSong">
+        </song-list-item>
       </li>
     </ul>
   </div>
@@ -24,6 +42,7 @@
 <script>
   import SongListItem from "./SongListItem";
   import {request} from "../../../api/request";
+  import AlbumImg from "./AlbumImg";
 
   export default {
     name: "SongList",
@@ -38,6 +57,10 @@
       loadShow: {
         type: Boolean,
         default: false,
+      },
+      pic: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
@@ -51,6 +74,7 @@
       }
     },
     components: {
+      AlbumImg,
       SongListItem
     },
     methods: {
@@ -160,6 +184,17 @@
     width: 1.8rem;
     height: 1.8rem;
     margin-right: 0.5rem;
+  }
+
+  .pic {
+    width: 5rem;
+    height: 5rem;
+    margin: 0.5rem;
+  }
+
+  .pic img {
+    width: 5rem;
+    height: 5rem;
   }
 
   li:nth-child(odd) {

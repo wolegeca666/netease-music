@@ -94,11 +94,10 @@
         if (music.currentTime === 0) {
           this.percent = 0;
         }
-        if (this.id !== 27580521) {
+        if (this.id !== 27580521 && this.playId === this.id) {
           this.$store.commit("changePlay", true);
           this.musicPlay()
         }
-        this.$store.commit('timeChange', 0)
       },
       // 播放结束后
       ended() {

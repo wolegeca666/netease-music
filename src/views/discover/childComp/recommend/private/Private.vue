@@ -21,7 +21,7 @@
 
 <script>
   import NavBar from "../../../../../components/common/navbar/NavBar";
-  import Album from "../../../../../components/content/album/Album";
+  import Album from "../../../../../components/content/coverimg/Album";
 
   import {request} from "../../../../../api/request";
 

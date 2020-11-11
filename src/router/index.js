@@ -2,17 +2,31 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Home from '../views/discover/Discover.vue';
+// 首页推荐
 import Recommend from "../views/discover/childComp/recommend/Recommend";
+  // 推荐歌单
+  const DPlayList = () => import('../views/discover/childComp/playlist/PlayList');
+  // 最新音乐
+  const NewSong = () => import('../views/discover/childComp/newsong/NewSong');
 
-const DPlayList = () => import('../views/discover/childComp/playlist/PlayList');
 
+// 视频
 const Mv = () => import('../views/mv/Mv');
-const PlayList = () => import('../views/playlist/PlayList');
-const NotFound = () => import('../views/notfound/NotFound');
-const Login = () => import('../views/login/Login');
 
+// 歌单
+const PlayList = () => import('../views/playlist/PlayList');
+
+// 搜索
 const Search = () => import('../views/search/Search');
 const SearchResult = () => import('../views/search/SearchResult');
+
+// 登录
+const Login = () => import('../views/login/Login');
+
+// 404
+const NotFound = () => import('../views/notfound/NotFound');
+
+
 
 const routes = [{
   path: '/discover',
@@ -20,14 +34,19 @@ const routes = [{
   name: 'Home',
   component: Home,
   children: [{
-    path: '/discover',
-    name: 'Recommend',
-    component: Recommend
-  },
+      path: '/discover',
+      name: 'Recommend',
+      component: Recommend
+    },
     {
       path: '/discover/playlist',
       name: 'DPlayList',
       component: DPlayList
+    },
+    {
+      path: '/discover/newsong',
+      name: 'NewSong',
+      component: NewSong
     }
   ]
 },

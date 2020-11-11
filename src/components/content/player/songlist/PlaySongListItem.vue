@@ -77,7 +77,7 @@
 
       authorHandle(obj) {
         let arr = [];
-        let authors = obj.ar;
+        let authors = obj.ar || obj.artists;
         authors.forEach(function (item) {
           arr.push(item.name)
         });

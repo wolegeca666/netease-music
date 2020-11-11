@@ -4,7 +4,7 @@
       <loading :show="!show"></loading>
     </div>
     <ul>
-      <li v-for="(item, index) in list" :key="index"
+      <li v-for="(item, index) in list" :key="item.id"
           v-show="!(errIndex.includes(index))">
         <scale @itemClick="routerTo(item.id)">
           <template v-slot:item>
@@ -74,7 +74,7 @@
 <style scoped>
   .simi-playlist {
     width: 100%;
-
+    padding-top: 0.5rem;
     margin-bottom: 5rem;
   }
 
@@ -84,32 +84,42 @@
     margin-bottom: 10rem;
   }
 
+  .playlist {
+    display: flex;
+    align-items: center;
+  }
+
+  .playlist:hover {
+    background-color: var(--color-active);
+  }
+
+  .albums {
+    padding: 0.5rem;
+  }
+
   .albums img {
     width: 5rem;
     height: 5rem;
     border-radius: 5px;
   }
 
-  .playlist {
-    display: flex;
-    padding-top: 1rem;
-  }
 
   .msg {
+    margin-left: 0.5rem;
     width: 100%;
-    padding: 0.5rem 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
   }
 
   .name {
+    line-height: 2.5rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
   }
 
   .count {
+    line-height: 2.5rem;
     font-size: 13px;
     color: var(--color-text);
   }

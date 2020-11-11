@@ -36,6 +36,7 @@
       getLrc() {
         request('/lyric?id=' + this.id).then(res => {
           // console.log(res);
+          this.$store.commit('timeChange', 0)
           if (res.lrc) {
             this.lyric = res.lrc.lyric;
             this.nolyric = '';
@@ -119,9 +120,6 @@
         this.lyric = '';
         this.getLrc();
       },
-      playtime() {
-
-      },
       current() {
         // console.log(this.current);
         this.handleDom.scrollTop = this.current > 3 ?
@@ -164,8 +162,7 @@
     padding-left: 1rem;
     font-size: 16px;
     line-height: 40px;
-    overflow: scroll;
-    overflow-x: hidden;
+    overflow-y: scroll;
     white-space: pre-wrap;
     word-wrap: break-word;
   }

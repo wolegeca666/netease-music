@@ -61,7 +61,7 @@
 </template>
 
 <script>
-  import Album from "../../../../components/content/album/Album";
+  import Album from "../../../../components/content/coverimg/Album";
   import Title from "../../../../components/common/title/Title";
   import Loading from "../../../../components/common/loading/Loading";
   import {request} from "../../../../api/request";
@@ -260,7 +260,9 @@
   }
 
   #all {
-    padding: 2rem 3rem;
+    width: 100%;
+    line-height: 5rem;
+    text-align: center;
   }
 
   .title {

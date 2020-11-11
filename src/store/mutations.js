@@ -33,9 +33,35 @@ export default {
     state.playList = [...list]
   },
 
-  getPicUrl(state, url) {
-    if (url !== state.song.picUrl) {
-      state.song.picUrl = url;
+  playlistAdd(state, song) {
+    let include = false;
+    let playindex = 0;
+    state.playList.map((item, index) => {
+      if (item.id === song.id) {
+        include = true;
+        playindex = index;
+      }
+    });
+    if (!include) {
+      state.playList.splice(state.playSongIndex + 1, 0, song);
+      playindex = state.playSongIndex + 1;
+    }
+    state.playSongIndex = playindex;
+  },
+
+  playSongNext(state, song) {
+    let include = false;
+    let playindex;
+    state.playList.map((item, index) => {
+      if (item.id === song.id) {
+        include = true;
+        playindex = index;
+      }
+    });
+    if (!include) {
+      state.playList.splice(state.playSongIndex + 1, 0, song);
+    }else {
+      state.playSongIndex = playindex;
     }
   },
 

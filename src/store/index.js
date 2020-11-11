@@ -23,7 +23,7 @@ export default new Vuex.Store({
       voice: 0.5
     },
     playList: [],
-    playSongIndex: 0,
+    playSongIndex: -1,
     load: false,
     windowsWidth: '',
     widowsHeight: ''

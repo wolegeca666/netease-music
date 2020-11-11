@@ -1,6 +1,6 @@
 <template>
   <div class="item" @mouseup="click" @mouseleave="click">
-    <div class="play-bar" @mousedown="animationPlay" >
+    <div class="play-bar" @mousedown="animationPlay" v-if="playbar">
       <div class="play" :class="{'animate': playAnimate}">
         <svg t="1603111001277" class="icon" viewBox="0 0 1027 1024"
              version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3657"
@@ -14,7 +14,7 @@
         </svg>
       </div>
     </div>
-    <div class="more-bar" @mousedown="animationMore">
+    <div class="more-bar" @mousedown="animationMore" v-if="morebar">
       <div class="more" :class="{'animate': moreAnimate}">
         <svg t="1603113584111" class="icon" viewBox="0 0 1024 1024"
              version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8804"
@@ -34,6 +34,16 @@
 <script>
   export default {
     name: "PlayBar",
+    props: {
+      morebar: {
+        type: Boolean,
+        default: true
+      },
+      playbar: {
+        type: Boolean,
+        default: true
+      }
+    },
     data() {
       return {
         moreAnimate: false,

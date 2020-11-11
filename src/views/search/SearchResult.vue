@@ -135,6 +135,7 @@
       loadingEnd() {
         this.loading = false;
       },
+
       // 搜索结果
       getSearch() {
         request('/cloudsearch?keywords=' + this.keywords)
@@ -150,7 +151,10 @@
               this.most = res.result.orders?.length ? res.result : [];
               this.homeLoading();
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+              console.log(e);
+              this.loadingEnd();
+            });
       },
 
       getDetails() {
@@ -161,8 +165,9 @@
             // console.log(res);
             this.result = res.result;
           }).catch(e => {
-            console.log(e)
-          })
+            console.log(e);
+            this.loadingEnd();
+          });
         }
       },
 
@@ -198,7 +203,8 @@
             }
           }).catch(e => {
             this.action = false;
-            console.log(e)
+            console.log(e);
+            this.loadingEnd();
           })
         }
       },

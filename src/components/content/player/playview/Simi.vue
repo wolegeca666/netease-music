@@ -58,7 +58,6 @@
           } else {
             this.songsShow = false;
           }
-
         }).catch(e => {
           this.getSongList();
           console.log(e);
