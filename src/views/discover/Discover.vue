@@ -10,9 +10,9 @@
       </div>
     </header>
     <main>
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
+      <transition :name="name">
+        <keep-alive><router-view/></keep-alive>
+      </transition>
     </main>
   </div>
 </template>
@@ -33,9 +33,7 @@
           {name: "歌手"},
           {name: "最新音乐", path: '/discover/newsong'},
         ],
-        path: [
-
-        ],
+        name: 'left',
         title: '个性推荐'
       }
     },
@@ -48,16 +46,22 @@
       }
     },
     watch: {
-      $route() {
+      $route(to,from) {
         if (this.$route.path === '/') {
-          this.title = this.titles[0].name
+          this.title = this.titles[0].name;
+          this.name ="left"
+        }else if (to.path.split('/').includes('discover')) {
+          if(to.meta.index < from.meta.index){
+            this.name ="right"
+          }else{
+            this.name ="left"
+          }
         }
       }
     },
     activated() {
-      const view = document.getElementById('view');
-      view.scrollTop = 0;
-    }
+      document.documentElement.scrollTop = 0;
+    },
   }
 </script>
 
@@ -75,8 +79,6 @@
     background-color: #fff;
   }
 
-
-
   .d-nav {
     padding-top: 1rem;
   }
@@ -88,5 +90,39 @@
     padding: 0 2rem;
   }
 
+
+  .left-enter{
+    transform:translateX(6rem);
+  }
+  .left-enter-to{
+    transform:translateX(0);
+  }
+  .left-enter-active{
+    transition: 0.6s;
+  }
+  .left-leave-to{
+    transform:translateX(-6rem);
+    opacity: 0;
+  }
+  .left-leave-active{
+    transition: 0.1s;
+  }
+
+  .right-enter{
+    transform:translateX(-6rem);
+  }
+  .right-enter-to{
+    transform:translateX(0);
+  }
+  .right-enter-active{
+    transition: 0.6s;
+  }
+  .right-leave-to{
+    transform:translateX(6rem);
+    opacity: 0;
+  }
+  .right-leave-active{
+    transition: 0.1s;
+  }
 
 </style>

@@ -90,6 +90,7 @@
       Album
     },
     mounted() {
+      document.documentElement.scrollTop = 0;
       this.playlistAll();
       // 歌单分类
       request('/playlist/catlist').then(res => {

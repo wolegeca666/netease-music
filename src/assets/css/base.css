@@ -58,6 +58,19 @@ a {
   font-weight: 600;
 }
 
+::-webkit-scrollbar {
+  width: 1rem;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+  background: rgba(221, 221, 221, 0.9);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 1.5rem;
+  background:rgba(0,0,0,0.3);
+}
+
 li {
   list-style: none;
 }

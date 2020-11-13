@@ -30,6 +30,11 @@
         ]
       }
     },
+    mounted() {
+      if (localStorage.getItem('playOrder') !== null) {
+        this.change(localStorage.getItem('playOrder'))
+      }
+    },
     methods: {
       change(order) {
         this.$store.commit('changeOrder', order);

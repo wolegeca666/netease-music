@@ -51,7 +51,7 @@
       },
       getSongList() {
         request('/simi/song?id=' + this.id).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.songs.length) {
             this.songsShow = true;
             this.songs = res.songs;

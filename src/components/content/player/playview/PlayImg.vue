@@ -18,7 +18,8 @@
     },
     data() {
       return {
-        rotate: 0
+        rotate: 0,
+        rotateTimer: null
       }
     },
     mounted() {
@@ -29,6 +30,10 @@
         };
       });
     },
+    beforeDestroy() {
+      window.onblur = null;
+      window.onfocus = null;
+    },
     methods: {
       rotateTo() {
         const el = document.querySelector('.play-img-rotate');
@@ -36,9 +41,9 @@
       },
       startTimer() {
         this.rotateTimer = window.setInterval(() => {
-          this.rotate+= 0.02;
+          this.rotate += 0.13;
           this.rotateTo();
-        }, 2)
+        }, 17)
       },
       stopTimer() {
         window.clearInterval(this.rotateTimer);
@@ -46,7 +51,7 @@
     },
     computed: {
       url() {
-        return this.playSong.picUrl
+        return this.playSong.al?.picUrl || 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg'
       },
       start() {
         return this.play && this.active
@@ -58,7 +63,20 @@
     },
     watch: {
       start() {
-        this.start ? this.startTimer() : this.stopTimer()
+        if (this.start) {
+          this.startTimer();
+          let that = this;
+          window.onblur = e => {
+            that.stopTimer();
+            window.onfocus = e => {
+              that.startTimer();
+            }
+          }
+        }else {
+          this.stopTimer();
+          window.onblur = null;
+          window.onfocus = null;
+        }
       },
     },
     destroyed() {

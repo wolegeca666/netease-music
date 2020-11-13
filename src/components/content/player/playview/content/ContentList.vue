@@ -5,7 +5,7 @@
         <div class="hr"></div>
         <div class="msg">
           <div class="creator-img">
-            <img :src="item.user.avatarUrl" alt="">
+            <img :src="item.user.avatarUrl" alt="" @error="err(index)">
             <div class="details" v-if="item.user.avatarDetail">
               <img :src="item.user.avatarDetail.identityIconUrl" alt="">
             </div>
@@ -22,7 +22,6 @@
 
 <script>
 
-
   import ContentItem from "./ContentItem";
   export default {
     name: "ContentList",
@@ -32,7 +31,11 @@
         type: Array
       }
     },
-
+    methods: {
+      err(index) {
+        this.list[index].user.avatarUrl = 'https://p4.music.126.net/VnZiScyynLG7atLIZ2YPkw==/18686200114669622.jpg'
+      }
+    }
   }
 </script>
 

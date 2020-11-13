@@ -36,16 +36,19 @@ const routes = [{
   children: [{
       path: '/discover',
       name: 'Recommend',
+      meta: {index: 0},
       component: Recommend
     },
     {
       path: '/discover/playlist',
       name: 'DPlayList',
+      meta: {index: 1},
       component: DPlayList
     },
     {
       path: '/discover/newsong',
       name: 'NewSong',
+      meta: {index: 5},
       component: NewSong
     }
   ]

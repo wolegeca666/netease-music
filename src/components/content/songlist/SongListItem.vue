@@ -19,8 +19,11 @@
         <div class="song-name">
           <p>
             <span>{{song.name}}</span>
-            <span v-if="(song.alia.length || 0)!==0" style="color:rgba(0,0,0,0.4);min-width: 10rem">
+            <span v-if="(song.alia || []).length !==0" style="color:rgba(0,0,0,0.4);min-width: 10rem">
               {{ ' (' + song.alia[0] + ')' }}
+            </span>
+            <span v-else-if="(song.alias || []).length !==0" style="color:rgba(0,0,0,0.4);min-width: 10rem">
+              {{ ' (' + song.alias[0] + ')' }}
             </span>
           </p>
           <div class="play-bar" v-show="isActive">
@@ -30,7 +33,7 @@
         </div>
         <div class="others">
           <p class="author">{{ author }}</p>
-          <p class="album-name">{{ song.al.name }}</p>
+          <p class="album-name">{{ (song.al || song.album).name }}</p>
           
         </div>
       </div>
@@ -85,14 +88,6 @@
           arr.push(item.name)
         });
         return arr.join(' / ');
-      },
-
-      cutContext(str) {
-        if (str.length > 20) {
-          return str.substring(0, 20) + '...'
-        } else {
-          return str
-        }
       },
 
       clickHandle() {

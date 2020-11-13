@@ -1,10 +1,15 @@
 <template>
   <div class="song-content">
     <div class="name">{{playSong.name}}</div>
-    <div class="author">歌手： <span>{{playSong.author}}</span></div>
+    <div class="author">
+      <p class="over-text" v-if="playSong.al">专辑： <span>{{playSong.al.name}}</span></p>
+      <p class="over-text" v-if="playSong.ar">歌手： <span> {{authorHandle(playSong)}} </span></p>
+    </div>
+
     <div class="lrc"  v-show="!nolyric">
       <p :class="{'playtime': isNow(index)}"
          v-for="(item, index) in lyric" :key="index">{{item.text}}</p>
+      <p>{{' '}}</p>
       <div class="load" v-show="!lyric">
         <loading :show="!lyric"></loading>
       </div>
@@ -36,7 +41,7 @@
       getLrc() {
         request('/lyric?id=' + this.id).then(res => {
           // console.log(res);
-          this.$store.commit('timeChange', 0)
+          this.$store.commit('timeChange', 0);
           if (res.lrc) {
             this.lyric = res.lrc.lyric;
             this.nolyric = '';
@@ -70,6 +75,15 @@
         });
         // console.log(arr);
         this.lyric = arr;
+      },
+
+      authorHandle(obj) {
+        let arr = [];
+        let authors = obj.ar || obj.artists;
+        authors.forEach(function (item) {
+          arr.push(item.name)
+        });
+        return arr.join(' / ');
       },
 
       isNow(index) {
@@ -123,7 +137,7 @@
       current() {
         // console.log(this.current);
         this.handleDom.scrollTop = this.current > 3 ?
-            this.handleDom.scrollHeight * (this.current / this.lyric.length) - 140
+            this.handleDom.scrollHeight * (this.current / this.lyric.length) - 145
             : 0;
       }
     }
@@ -145,13 +159,19 @@
   }
 
   .author {
-    font-size: 12px;
+    display: flex;
+    font-size: 13px;
     padding: 0.5rem 1rem;
     margin-bottom: 2rem;
   }
 
+  .author p {
+    padding-right: 3rem;
+  }
+
   .author span {
-    color: rgb(0, 100, 175);
+    font-weight: 600;
+    color: rgba(0, 100, 155, 0.8);
   }
 
   .load {
@@ -161,10 +181,23 @@
   .lrc {
     padding-left: 1rem;
     font-size: 16px;
-    line-height: 40px;
+    line-height: 36px;
     overflow-y: scroll;
     white-space: pre-wrap;
     word-wrap: break-word;
+  }
+
+  .lrc::-webkit-scrollbar {
+    width: 0.8rem;
+  }
+  /* 滚动槽 */
+  .lrc::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);
+  }
+  /* 滚动条滑块 */
+  .lrc::-webkit-scrollbar-thumb {
+    border-radius: 1.5rem;
+    background:rgba(0,0,0,0.08);
   }
 
   .playtime {

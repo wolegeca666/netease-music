@@ -7,7 +7,8 @@
     <div class="msg">
       <div class="song">
         <span class="name">{{ playSong.name || ''}}</span>
-        <span style="color:rgba(0,0,0,0.4);" v-show="playSong.author">{{' - ' + (playSong.author)}}</span>
+        <span style="color:rgba(0,0,0,0.4);"
+              v-if="playSong.ar || playSong.artists">{{' - ' + (authorHandle(playSong))}}</span>
       </div>
       <div class="time">
         <span style="font-weight: 500;;">{{ currentTime }}</span> / <span
@@ -51,9 +52,18 @@
     mounted() {
       const audio = document.getElementsByClassName('audio')[0];
       this.left = audio.offsetLeft;
-      this.playId = this.id;
-      this.getMusicPlay();
-      this.getMusicDetail();
+      if (localStorage.getItem('song') !== null) {
+        this.$store.commit('changePlaySong', {
+          id: localStorage.getItem('song'),
+        });
+        this.getMusicDetail();
+      } else if (!this.id) {
+        this.$store.commit('changePlaySong', {
+          id: '27580521',
+        });
+      } else {
+        this.getMusicDetail();
+      }
     },
     methods: {
       /**
@@ -72,18 +82,8 @@
       getMusicDetail() {
         request('/song/detail?ids=' + this.id)
             .then((res) => {
-              // console.log(res);
-              this.song = res.songs[0];
-              // this.pic = this.song.al.picUrl;
-              // console.log(this.song);
-              if (this.playId === this.song.id) {
-                this.$store.commit('changePlaySong', {
-                  id: this.song.id,
-                  name: this.song.name,
-                  author: this.song.ar[0].name,
-                  picUrl: this.song.al.picUrl
-                });
-              }
+              // console.log(res.songs[0]);
+              this.$store.commit('changePlaySong', res.songs[0]);
             }).catch(e => console.log(e));
       },
 
@@ -94,9 +94,11 @@
         if (music.currentTime === 0) {
           this.percent = 0;
         }
-        if (this.id !== 27580521 && this.playId === this.id) {
+        if (this.playlist.length && this.playId === this.id) {
           this.$store.commit("changePlay", true);
           this.musicPlay()
+        } else if (!this.playlist.length) {
+          this.$store.commit('changePlayList', [this.playSong]);
         }
       },
       // 播放结束后
@@ -149,7 +151,16 @@
         music.currentTime = this.percent * music.duration;
         this.flag = true;
         this.timeChange();
-      }
+      },
+
+      authorHandle(obj) {
+        let arr = [];
+        let authors = obj.ar || obj.artists;
+        authors.forEach(function (item) {
+          arr.push(item.name)
+        });
+        return arr.join(' / ');
+      },
     },
     computed: {
       music() {
@@ -171,16 +182,16 @@
       voice() {
         this.changeVoice();
       },
-      playSong() {
-        // console.log(this.id);
-        if(this.playId !== this.id) {
-          this.$store.commit("changePlay", false);
-          this.playId = this.id;
-          this.getMusicPlay();
-        }
-        if (!this.playSong.picUrl || !this.playSong.author || !this.playSong.name) {
-          this.getMusicDetail();
-        }
+      playSong: {
+        handler() {
+          // console.log(this.id);
+          if (this.playId !== this.id) {
+            this.$store.commit("changePlay", false);
+            this.playId = this.id;
+            this.getMusicPlay();
+          }
+        },
+        immediate: true
       },
     }
   }

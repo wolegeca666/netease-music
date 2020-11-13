@@ -2,7 +2,7 @@
   <div id="play-view">
     <div class="background">
       <div class="image">
-        <img :src="playSong.picUrl" alt="">
+        <img :src="url" alt="">
       </div>
     </div>
     <div class="main">
@@ -62,7 +62,10 @@
       ...mapState({
         id: state => state.song.id,
         playSong: state => state.song,
-      })
+      }),
+      url() {
+        return this.playSong.al?.picUrl || 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg'
+      }
     },
     watch: {
       id() {
@@ -82,7 +85,6 @@
     height: 100vh;
   }
 
-  
   .background {
     z-index: -2;
     position: absolute;
@@ -103,7 +105,7 @@
   .image  img {
     transition: all 1s;
     width: 100%;
-    filter: blur(80px);
+    filter: blur(60px);
   }
   
   .main {
@@ -113,14 +115,14 @@
 
   .main .close {
     z-index: 999;
-    position: absolute;
+    position: fixed;
     top: 2.5rem;
     right: 5rem;
     width: 3rem;
     height: 3rem;
-    background-color: #ddd;
+    background-color: #eee;
     border-radius: 5px;
-    box-shadow: 0 0 10px #aaa;
+    box-shadow: 0 0 10px #999;
   }
 
   .main .close img {
@@ -138,8 +140,8 @@
     min-width: 100rem;
     width: 75%;
     height: 43rem;
+    display: flex;
   }
-
 
   .header .cross {
     z-index: 1;
@@ -147,7 +149,7 @@
     top: 0;
     width: 100%;
     height: 20%;
-    background-image: linear-gradient(to top, rgba(187, 187, 187, 0.5), rgba(204, 204, 204, 0.9));
+    background-image: linear-gradient(to top, rgba(187, 187, 187, 0.5), rgba(221, 221, 221, 0.8));
     padding-bottom: 1rem;
   }
 
@@ -157,7 +159,7 @@
     bottom: 0;
     width: 100%;
     height: 80%;
-    background-color: #bbb;
+    background-color: #bbbbbb;
     opacity: 0.5;
   }
 
@@ -176,8 +178,8 @@
   
   .cross {
     height: 5rem;
-    background-image: linear-gradient(to bottom, rgba(187, 187, 187, 0.5), rgba(204, 204, 204, 0.9));
-    padding-bottom: 1rem;
+    background-image: linear-gradient(to bottom, rgba(187, 187, 187, 0.5), rgba(221, 221, 221, 0.9));
+    padding-bottom: 2rem;
   }
   
   .about {
@@ -185,7 +187,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: #ccc;
+    background-color: #dddddd;
     opacity: 0.9;
     padding-bottom: 10rem;
   }

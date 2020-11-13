@@ -73,17 +73,17 @@
   }
 
   .nav-title {
-    margin:0 1rem 1rem 0;
+    line-height: 2rem;
     font-size: 16px;
     color: #000;
-    padding:0 0.5rem 0 0.5rem ;
+    margin: 0 0.5rem;
+    padding: 0 0.5rem 1rem ;
   }
 
   .active {
     z-index: 99;
     color: var(--color-background);
     border-bottom: 3px solid var(--color-background);
-    padding-bottom: 1px;
   }
 
   .hr {

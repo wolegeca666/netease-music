@@ -1,17 +1,23 @@
 <template>
   <div id="app">
+    <div id="aside">
+      <aside-left></aside-left>
+    </div>
     <div id="container">
       <container></container>
     </div>
-    <footer>
+    <to-top-bar></to-top-bar>
+    <div id="footer">
       <player></player>
-    </footer>
+    </div>
   </div>
 </template>
 
 <script>
-  import Player from "./components/content/player/Player";
+  import AsideLeft from "./components/content/aside/AsideLeft";
   import Container from "./views/Container";
+  import Player from "./components/content/player/Player";
+  import ToTopBar from "./components/content/ToTopBar";
 
   export default {
     name: "app",
@@ -21,7 +27,8 @@
       }
     },
     components: {
-      Container, Player,
+      ToTopBar,
+      Container, Player, AsideLeft
     },
     methods: {
       play() {
@@ -39,15 +46,32 @@
 <style lang="less">
   @import "assets/css/base.css";
 
+  html {
+    width: 100vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  #body::-webkit-scrollbar{
+    display: none;
+  }
+
 
   #app {
     width: 100vw;
-    height: 100vh;
+    display: flex;
   }
 
   #container {
-    width: 100%;
-    height: 100%;
+    flex: 1;
+  }
+
+  #footer {
+    z-index: 999;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
   }
 
 

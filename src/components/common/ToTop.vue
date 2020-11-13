@@ -24,7 +24,6 @@
   }
 
   .icon {
-    opacity: 0.8;
     width: 5rem;
     height: 5rem;
   }

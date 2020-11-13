@@ -1,11 +1,8 @@
 export default {
   // 同步方法
   changePlaySong(state, playSong) {
-    if (state.song.id === playSong.id && !state.songState.play && state.song.id !== 27580521) {
-      state.songState.play = true
-    }
     state.song = playSong;
-    // console.log(state.song);
+    localStorage.setItem('song', playSong.id);
   },
 
   timeChange(state, time) {
@@ -23,6 +20,7 @@ export default {
 
   changeOrder(state, order) {
     state.songState.playOrder = order;
+    localStorage.setItem('playOrder', order)
   },
 
   changeVoice(state, percent) {

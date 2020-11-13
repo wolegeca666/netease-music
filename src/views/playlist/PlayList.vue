@@ -83,8 +83,7 @@
     },
     activated() {
       this.active = true;
-      const view = document.getElementById('view');
-      view.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
     },
     deactivated() {
       this.active = false;

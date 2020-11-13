@@ -12,9 +12,10 @@ export default new Vuex.Store({
     // 正在播放的歌曲
     song: {
       id: 27580521,
-      name: 'Libertus',
-      author: 'Chen-U',
-      picUrl: ''
+      name: '',
+      ar: [''],
+      al: [''],
+      alia: []
     },
     songState: {
       play: false,

@@ -1,6 +1,6 @@
 <template>
     <div id="player">
-      <div class="view" :class="{'un-play': !play}">
+      <div class="view" :class="{'un-play': !play, 'to-play': play}">
         <play-view :active="play" @close="view"></play-view>
       </div>
       <div class="pic" @click="view">
@@ -36,7 +36,7 @@
     },
     computed: {
       url() {
-        return this.$store.state.song.picUrl || 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg'
+        return this.$store.state.song.al?.picUrl || 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg'
       },
     },
     methods: {
@@ -52,6 +52,7 @@
       },
       view() {
         this.play = !this.play;
+        document.body.id = this.play ? 'body' : '';
       },
       stop(e) {
         // console.log(e);
@@ -62,13 +63,35 @@
 </script>
 
 <style scoped>
+  @keyframes play {
+    0% {
+      width: 0;
+      height: 0;
+    }
+    25% {
+      width: 25vw;
+      height: 25vh;
+    }
+    50% {
+      width: 50vw;
+      height: 50vh;
+    }
+    75% {
+      width: 75vw;
+      height: 75vh;
+    }
+    100% {
+      width: 100vw;
+      height: 100vh;
+    }
+  }
+
   #player {
     z-index: 999;
     width: 100vw;
     min-width: 100em;
+    position: relative;
     display: flex;
-    position: fixed;
-    bottom: 0;
     border-top: 1px solid #ccc;
     box-shadow: 0 -2px 1px var(--color-active);
     background-color: #fff;
@@ -96,7 +119,7 @@
   }
 
   .un-play {
-    width: 0;
+    left: 100%;
     opacity: 0;
     visibility: hidden;
   }

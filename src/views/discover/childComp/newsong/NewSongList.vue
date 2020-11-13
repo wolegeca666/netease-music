@@ -9,13 +9,18 @@
         <path d="M709.9 512.2L417.4 343.3V681z" p-id="7604"
               fill="#d81e06"></path>
       </svg>
-      <p>播放全部<span v-if="listLength">{{'（' +  listLength + '）' }}</span></p>
+      <p>播放全部<span v-if="list.length">{{'（' +  list.length + '）' }}</span></p>
     </div>
     <ul>
       <li v-for="(item, index) in playLists" :key="index">
         <song-list-item :song="item" :num="index" :current-index="currentIndex"
                         @itemClick="itemClick"
                         @play="playSong">
+          <template v-slot:left>
+            <div class="pic">
+              <img :src="item.al.picUrl" alt="404"  @load="imgLoad(index)" @error="errorload(index)">
+            </div>
+          </template>
         </song-list-item>
       </li>
     </ul>
@@ -23,11 +28,11 @@
 </template>
 
 <script>
-  import SongListItem from "./SongListItem";
-  import {request} from "../../../api/request";
+  import SongListItem from "../../../../components/content/songlist/SongListItem";
+  import {request} from "../../../../api/request";
 
   export default {
-    name: "SongList",
+    name: "NewSongList",
     props: {
       list: {
         type: Array
@@ -35,19 +40,14 @@
       allShow: {
         type: Boolean,
         default: true
-      },
-      loadShow: {
-        type: Boolean,
-        default: false,
       }
     },
     data() {
       return {
         currentIndex: -1,
+        loadIndex: 0,
+        errIndex: [],
         playLists: [],
-        length: 0,
-        listLength: 0,
-        maxLength: 8,
         flag: false
       }
     },
@@ -58,6 +58,14 @@
       itemClick(num) {
         this.currentIndex = num;
       },
+
+      imgLoad() {
+        this.loadIndex++;
+      },
+      errorload(index) {
+        this.errIndex.push(index);
+      },
+
       // 获取单曲信息
       getMusicDetail(id) {
         return new Promise(function (resolve, reject) {
@@ -86,7 +94,7 @@
 
       playSong(num) {
         if (!this.flag) {
-          this.$store.commit('changePlaySong', this.playLists[num]);
+          this.$store.commit('changePlaySong',this.playLists[num])
           this.flag = true;
           this.$store.commit('changePlayList', this.playLists);
         }
@@ -101,28 +109,27 @@
         });
         return arr.join(' / ');
       },
+
+    },
+    computed: {
+      isLoad() {
+        if (this.list.length) {
+          return  this.loadIndex >= this.list.length / 2
+        }
+      }
     },
     watch: {
       list() {
         // console.log(1)
         this.flag = false;
-        this.$emit('show', false);
-        this.listLength = this.list.length;
         this.currentIndex = -1;
-        this.playLists = this.loadShow ? this.playLists : [];
+        this.loadIndex = 0;
+        this.playLists = [];
         this.add();
       },
-      playLists() {
-        if (this.flag) {
-          /*this.$store.commit('changePlayList', [...this.playLists.map(item => {
-            return {
-              id: item.id,
-              name: item.name,
-              author: this.authorHandle(item),
-              picUrl: item.al.picUrl
-            }
-          })])*/
-          this.$store.commit('changePlayList', this.playLists)
+      isLoad() {
+        if (this.isLoad) {
+          this.$emit('isload')
         }
       }
     }
@@ -147,12 +154,13 @@
   .pic {
     width: 5rem;
     height: 5rem;
-    margin: 0.5rem;
+    margin: 1rem 1rem 1rem 0;
   }
 
   .pic img {
     width: 5rem;
     height: 5rem;
+    border-radius: 0.5rem;
   }
 
   li:nth-child(odd) {
