@@ -41,7 +41,7 @@
         this.loadIndex++;
         if (this.loadIndex === this.banner.length) {
           // console.log(this.loadIndex)
-          this.init = true;
+          setTimeout(()=>{this.init = true},100)
         }
       }
     }

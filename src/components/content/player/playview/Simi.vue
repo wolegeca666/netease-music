@@ -36,7 +36,7 @@
         this.getSongList();
       },
       getPlaylists() {
-        request('/simi/playlist?id=' + this.id).then(res => {
+        request('/simi/playlist?id=' + this.playSong.id).then(res => {
           // console.log(res);
           if (res.playlists.length) {
             this.playlistsShow = true;
@@ -50,7 +50,7 @@
         })
       },
       getSongList() {
-        request('/simi/song?id=' + this.id).then(res => {
+        request('/simi/song?id=' + this.playSong.id).then(res => {
           // console.log(res);
           if (res.songs.length) {
             this.songsShow = true;
@@ -68,12 +68,12 @@
       }
     },
     computed: {
-      id() {
-        return this.$store.state.song.id;
+      playSong() {
+        return this.$store.state.song;
       }
     },
     watch: {
-      id() {
+      playSong() {
         this.playlistsShow = true;
         this.songsShow = true;
         this.playlists = [];

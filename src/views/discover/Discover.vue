@@ -51,6 +51,7 @@
           this.title = this.titles[0].name;
           this.name ="left"
         }else if (to.path.split('/').includes('discover')) {
+          document.documentElement.scrollTop = 0;
           if(to.meta.index < from.meta.index){
             this.name ="right"
           }else{
@@ -58,10 +59,7 @@
           }
         }
       }
-    },
-    activated() {
-      document.documentElement.scrollTop = 0;
-    },
+    }
   }
 </script>
 

@@ -229,8 +229,13 @@
       }
     },
     watch: {
-      load() {
-        this.init()
+      load: {
+        handler() {
+          if (this.load) {
+            this.init()
+          }
+        },
+        immediate: true
       }
     }
   }

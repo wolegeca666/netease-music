@@ -2,14 +2,13 @@
   <div class="song-content">
     <div class="name">{{playSong.name}}</div>
     <div class="author">
-      <p class="over-text" v-if="playSong.al">专辑： <span>{{playSong.al.name}}</span></p>
-      <p class="over-text" v-if="playSong.ar">歌手： <span> {{authorHandle(playSong)}} </span></p>
+      <p v-if="playSong.al">专辑： <span>{{playSong.al.name}}</span></p>
+      <p v-if="playSong.ar">歌手： <span> {{authorHandle(playSong)}} </span></p>
     </div>
 
     <div class="lrc"  v-show="!nolyric">
       <p :class="{'playtime': isNow(index)}"
          v-for="(item, index) in lyric" :key="index">{{item.text}}</p>
-      <p>{{' '}}</p>
       <div class="load" v-show="!lyric">
         <loading :show="!lyric"></loading>
       </div>
@@ -166,10 +165,15 @@
   }
 
   .author p {
+    max-width: 50%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     padding-right: 3rem;
   }
 
   .author span {
+    
     font-weight: 600;
     color: rgba(0, 100, 155, 0.8);
   }

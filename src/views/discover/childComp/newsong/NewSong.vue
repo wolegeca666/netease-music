@@ -68,8 +68,12 @@
 
 <style scoped>
 
+  .new-song {
+    min-height: 100vh;
+  }
+
   .isload {
-    height: 20rem;
+    height: 30rem;
   }
 
 </style>

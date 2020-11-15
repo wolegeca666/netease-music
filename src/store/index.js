@@ -11,11 +11,7 @@ export default new Vuex.Store({
   state: {
     // 正在播放的歌曲
     song: {
-      id: 27580521,
-      name: '',
-      ar: [''],
-      al: [''],
-      alia: []
+      id: '27580521'
     },
     songState: {
       play: false,

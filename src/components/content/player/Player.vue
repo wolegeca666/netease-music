@@ -95,6 +95,7 @@
     border-top: 1px solid #ccc;
     box-shadow: 0 -2px 1px var(--color-active);
     background-color: #fff;
+    perspective: 1000px;
   }
   
   #player .pic {
@@ -119,8 +120,7 @@
   }
 
   .un-play {
-    left: 100%;
-    opacity: 0;
+    transform: translate3d(0, 100%, 0);
     visibility: hidden;
   }
 
@@ -129,14 +129,14 @@
     z-index: 200;
     background-color: #fff;
     position: absolute;
-    right: 0;
+    right: 1rem;
     bottom: 6rem;
     height: 50rem;
     border: 1px solid var(--color-active);
   }
   
   .show {
-    height: 0;
+    transform: translateY(100%);
     visibility: hidden;
   }
 

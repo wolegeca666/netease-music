@@ -39,7 +39,6 @@
       <loading :show="loading"></loading>
     </div>
     <div class="list" v-show="!loading">
-      
       <div v-show="type === 1">
         <song-list :list="playlist || []" :all-show="false" :load-show="true"></song-list>
       </div>

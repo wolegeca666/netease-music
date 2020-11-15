@@ -152,7 +152,7 @@
   }
 
   .active {
-    margin: -5px 0 5px;
+    transform: translate3d(0,-0.5rem,0);
   }
 
   .img-container {

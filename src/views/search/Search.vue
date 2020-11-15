@@ -2,7 +2,7 @@
   <div class="search">
     <div class="search-bar" @click="stopP($event)">
       <input id="search" type="text" autocomplete="off" spellcheck="false"
-             v-model="input" @keydown.enter="searchHandle"
+             ref="inp" v-model="input" @keydown.enter="searchHandle"
              @input="suggestHandle" @focus="suggestHandle"/>
       <label for="search"></label>
 
@@ -81,6 +81,7 @@
       };
     },
     activated() {
+      this.$refs.inp.focus();
       if (this.$route.path === '/search/multimatch') {
         this.hotShow = false;
         this.input = this.$route.query.keywords;

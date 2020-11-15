@@ -17,8 +17,8 @@
                         @itemClick="itemClick"
                         @play="playSong">
           <template v-slot:left>
-            <div class="pic">
-              <img :src="item.al.picUrl" alt="404"  @load="imgLoad(index)" @error="errorload(index)">
+            <div class="pic" >
+              <img v-show="loadItem.includes(index)" :src="item.al.picUrl" alt="404"  @load="imgLoad(index)" @error="errorload(index)">
             </div>
           </template>
         </song-list-item>
@@ -46,6 +46,7 @@
       return {
         currentIndex: -1,
         loadIndex: 0,
+        loadItem: [],
         errIndex: [],
         playLists: [],
         flag: false
@@ -59,7 +60,8 @@
         this.currentIndex = num;
       },
 
-      imgLoad() {
+      imgLoad(index) {
+        this.loadItem.push(index);
         this.loadIndex++;
       },
       errorload(index) {
@@ -114,7 +116,7 @@
     computed: {
       isLoad() {
         if (this.list.length) {
-          return  this.loadIndex >= this.list.length / 2
+          return  this.loadIndex >= this.list.length / 10
         }
       }
     },

@@ -18,7 +18,7 @@
         <div class="song-name" :class="{'red': song.id === playId}">
           <p>
             <span>{{song.name}}</span>
-            <span v-if = "(song.alia.length || 0) !== 0" style="color:rgba(0,0,0,0.4);">
+            <span v-if = "song.alia.length" style="color:rgba(0,0,0,0.4);">
               {{ ' ( ' + song.alia[0] + ' )' }}
             </span>
           </p>
@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="others" >
-          <p v-if="song.ar.length" class="author" :class="{'red': song.id === playId}">{{ author }}</p>
+          <p v-if="song.ar" class="author" :class="{'red': song.id === playId}">{{ author }}</p>
           <p class="song-time" :class="{'red': song.id === playId}">{{ time }}</p>
         </div>
       </div>
@@ -76,7 +76,6 @@
       },
 
       authorHandle(obj) {
-        console.log(obj);
         let arr = [];
         let authors = obj.ar || obj.artists;
         authors.forEach(function (item) {

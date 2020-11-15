@@ -1,7 +1,7 @@
 <template>
   <div class="recommend-song">
     <div class="song-nav">
-      <nav-bar :msg="[{name:'最新音乐'}]">
+      <nav-bar :msg="[{name:'最新音乐', path: '/discover/newsong'}]">
         <template v-slot:img>
           <img class="personalized-img" src="../../../../../assets/imgs/icon/discover/newsong.svg" alt="">
         </template>

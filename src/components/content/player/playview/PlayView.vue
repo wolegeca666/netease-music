@@ -55,7 +55,7 @@
     components: {Simi, Comment, Lyric, PlayImg},
     methods: {
       view() {
-        this.$emit('close')
+        this.$emit('close');
       }
     },
     computed: {
@@ -116,17 +116,18 @@
   .main .close {
     z-index: 999;
     position: fixed;
-    top: 2.5rem;
+    bottom: 90vh;
     right: 5rem;
     width: 3rem;
     height: 3rem;
     background-color: #eee;
     border-radius: 5px;
-    box-shadow: 0 0 10px #999;
+    box-shadow: 0 0 10px #666;
   }
 
   .main .close img {
     width: 3rem;
+    height: 3rem;
   }
   
   .header {
