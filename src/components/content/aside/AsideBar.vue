@@ -18,13 +18,13 @@
         <img src="../../../assets/imgs/icon/aside/video.svg" alt="">
       </template>
     </nav-bar>
-    <nav-bar title="最近播放" :index="3" path="/"
+    <nav-bar title="最近播放" :index="3" path="/record"
              :current-index="currentIndex">
       <template v-slot:img>
         <img src="../../../assets/imgs/icon/aside/record.svg" alt="">
       </template>
     </nav-bar>
-    <nav-bar title="我喜欢的音乐" :index="4" path="/"
+    <nav-bar title="我喜欢的音乐" :index="4" path="/likedmusic"
              :current-index="currentIndex">
       <template v-slot:img>
         <img src="../../../assets/imgs/icon/aside/likemusic.svg" alt="">

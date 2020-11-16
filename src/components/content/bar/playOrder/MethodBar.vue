@@ -31,7 +31,7 @@
       }
     },
     mounted() {
-      if (localStorage.getItem('playOrder') !== null) {
+      if (localStorage.getItem('playOrder')) {
         this.change(localStorage.getItem('playOrder'))
       }
     },

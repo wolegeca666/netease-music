@@ -2,7 +2,8 @@
   <div class="simi-list">
     <div class="title">包含这首歌的歌单</div>
     <div class="hr"></div>
-    <simi-playlist :list="playlists" @close="view" v-if="playlistsShow"></simi-playlist>
+    <simi-playlist :list="playlists" @close="view"
+                   v-if="playlistsShow"></simi-playlist>
     <div class="noc" v-show="!playlistsShow">无歌单</div>
     <div class="title">相似歌曲</div>
     <div class="hr"></div>
@@ -18,19 +19,32 @@
 
   export default {
     name: "Simi",
+    props: {
+      active: {
+        type: Boolean
+      }
+    },
     components: {SimiSong, SimiPlaylist},
     data() {
       return {
+        id: '',
         playlists: [],
         songs: [],
         playlistsShow: true,
         songsShow: true
       }
     },
-    mounted() {
-      this.getList();
-    },
     methods: {
+      init() {
+        if (this.active) {
+          this.playlistsShow = true;
+          this.songsShow = true;
+          this.playlists = [];
+          this.songs = [];
+          this.getList();
+        }
+      },
+
       getList() {
         this.getPlaylists();
         this.getSongList();
@@ -73,12 +87,14 @@
       }
     },
     watch: {
-      playSong() {
-        this.playlistsShow = true;
-        this.songsShow = true;
-        this.playlists = [];
-        this.songs = [];
-        this.getList();
+      playSong: {
+        handler() {
+          this.init();
+        },
+        immediate: true
+      },
+      active() {
+        this.init();
       }
     }
   }

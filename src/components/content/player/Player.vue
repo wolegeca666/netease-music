@@ -1,6 +1,6 @@
 <template>
     <div id="player">
-      <div class="view" :class="{'un-play': !play, 'to-play': play}">
+      <div class="view" :class="{'un-play': !play}">
         <play-view :active="play" @close="view"></play-view>
       </div>
       <div class="pic" @click="view">
@@ -110,7 +110,7 @@
   }
 
   .view {
-    transition: all 300ms;
+    transition: all 500ms;
     overflow: hidden;
     position: absolute;
     bottom: 0;
@@ -120,8 +120,12 @@
   }
 
   .un-play {
-    transform: translate3d(0, 100%, 0);
+    transform: translate3d(-60%, 80%, 0);
     visibility: hidden;
+  }
+
+  .scale{
+    transform: scale3d(0.3, 0.3, 0);
   }
 
   .list {

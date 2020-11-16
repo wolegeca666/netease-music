@@ -4,32 +4,21 @@
     <div class="album">
       <div class="album-cover"
            style="position: relative; transition: all 200ms;">
-        <img :src="picUrl()" @load="isLoad" v-show="show"/>
-        <div class="play-count" v-if="item.playCount"><!--播放数量-->
-          <slot class="icon" name="icon"></slot>
-          <span style="font-size: 10px;">{{numHandle(item.playCount)}}</span>
-        </div>
+        <img :src="item.picUrl" @load="isLoad"/>
       </div>
       <div class="album-msg">
         <span class="name">{{ item.name }}</span>
         <div class="artist">
-          <img :src="item.creator.avatarUrl" alt="" v-if="item.creator">
-          <span v-if="item.creator">{{ item.creator.nickname }}</span>
-          <span v-if="item.createTime" style="opacity: 0.4;">{{item.createTime}} 创建</span>
+          <span v-if="item.artists.length">歌手：<span class="author">{{ artist }}</span></span>
+          <span v-if="item.createTime">发行时间：{{item.createTime}}</span>
         </div>
         <div class="count">
           <div class="subCount">收藏
-            <span v-if="item.subscribedCount">({{numHandle(item.subscribedCount)}})</span></div>
+            <span v-if="item.info.subscribedCount">({{numHandle(item.info.subscribedCount)}})</span></div>
           <div class="subCount">评论
-            <span v-if="item.commentCount">({{numHandle(item.commentCount)}})</span></div>
+            <span v-if="item.info.commentCount">({{numHandle(item.info.commentCount)}})</span></div>
           <div class="subCount">分享
-            <span v-if="item.shareCount">({{numHandle(item.shareCount)}})</span>
-          </div>
-        </div>
-        <div class="tag" v-if="item.tags">
-          <p>标签：</p>
-          <div v-for="tag in item.tags">
-            <p @click="routerTo(tag)"><a>{{tag}}</a></p>
+            <span v-if="item.info.shareCount">({{numHandle(item.info.shareCount)}})</span>
           </div>
         </div>
         <div class="des">
@@ -88,16 +77,13 @@
     },
     methods: {
       isLoad() {
-        this.show = true;
         this.$emit('imgLoad')
-      },
-      picUrl() {
-        return this.item.coverImgUrl
       },
       numHandle(num) {
         num = num || 0;
         return num > 100000 ? Math.floor(num / 10000) + '万' : num
       },
+
       routerTo(cat) {
         this.$router.push({name: 'DPlayList', query: {cat: cat}})
       },
@@ -105,7 +91,14 @@
     computed: {
       des() {
         return this.item.description.split(' ').join('')
-      }
+      },
+      artist() {
+        let arr = [];
+        this.item.artists.forEach(function (item) {
+          arr.push(item.name)
+        });
+        return arr.join(' / ');
+      },
     }
   }
 </script>
@@ -167,11 +160,6 @@
     background-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.3));
   }
 
-  .play-count span {
-    opacity: 1;
-    padding-right: 10px;
-  }
-
   .icon {
     margin: 0 0.5rem;
   }
@@ -204,16 +192,16 @@
     align-items: center;
     padding: 1rem 0;
     font-size: 13px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.3);
   }
 
-  .album-msg .artist img {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 3rem;
+  .album-msg .artist .author {
+    color: rgba(0, 118, 195, 0.8);
   }
 
   .album-msg .artist span {
-    padding: 0 1rem;
+    padding-right: 1rem;
   }
 
   .subCount {
@@ -221,24 +209,6 @@
     margin-right: 1rem;
     font-size: 13px;
     border: 1px solid var(--color-active);
-  }
-
-  .album-msg .tag {
-    display: flex;
-    flex-direction: row;
-    color: #555;
-    font-weight: 600;
-  }
-
-  .album-msg .tag a {
-    color: rgba(0, 118, 195, 0.8);
-    font-size: 13px;
-    font-weight: 600;
-    padding: 0 3px;
-  }
-
-  .album-msg .tag a:hover {
-    color: rgba(0, 0, 0, 0.6);
   }
 
   .album-msg .des {

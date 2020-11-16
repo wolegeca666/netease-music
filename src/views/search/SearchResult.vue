@@ -5,20 +5,20 @@
                @typeClick="titleClick"></nav-bar>
     </div>
     <div class="most" v-show="most && type===1 && !loading">
-      <div class="artist" v-if="most.artist">
-        <div class="most-item" v-for="msg in most.artist">
+      <div class="artist most-list" v-if="most.artist">
+        <div class="most-item" v-for="msg in most.artist" @click="routeTo(msg.id)">
           <img :src="msg.img1v1Url" alt="" @load="mostImgLoad">
           <p>歌手： {{ msg.name }}</p>
         </div>
       </div>
-      <div class="album" v-if="most.album">
-        <div class="most-item" v-for="msg in most.album">
+      <div class="album most-list" v-if="most.album">
+        <div class="most-item" v-for="msg in most.album" @click="routeTo(msg.id, 'Album')">
           <img :src="msg.picUrl" alt="" @load="mostImgLoad">
           <p>专辑： {{ msg.name }} - {{ msg.artist.name }}</p>
         </div>
       </div>
-      <div class="mv" v-if="most.mv">
-        <div class="most-item" v-for="msg in most.mv">
+      <div class="mv most-list" v-if="most.mv" >
+        <div class="most-item" v-for="msg in most.mv" @click="routeTo(msg.id)">
           <img :src="msg.cover" alt="" @load="mostImgLoad">
           <p>MV： {{ msg.name }}</p>
         </div>
@@ -42,9 +42,8 @@
       <div v-show="type === 1">
         <song-list :list="playlist || []" :all-show="false" :load-show="true"></song-list>
       </div>
-
       <div v-show="type === 100">
-        <artist-list :list="result.artists || []" @isload="loadingEnd"></artist-list>
+          <artist-list :list="result.artists || []" @isload="loadingEnd"></artist-list>
       </div>
 
       <div v-show="type === 10">
@@ -80,8 +79,8 @@
         imgLoadIndex: 0,
         titles: [
           {name: '单曲', type: 1},
-          {name: '歌手', type: 100},
           {name: '专辑', type: 10},
+          {name: '歌手', type: 100},
           {name: '视频', type: 1014},
           {name: '歌单', type: 1000},
           {name: '歌词', type: 1006},
@@ -102,6 +101,7 @@
       this.init();
       this.keywords = this.$route.query.keywords || this.keywords;
       this.getSearch();
+      this.getMsg();
     },
     deactivated() {
       this.loading = false;
@@ -116,6 +116,32 @@
         this.result = {};
         this.most = [];
         this.imgLoadIndex = 0;
+      },
+
+      getMsg() {
+        if (this.keywords) {
+          this.offset = 0;
+          request('/cloudsearch?keywords=' + this.keywords + '&type=10').then(res => {
+            // console.log(res);
+            for (let type in res.result) {
+              if (res.result.hasOwnProperty(type) && !this.result.hasOwnProperty(type)) {
+                this.result[type] = res.result[type];
+              }
+            }
+          }).catch(e => {
+            console.log(e);
+          });
+          request('/cloudsearch?keywords=' + this.keywords + '&type=100').then(res => {
+            // console.log(res);
+            for (let type in res.result) {
+              if (res.result.hasOwnProperty(type) && !this.result.hasOwnProperty(type)) {
+                this.result[type] = res.result[type];
+              }
+            }
+          }).catch(e => {
+            console.log(e);
+          });
+        }
       },
 
       mostImgLoad() {
@@ -133,6 +159,10 @@
 
       loadingEnd() {
         this.loading = false;
+      },
+
+      routeTo(id, type) {
+        this.$router.push({name: type, query: {id: id}})
       },
 
       // 搜索结果
@@ -158,11 +188,16 @@
 
       getDetails() {
         if (this.keywords) {
-          this.loading = true;
           this.offset = 0;
           request('/cloudsearch?keywords=' + this.keywords + '&type=' + this.type).then(res => {
             // console.log(res);
-            this.result = res.result;
+            for (let type in res.result) {
+              if (res.result.hasOwnProperty(type) && !this.result.hasOwnProperty(type)) {
+                this.loading = true;
+                this.result[type] = res.result[type];
+              }
+            }
+
           }).catch(e => {
             console.log(e);
             this.loadingEnd();
@@ -258,16 +293,19 @@
     margin-bottom: 2rem;
   }
 
-  .artist {
-    background-color: var(--color-hover);
-    opacity: 1;
-  }
-
   .most-item {
     display: flex;
     align-items: center;
     padding: 1rem;
     font-size: 14px;
+  }
+
+  .most-item:hover {
+    background-color: var(--color-active);
+  }
+
+  .most-list:nth-child(odd) {
+    background-color: var(--color-hover);
   }
 
   .most img {

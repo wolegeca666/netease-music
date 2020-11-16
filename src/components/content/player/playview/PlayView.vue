@@ -1,5 +1,5 @@
 <template>
-  <div id="play-view">
+  <div id="play-view" :class="{'scale': !active}">
     <div class="background">
       <div class="image">
         <img :src="url" alt="">
@@ -17,7 +17,7 @@
             <play-img :active="active"></play-img>
           </div>
           <div class="content">
-            <lyric></lyric>
+            <lyric :show="active"></lyric>
           </div>
         </div>
       </div>
@@ -26,10 +26,10 @@
         <div class="cover"></div>
         <div class="container">
           <div class="comment">
-            <comment></comment>
+            <comment :active="active"></comment>
           </div>
           <div class="simi">
-            <Simi @close="view"></Simi>
+            <Simi @close="view" :active="active"></Simi>
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@
       active: {
         type: Boolean,
         default: false
-      }
+      },
     },
     components: {Simi, Comment, Lyric, PlayImg},
     methods: {
@@ -62,6 +62,7 @@
       ...mapState({
         id: state => state.song.id,
         playSong: state => state.song,
+        play: state => state.songState.play
       }),
       url() {
         return this.playSong.al?.picUrl || 'http://p3.music.126.net/VKsQu4n0zJF9sG508S9gQQ==/3429376768246424.jpg'
@@ -70,6 +71,20 @@
     watch: {
       id() {
         this.$el.scrollTop = 0;
+      },
+      active() {
+        if (this.active) {
+          document.onkeypress = e => {
+            e.preventDefault();
+            const space = 'Space';
+            if (e.code === space) {
+              this.$store.commit('changePlay', !this.play);
+            }
+          };
+        } else {
+          document.onkeypress = null;
+        }
+
       }
     }
   }
@@ -83,6 +98,11 @@
     overflow-x: hidden;
     width: 100vw;
     height: 100vh;
+    transition: all 500ms;
+  }
+
+  .scale{
+    transform: scale(0.3);
   }
 
   .background {

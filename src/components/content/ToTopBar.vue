@@ -1,6 +1,6 @@
 <template>
   <div class="to-top-bar"
-       :class="{'bottom': barShow, 'top': !barShow, 'to-top-animate': animate}"
+       :class="{'top': !barShow, 'to-top-animate': animate}"
        @click="toTop">
     <to-top></to-top>
   </div>
@@ -70,10 +70,7 @@
 
   .to-top-bar {
     position: fixed;
-    right: 3rem;
-  }
-
-  .bottom {
+    right: 2rem;
     bottom: 10rem;
   }
 
@@ -86,6 +83,6 @@
     transition: all 300ms;
     visibility: hidden;
     opacity: 0;
-    bottom: 40rem;
+    transform: translate3d(0, -400%, 0);
   }
 </style>

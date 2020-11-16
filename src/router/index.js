@@ -16,6 +16,9 @@ const Mv = () => import('../views/mv/Mv');
 // 歌单
 const PlayList = () => import('../views/playlist/PlayList');
 
+// 专辑
+const Album = () => import('../views/album/AlbumList')
+
 // 搜索
 const Search = () => import('../views/search/Search');
 const SearchResult = () => import('../views/search/SearchResult');
@@ -72,6 +75,11 @@ const routes = [{
     path: '/playlist',
     name: 'PlayList',
     component: PlayList,
+  },
+  {
+    path: '/album',
+    name: 'Album',
+    component: Album,
   },
   {
     path: '/login',

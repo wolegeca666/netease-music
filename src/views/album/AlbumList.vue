@@ -1,9 +1,12 @@
 <template>
   <div class="play-list">
-    <div class="title">歌单</div>
-    <div v-show="show">
+    <div class="title">专辑</div>
+    <div class="load" v-show="!load">
+      <loading :show="!load"></loading>
+    </div>
+    <div v-show="load">
       <div class="play-list-msg">
-        <album :item="playlist" @imgLoad="show = true">
+        <album :item="album" @imgLoad="load = true">
           <template v-slot:icon>
             <svg class="icon" height="1.3rem" p-id="8018"
                  t="1602600869883"
@@ -19,11 +22,8 @@
           </template>
         </album>
       </div>
-      <div class="load" v-show="!load">
-        <loading :show="!load"></loading>
-      </div>
-      <div class="play-lists" v-show="load">
-        <song-list :list="playlist.trackIds" @show="listLoad"></song-list>
+      <div class="play-lists" v-show="playlist.length">
+        <song-list :list="playlist"></song-list>
       </div>
     </div>
   </div>
@@ -31,22 +31,22 @@
 </template>
 
 <script>
-  import Album from "./PlatListAlbum";
-  import SongList from "../../components/content/songlist/SongList";
-  import Loading from "../../components/common/loading/Loading";
+  import Album from "./AlbumImg.vue";
+  import SongList from "../../components/content/songlist/SongListUn";
   import {request} from "../../api/request";
+  import Loading from "../../components/common/loading/Loading";
 
   export default {
-    name: "PlayList",
+    name: "AlbumList",
     components: {
       Loading,
       Album, SongList
     },
     data() {
       return {
-        playlist: {},
+        playlist: [],
+        album: {},
         length: '',
-        show: false,
         load: false,
         active: false,
         id: 100
@@ -54,12 +54,12 @@
     },
     methods: {
       update() {
-        request('/playlist/detail?id=' + this.id).then(res => {
-          // console.log(res.playlist);
-          if (res.playlist) {
-            this.playlist = res.playlist;
-            this.length = this.playlist.trackIds.length;
-            this.playlist.createTime = this.countDown(this.playlist.createTime);
+        request('/album?id=' + this.id).then(res => {
+          console.log(res);
+          if (res.album) {
+            this.album = res.album;
+            this.playlist = res.songs;
+            this.album.createTime = this.countDown(res.album.publishTime);
           }
         }).catch(e => {
           console.log(e);
@@ -76,10 +76,6 @@
 
         return y + '-' + m + '-' + d
       },
-
-      listLoad(flag) {
-        this.load = flag
-      }
     },
     activated() {
       this.active = true;

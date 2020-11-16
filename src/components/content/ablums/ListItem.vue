@@ -82,6 +82,8 @@
         } else {
           this.flag = true
         }
+        console.log(this.song.id)
+        this.$router.push({name: 'Album', query: {id: this.song.id}})
       },
 
       barClick() {

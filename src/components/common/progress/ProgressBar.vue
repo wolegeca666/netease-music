@@ -3,8 +3,8 @@
     <div @mousedown="move($event)">
       <div class="container">
         <div class="progress">
-          <div class="currentTime"></div>
-          <div class="bar"></div>
+          <div class="currentTime" ref="time"></div>
+          <div class="bar" ref="bar"></div>
         </div>
       </div>
     </div>
@@ -31,14 +31,13 @@
       return {}
     },
     mounted() {
-      this.changeProgress(this.percent);
+      this.animate();
     },
     methods: {
       move(el) {
         this.progress(el.clientX - this.left);
         document.onmousemove = e => {
           if (e.clientX - this.left > -100) {
-            // console.log(e.clientX - this.left);
             this.progress(e.clientX - this.left)
           }
         };
@@ -50,25 +49,22 @@
       },
 
       progress(x) {
-        let percent = x / document.getElementsByClassName('progress-bar')[this.num].offsetWidth;
-        // console.log(percent);
+        let percent = x / this.$el.offsetWidth;
         this.$emit('progress', percent);
       },
 
-      changeProgress(percent) {
-        const progress = document.getElementsByClassName('currentTime')[this.num];
-        progress.style.width = (percent * 100) + '%';
-        this.changeBar(progress.offsetWidth);
+      changeProgress() {
+        this.$refs.time.style.width = (this.percent * 100) + '%';
+        this.$refs.bar.style.left = this.$el.offsetWidth*this.percent - 7 + 'px';
       },
 
-      changeBar(x) {
-        const bar = document.getElementsByClassName('bar')[this.num];
-        bar.style.left = x - 7 + 'px';
+      animate() {
+        window.requestAnimationFrame(this.changeProgress);
       }
     },
     watch: {
       percent() {
-        this.changeProgress(this.percent)
+        this.animate()
       },
       width() {
         this.changeProgress(this.percent)
@@ -101,7 +97,8 @@
 
   .progress-bar .progress {
     top: 1rem;
-    height: 0.25rem;
+    height: 0.4rem;
+    border-radius: 1rem;
     background: rgba(0, 0, 0, 0.1);
   }
 
@@ -113,28 +110,30 @@
   .container .bar {
     z-index: 99;
     position: relative;
-    bottom: 0.8rem;
+    bottom: 0.9rem;
     width: 1.5rem;
     height: 1.5rem;
     background-color: #fff;
-    border-radius: 1.5rem;
+    border-radius: 2rem;
     border: 1px solid rgba(0, 0, 0, 0.2);
   }
 
   .progress-bar .bar::after {
     display: block;
     position: relative;
-    top: 0.45rem;
-    left: 0.45rem;
-    content: ' ';
-    width: 0.4rem;
-    height: 0.4rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
     border-radius: 1rem;
-    border: 0.1rem solid var(--color-background);
+    border: 2px solid var(--color-background);
     background-color: var(--color-background);
   }
 
   .progress-bar .currentTime {
+    border-radius: 1rem;
     height: 100%;
     width: 0;
     background-color: var(--color-background);

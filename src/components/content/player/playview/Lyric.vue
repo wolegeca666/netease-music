@@ -7,7 +7,7 @@
     </div>
 
     <div class="lrc"  v-show="!nolyric">
-      <p :class="{'playtime': isNow(index)}"
+      <p :class="{'playtime': (show && isNow(index))}"
          v-for="(item, index) in lyric" :key="index">{{item.text}}</p>
       <div class="load" v-show="!lyric">
         <loading :show="!lyric"></loading>
@@ -25,6 +25,12 @@
 
   export default {
     name: "Lyric",
+    props: {
+      show: {
+        type: Boolean,
+        default: false
+      }
+    },
     components: {Loading},
     data() {
       return {
@@ -96,6 +102,12 @@
           this.current = index;
         }
         return flag
+      },
+
+      scroll() {
+        this.handleDom.scrollTop = this.current > 3 ?
+            this.handleDom.scrollHeight * (this.current / this.lyric.length) - 145
+            : 0;
       }
     },
     computed: {
@@ -125,7 +137,7 @@
 
       handleDom() {
         return document.querySelector('.lrc');
-      },
+      }
     },
     watch: {
       id() {
@@ -135,9 +147,7 @@
       },
       current() {
         // console.log(this.current);
-        this.handleDom.scrollTop = this.current > 3 ?
-            this.handleDom.scrollHeight * (this.current / this.lyric.length) - 145
-            : 0;
+        window.requestAnimationFrame(this.scroll)
       }
     }
   }
@@ -173,7 +183,6 @@
   }
 
   .author span {
-    
     font-weight: 600;
     color: rgba(0, 100, 155, 0.8);
   }
@@ -206,7 +215,6 @@
 
   .playtime {
     position: relative;
-    top: 0;
     color: #fff
   }
 

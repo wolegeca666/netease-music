@@ -1,6 +1,6 @@
 <template>
   <div class="play-img">
-    <div class="play-img-rotate">
+    <div class="play-img-rotate" ref="rotate">
       <img :src="url" alt="">
     </div>
   </div>
@@ -19,7 +19,7 @@
     data() {
       return {
         rotate: 0,
-        rotateTimer: null
+        timer: false
       }
     },
     mounted() {
@@ -36,18 +36,25 @@
     },
     methods: {
       rotateTo() {
-        const el = document.querySelector('.play-img-rotate');
-        el.style.transform = `rotateZ(${this.rotate}deg)`
+        this.$refs.rotate.style.transform = `rotateZ(${this.rotate}deg)`;
+        this.rotateTimer();
       },
+
+      rotateTimer() {
+        if (this.timer) {
+          this.rotate += 0.1;
+          window.requestAnimationFrame(this.rotateTo);
+        }
+      },
+
       startTimer() {
-        this.rotateTimer = window.setInterval(() => {
-          this.rotate += 0.13;
-          this.rotateTo();
-        }, 17)
+        this.timer = true;
+        this.rotateTimer()
       },
+
       stopTimer() {
-        window.clearInterval(this.rotateTimer);
-      },
+        this.timer = false
+      }
     },
     computed: {
       url() {

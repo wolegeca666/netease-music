@@ -1,5 +1,5 @@
 <template>
-  <div class="loading-img">
+  <div class="loading-img" ref="ev">
     <img src="../../../assets/imgs/icon/loading/loading.svg" alt="">
   </div>
 </template>
@@ -27,21 +27,19 @@
     methods: {
       rotateTo() {
         // console.log(1);
-        if (this.$el) this.$el.style.transform = `rotateZ(${this.rotate}deg)`
+        this.$refs.ev.style.transform = `rotateZ(${this.rotate}deg)`;
+        this.startTimer();
       },
       startTimer() {
-        let rotateTimer = window.setInterval(() => {
-          if (!this.show || !this.$el) {
-            window.clearInterval(rotateTimer);
-          }
-          this.rotate+= 1;
-          this.rotateTo();
-        }, 5);
-      },
+        if (this.show) {
+          this.rotate+= 3;
+          window.requestAnimationFrame(this.rotateTo);
+        }
+      }
     },
     watch: {
       show() {
-        this.startTimer()
+        this.startTimer();
       }
     }
   }

@@ -44,6 +44,7 @@
         // 播放顺序,
         inOrder: 'inOrder',
         single: 'single',
+        first: false
       }
     },
     components: {
@@ -72,7 +73,6 @@
       getMusicPlay() {
         request('/song/url?id=' + this.id + '&br=320000')
             .then((res) => {
-              // console.log(res.data);
               this.url = res.data[0].url;
             }).catch(e => console.log(e));
       },
@@ -84,6 +84,9 @@
             .then((res) => {
               // console.log(res.songs[0]);
               this.$store.commit('changePlaySong', res.songs[0]);
+              if (!this.playlist.length) {
+                this.$store.commit('changePlayList', [this.playSong]);
+              }
             }).catch(e => console.log(e));
       },
 
@@ -94,19 +97,18 @@
         if (music.currentTime === 0) {
           this.percent = 0;
         }
-        if (this.playlist.length && this.playId === this.id) {
+        if (this.playlist.length && this.playId === this.id && this.first) {
           this.$store.commit("changePlay", true);
           this.musicPlay()
-        } else if (!this.playlist.length) {
-          this.$store.commit('changePlayList', [this.playSong]);
         }
+        this.first = true;
       },
       // 播放结束后
       ended() {
         // console.log(flag);
         this.$store.commit("changePlay", false);
         if (this.playOrder === this.inOrder) {
-          this.$store.commit('changePlaySongIndex', ++this.index);
+          this.$store.commit('changePlaySongIndex', (this.index + 1));
         } else {
           this.$emit('cIndex', 1);
         }

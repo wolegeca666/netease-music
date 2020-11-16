@@ -82,7 +82,7 @@
       },
       changeLeft() {
         if (this.active) {
-          this.left = this.width - 190;
+          this.left = this.width - 200;
         }
         this.percent = this.$store.state.songState.voice;
       },
