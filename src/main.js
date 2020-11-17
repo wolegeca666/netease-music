@@ -27,8 +27,12 @@ window.onload = e =>{
   state.commit('height', document.documentElement.clientHeight);
 };
 
-window.onresize = e => {
+function commitWidth() {
   state.commit('width', document.documentElement.clientWidth);
+}
+
+window.onresize = e => {
+  window.requestAnimationFrame(commitWidth)
 };
 
 

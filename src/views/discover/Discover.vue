@@ -29,7 +29,7 @@
           {name: "个性推荐", path: '/discover'},
           {name: "歌单", path: '/discover/playlist'},
           {name: "主播电台", path: ''},
-          {name: "排行榜"},
+          {name: "排行榜", path: '/discover/toplist'},
           {name: "歌手"},
           {name: "最新音乐", path: '/discover/newsong'},
         ],
@@ -39,6 +39,9 @@
     },
     components: {
       vTitle, NavBar
+    },
+    activated() {
+      document.documentElement.scrollTop = 0;
     },
     methods: {
       titleClick(title) {

@@ -51,7 +51,7 @@
       //   })
       // },
       getSongList() {
-        request('/personalized/newsong?limit=100').then(res => {
+        request('/personalized/newsong?limit=50').then(res => {
           // console.log(res);
           if (res.result?.length) {
             this.songs = res.result;

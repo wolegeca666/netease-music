@@ -74,6 +74,7 @@
       },
       active() {
         if (this.active) {
+          this.$el.scrollTop = 0;
           document.onkeypress = e => {
             e.preventDefault();
             const space = 'Space';
@@ -84,7 +85,6 @@
         } else {
           document.onkeypress = null;
         }
-
       }
     }
   }
@@ -98,7 +98,7 @@
     overflow-x: hidden;
     width: 100vw;
     height: 100vh;
-    transition: all 500ms;
+    transition: transform 500ms;
   }
 
   .scale{

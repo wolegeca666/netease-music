@@ -121,7 +121,7 @@
   }
 
   .view {
-    transition: all 500ms;
+    transition: transform 500ms;
     overflow: hidden;
     position: absolute;
     bottom: 0;
@@ -132,11 +132,6 @@
 
   .un-play {
     transform: translate3d(-60%, 80%, 0);
-    visibility: hidden;
-  }
-
-  .scale{
-    transform: scale3d(0.3, 0.3, 0);
   }
 
   .list {

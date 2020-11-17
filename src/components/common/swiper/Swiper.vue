@@ -1,11 +1,11 @@
 <template>
   <div id="hy-swiper" @mouseenter="control=true" @mouseleave="control=false">
-    <div class="swiper" @touchstart="touchStart" @touchmove="touchMove"
+    <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" ref="swiper"
          @touchend="touchEnd" :style="swiperStyle">
       <slot name="swiper"></slot>
     </div>
     <a class="previous" @click="previous" v-show="control" href="javascript:;">
-      <span >
+      <span>
         <svg t="1603289939382" class="icon" viewBox="0 0 1024 1024"
              version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9852"
              width="128" height="128">
@@ -30,9 +30,10 @@
     </a>
     <div class="indicator">
       <slot name="indicator" v-if="showIndicator">
-        <a href="javascript:;" class="indi-item" v-for="(item, index) in slideCount"
-             :class="{active: index === currentIndex - 1}"
-             :key="index" @mousedown="changeItemNow(index + 1)"></a>
+        <a href="javascript:;" class="indi-item"
+           v-for="(item, index) in slideCount"
+           :class="{active: index === currentIndex - 1}"
+           :key="index" @mouseenter="changeItemNow(index + 1)"></a>
       </slot>
     </div>
   </div>
@@ -60,7 +61,7 @@
       },
       load: {
         type: Boolean,
-        default: false
+        default: false,
       }
     },
     data() {
@@ -83,15 +84,6 @@
       this.stopTimer();
     },
     methods: {
-      init() {
-        // 添加slide
-        setTimeout(() => {
-          this.handleDom();
-          // 开启定时器
-          this.startTimer();
-        }, 500)
-          
-      },
       /**
        *  定时器操作
        */
@@ -99,7 +91,7 @@
         this.playTimer = window.setInterval(() => {
           this.currentIndex++;
           this.scrollContent(-this.currentIndex * this.totalWidth);
-        }, this.interval)
+        }, this.interval);
       },
       stopTimer() {
         window.clearInterval(this.playTimer);
@@ -110,6 +102,7 @@
        */
       scrollContent(currentPosition) {
         // 设置开始滚动
+        this.$emit('scrollTo', this.currentIndex - 1);
         this.scrolling = true;
         // 滚动动画
         this.swiperStyle.transition = 'transform ' + this.animationDuration + 'ms';
@@ -134,7 +127,7 @@
           }
           this.setTransform(-this.currentIndex * this.totalWidth);
           // 移动结束后回调
-          this.$emit('transitionEnd', this.currentIndex - 1)
+          this.$emit('transitionEnd', this.currentIndex)
         }, this.animationDuration);
       },
 
@@ -153,21 +146,14 @@
        */
       handleDom() {
         // 要操作的Dom元素
-        let swiperEl = document.querySelector('.swiper');
         let slidesEls = document.getElementsByClassName('slide');
 
-        this.slideCount = slidesEls.length;
+        this.slideCount = slidesEls.length - 2;
+        this.totalWidth = this.$refs.swiper.offsetWidth;
+        this.setTransform(-this.totalWidth);
 
-        // 前后添加一个slide
-        if (this.slideCount > 1) {
-          let cloneFirst = slidesEls[0].cloneNode(true);
-          let cloneLast = slidesEls[this.slideCount - 1].cloneNode(true);
-          swiperEl.insertBefore(cloneLast, slidesEls[0]);
-          swiperEl.appendChild(cloneFirst);
-          this.totalWidth = swiperEl.offsetWidth
-        }
-
-        this.setTransform(-this.totalWidth)
+        this.startTimer();
+        this.$emit('start');
       },
 
       /**
@@ -213,10 +199,8 @@
 
       changeItemNow(num) {
         this.stopTimer();
-
         this.currentIndex = num;
         this.scrollContent(-this.currentIndex * this.totalWidth);
-
         this.startTimer();
       },
 
@@ -229,13 +213,11 @@
       }
     },
     watch: {
-      load: {
-        handler() {
-          if (this.load) {
-            this.init()
-          }
-        },
-        immediate: true
+      load() {
+        setTimeout(() => {
+          this.handleDom();
+          // 开启定时器
+        }, 1200);
       }
     }
   }
@@ -243,12 +225,15 @@
 
 <style scoped>
   #hy-swiper {
-    overflow: hidden;
     position: relative;
+    width: 100%;
+    height: 100%;
   }
 
   .swiper {
     display: flex;
+    width: 100%;
+    height: 100%;
   }
 
   .indicator {
@@ -262,38 +247,38 @@
   .indi-item {
     box-sizing: border-box;
     margin: 0 5px;
-    width: 12px;
-    height: 12px;
-    line-height: 12px;
-    border-radius: 6px;
+    width: 1.7rem;
+    height: 3px;
+    line-height: 3px;
     background-color: #fff;
     text-align: center;
     font-size: 12px;
   }
 
   .indi-item.active {
-    border: 3px solid #fff;
     background-color: var(--color-background);
   }
 
   .previous,
   .next {
-    display: flex;
-    align-items: center;
     position: absolute;
-    top: 0;
+    top: 15%;
     width: 5%;
     height: 100%;
   }
 
+  .previous {
+    left: -41%;
+  }
+
   .next {
-    right: 0;
+    right: -39%;
   }
 
   .icon {
-    border-radius: 0.8rem;
-    background-color: rgba(0,0,0,0.2);
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.2);
     width: 4rem;
-    height: 4rem;
+    height: 85%;
   }
 </style>

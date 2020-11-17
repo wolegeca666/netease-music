@@ -1,4 +1,5 @@
 import Banner from "./banner/Banner";
+import FmBar from "./routerto/FmBar";
 import Personalized from "./personalized/Personalized";
 import Private from "./private/Private";
 import NewSong from "./newsong/NewSong";
@@ -6,5 +7,5 @@ import ReMv from "./mv/ReMv";
 import ReDj from "./radio/ReDj";
 
 export {
-  Banner,Personalized, Private, NewSong, ReMv,ReDj
+  Banner,Personalized, Private, NewSong, ReMv,ReDj,FmBar
 }

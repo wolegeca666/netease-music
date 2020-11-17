@@ -6,6 +6,8 @@ import Home from '../views/discover/Discover.vue';
 import Recommend from "../views/discover/childComp/recommend/Recommend";
   // 推荐歌单
   const DPlayList = () => import('../views/discover/childComp/playlist/PlayList');
+  // 排行榜
+  const TopList = () => import('../views/discover/childComp/toplist/TopList');
   // 最新音乐
   const NewSong = () => import('../views/discover/childComp/newsong/NewSong');
 
@@ -17,7 +19,7 @@ const Mv = () => import('../views/mv/Mv');
 const PlayList = () => import('../views/playlist/PlayList');
 
 // 专辑
-const Album = () => import('../views/album/AlbumList')
+const Album = () => import('../views/album/AlbumList');
 
 // 搜索
 const Search = () => import('../views/search/Search');
@@ -49,11 +51,17 @@ const routes = [{
       component: DPlayList
     },
     {
+      path: '/discover/toplist',
+      name: 'TopList',
+      meta: {index: 3},
+      component: TopList
+    },
+    {
       path: '/discover/newsong',
       name: 'NewSong',
       meta: {index: 5},
       component: NewSong
-    }
+    },
   ]
 },
   {
