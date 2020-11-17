@@ -73,7 +73,9 @@
       getMusicPlay() {
         request('/song/url?id=' + this.id + '&br=320000')
             .then((res) => {
-              this.url = res.data[0].url;
+              if (this.id === res.data[0].id) {
+                this.url = res.data[0].url;
+              }
             }).catch(e => console.log(e));
       },
       /**
@@ -100,8 +102,9 @@
         if (this.playlist.length && this.playId === this.id && this.first) {
           this.$store.commit("changePlay", true);
           this.musicPlay()
+        } else  {
+          this.first = true;
         }
-        this.first = true;
       },
       // 播放结束后
       ended() {

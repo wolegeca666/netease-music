@@ -63,12 +63,6 @@
     components: {
       ProgressBar
     },
-    mounted() {
-      document.querySelector('#voice').addEventListener('click', e => {
-        e.stopPropagation();
-        // console.log(e);
-      }, false)
-    },
     methods: {
       progress() {
         this.active = !this.active;
@@ -82,7 +76,7 @@
       },
       changeLeft() {
         if (this.active) {
-          this.left = this.width - 200;
+          this.left = this.width - 190;
         }
         this.percent = this.$store.state.songState.voice;
       },

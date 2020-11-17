@@ -28,6 +28,7 @@
     data() {
       return {
         id: '',
+        change: false,
         playlists: [],
         songs: [],
         playlistsShow: true,
@@ -36,7 +37,7 @@
     },
     methods: {
       init() {
-        if (this.active) {
+        if (this.active && this.change) {
           this.playlistsShow = true;
           this.songsShow = true;
           this.playlists = [];
@@ -52,9 +53,10 @@
       getPlaylists() {
         request('/simi/playlist?id=' + this.playSong.id).then(res => {
           // console.log(res);
-          if (res.playlists.length) {
+          if (res.playlists.length && this.id === this.playSong.id) {
             this.playlistsShow = true;
             this.playlists = res.playlists;
+            this.change = false;
           } else {
             this.playlistsShow = false;
           }
@@ -66,9 +68,10 @@
       getSongList() {
         request('/simi/song?id=' + this.playSong.id).then(res => {
           // console.log(res);
-          if (res.songs.length) {
+          if (res.songs.length && this.id === this.playSong.id) {
             this.songsShow = true;
             this.songs = res.songs;
+            this.change = false;
           } else {
             this.songsShow = false;
           }
@@ -89,6 +92,8 @@
     watch: {
       playSong: {
         handler() {
+          this.change = true;
+          this.id = this.playSong.id;
           this.init();
         },
         immediate: true

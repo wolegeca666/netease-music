@@ -8,7 +8,7 @@
       </div>
       <music-control></music-control>
       <music-handle @list="listShow"></music-handle>
-      <div id="play-list-s" class="list" :class="{'show': !show}" @click="stop($event)">
+      <div id="play-list-s" class="list" :class="{'show': !show}" @click.stop ref="list">
         <div class="title">
           <p>播放列表</p>
         </div>
@@ -28,7 +28,7 @@
     data() {
       return {
         show: false,
-        play: false
+        play: false,
       }
     },
     components: {
@@ -54,10 +54,21 @@
         this.play = !this.play;
         document.body.id = this.play ? 'body' : '';
       },
-      stop(e) {
-        // console.log(e);
-        e.stopPropagation()
+      top() {
+        this.$refs.list.style.transform = `translateY()`
+      },
+      bottom() {
+
       }
+    },
+    watch: {
+      // show() {
+      //   if (this.show) {
+      //     this.top();
+      //   }else {
+      //     this.bottom();
+      //   }
+      // }
     }
   }
 </script>
@@ -140,7 +151,7 @@
   }
   
   .show {
-    transform: translateY(100%);
+    transform: translate3d(0,100%,0);
     visibility: hidden;
   }
 
