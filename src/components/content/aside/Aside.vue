@@ -2,7 +2,7 @@
   <div id="nav">
     <div @click="cutList">=</div>
     <div class="home">
-      <aside-bar></aside-bar>
+      <aside-bar :show="show"></aside-bar>
     </div>
   </div>
 </template>
@@ -36,7 +36,6 @@
 <style scoped>
   #nav {
     z-index: 200;
-    overflow: hidden;
     position: fixed;
     top: 0;
     left: 0;

@@ -32,6 +32,7 @@
   .aside {
     width: 100%;
     height: 100vh;
+    overflow: scroll;
   }
 
   .nav-page {

@@ -8,7 +8,7 @@
       </div>
       <music-control></music-control>
       <music-handle @list="listShow"></music-handle>
-      <div id="play-list-s" class="list" :class="{'show': !show}" @click.stop ref="list">
+      <div id="play-list-s" class="list" :class="{'show': !show}" @click.stop @scroll.stop ref="list">
         <div class="title">
           <p>播放列表</p>
         </div>
@@ -128,14 +128,17 @@
     left: 0;
     width: 100vw;
     height: 100vh;
+    transform-origin: 0 100%;
   }
 
   .un-play {
-    transform: translate3d(-60%, 80%, 0);
+    transition: all 500ms;
+    opacity: 0;
+    transform: scale3d(0.05, 0.09, 1);
   }
 
   .list {
-    transition: all 500ms;
+    transition: transform 500ms;
     z-index: 200;
     background-color: #fff;
     position: absolute;
@@ -147,7 +150,6 @@
   
   .show {
     transform: translate3d(0,100%,0);
-    visibility: hidden;
   }
 
   .title {

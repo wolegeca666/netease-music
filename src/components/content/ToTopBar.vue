@@ -65,7 +65,6 @@
           let step = (view.scrollTop) / 12;
           step > 0 ? Math.ceil(step) : Math.floor(step);
           document.onwheel = (e) => {
-            console.log(e.view.scrollY);
             document.onwheel = null;
             this.stop();
           };

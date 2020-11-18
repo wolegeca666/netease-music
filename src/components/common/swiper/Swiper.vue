@@ -137,7 +137,7 @@
       setTransform(position) {
         this.el = document.querySelector('.swiper');
         if (this.el) {
-          this.el.style.transform = `translate(${position}px)`;
+          this.el.style.transform = `translate3d(${position}px, 0, 0)`;
         }
       },
 

@@ -31,8 +31,8 @@
     <scale>
       <template v-slot:item>
         <div class="item" @click="routerTo('/discover/toplist')">
-          <div class="icon">
-            <img src="../../../../../assets/imgs/icon/discover/fm.svg" alt="">
+          <div class="toplist">
+            <img src="../../../../../assets/imgs/icon/discover/toplist.svg" alt="">
           </div>
           <div class="text">
             <p>排行榜</p>
@@ -93,7 +93,8 @@
     border-left: 1px solid rgba(0,0,0,0.06);
   }
 
-  .icon {
+  .icon,
+  .toplist {
     position: relative;
     overflow: hidden;
     width: 6.1rem;
@@ -106,6 +107,15 @@
   .icon img {
     width: 6rem;
     height: 6rem;
+  }
+
+  .toplist img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    width: 4rem;
+    height: 4rem;
   }
 
   .date {

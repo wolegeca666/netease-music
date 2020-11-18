@@ -6,18 +6,20 @@
     </div>
     <div class="most" v-show="most && type===1 && !loading">
       <div class="artist most-list" v-if="most.artist">
-        <div class="most-item" v-for="msg in most.artist" @click="routeTo(msg.id)">
+        <div class="most-item" v-for="msg in most.artist"
+             @click="routeTo(msg.id)">
           <img :src="msg.img1v1Url" alt="" @load="mostImgLoad">
           <p>歌手： {{ msg.name }}</p>
         </div>
       </div>
       <div class="album most-list" v-if="most.album">
-        <div class="most-item" v-for="msg in most.album" @click="routeTo(msg.id, 'Album')">
+        <div class="most-item" v-for="msg in most.album"
+             @click="routeTo(msg.id, 'Album')">
           <img :src="msg.picUrl" alt="" @load="mostImgLoad">
           <p>专辑： {{ msg.name }} - {{ msg.artist.name }}</p>
         </div>
       </div>
-      <div class="mv most-list" v-if="most.mv" >
+      <div class="mv most-list" v-if="most.mv">
         <div class="most-item" v-for="msg in most.mv" @click="routeTo(msg.id)">
           <img :src="msg.cover" alt="" @load="mostImgLoad">
           <p>MV： {{ msg.name }}</p>
@@ -40,18 +42,22 @@
     </div>
     <div class="list" v-show="!loading">
       <div v-show="type === 1">
-        <song-list :list="playlist || []" :all-show="false" :load-show="true"></song-list>
+        <song-list :list="playlist || []" :all-show="false"
+                   :load-show="true"></song-list>
       </div>
       <div v-show="type === 100">
-          <artist-list :list="result.artists || []" @isload="loadingEnd"></artist-list>
+        <artist-list :list="result.artists || []"
+                     @isload="loadingEnd"></artist-list>
       </div>
 
       <div v-show="type === 10">
-        <albums-list :list="result.albums || []" @isload="loadingEnd"></albums-list>
+        <albums-list :list="result.albums || []"
+                     @isload="loadingEnd"></albums-list>
       </div>
 
       <div v-show="type === 1000">
-        <play-lists :list="result.playlists || []" @isload="loadingEnd"></play-lists>
+        <play-lists :list="result.playlists || []"
+                    @isload="loadingEnd"></play-lists>
       </div>
     </div>
   </div>
@@ -60,11 +66,10 @@
 
 <script>
   import NavBar from "../../components/common/navbar/NavBar";
-  import SongList from "../../components/content/songlist/SongList";
+  import SongList from "../../components/content/songlist/SongListUn";
   import ArtistList from "../../components/content/artists/ArtistList";
   import AlbumsList from "../../components/content/ablums/AlbumsList";
   import PlayLists from "../../components/content/playlists/PlayLists";
-
   import {request} from "../../api/request";
   import Loading from "../../components/common/loading/Loading";
 
@@ -125,7 +130,7 @@
             // console.log(res);
             for (let type in res.result) {
               if (res.result.hasOwnProperty(type) && !this.result.hasOwnProperty(type)) {
-                this.result[type] = res.result[type];
+                this.$set(this.result, type, res.result[type]);
               }
             }
           }).catch(e => {
@@ -135,7 +140,7 @@
             // console.log(res);
             for (let type in res.result) {
               if (res.result.hasOwnProperty(type) && !this.result.hasOwnProperty(type)) {
-                this.result[type] = res.result[type];
+                this.$set(this.result, type, res.result[type]);
               }
             }
           }).catch(e => {
@@ -194,10 +199,9 @@
             for (let type in res.result) {
               if (res.result.hasOwnProperty(type) && !this.result.hasOwnProperty(type)) {
                 this.loading = true;
-                this.result[type] = res.result[type];
+                this.$set(this.result, type, res.result[type]);
               }
             }
-
           }).catch(e => {
             console.log(e);
             this.loadingEnd();
@@ -214,19 +218,13 @@
             // console.log(res.needlogin);
             if (res.needlogin) {
               this.updateData();
-            }else {
-              // console.log(res);
-              let result = res.result;
-              if (result.songs) {
-                this.playlist.push(...result.songs);
-              }else {
-                for(let list in this.result) {
-                  if (this.result[list].length > 20) {
-                    for (let update in result) {
-                      if (result.hasOwnProperty(update) && result[update].length) {
-                        this.result[list].push(...result[update]);
-                      }
-                    }
+            } else {
+              if (res.result.songs) {
+                this.playlist.push(...res.result.songs);
+              } else {
+                for (let update in res.result) {
+                  if (res.result.hasOwnProperty(update) && res.result[update].length) {
+                    this.result[update].push(...res.result[update]);
                   }
                 }
               }
@@ -266,7 +264,7 @@
         if (this.$route.name === 'SearchResult') {
           this.keywords = this.$route.query.keywords || '';
           this.offset = 0;
-        }else {
+        } else {
           this.init();
           this.loading = false;
         }
@@ -279,6 +277,7 @@
       },
       type() {
         if (this.keywords && this.type !== 1) {
+          this.loading = false;
           this.getDetails();
         }
       }

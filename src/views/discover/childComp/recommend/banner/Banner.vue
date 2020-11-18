@@ -98,25 +98,29 @@
 
   .img-items {
     display: flex;
-    align-items: flex-end;
     width: 100%;
     height: 100%;
+  }
+
+  .other,
+  .center {
+    width: 100%;
+    transform-origin: 100% 100%;
+  }
+
+  .other:hover,
+  .center:hover {
+    opacity: 0.8;
   }
 
   .other {
-    z-index: 1;
-    transition: all 200ms;
-    width: 100%;
-    height: 85%;
-    transform: translate3d(0,0,0);
+    transition: transform 200ms;
+    transform: scale3d(1, 0.85, 1);
   }
 
   .center {
-    z-index: 99;
-    transition: all 500ms;
-    width: 100%;
-    height: 100%;
-    transform: translate3d(0,0,0);
+    transition: transform 500ms;
+    transform: scale3d(1,1,1);
   }
 
 </style>

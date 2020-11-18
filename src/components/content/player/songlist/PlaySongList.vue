@@ -3,7 +3,7 @@
     <div class="close-bar" @click="$emit('close')">
       <img src="../../../../assets/imgs/icon/close/close.svg">
     </div>
-    <div class="song-list" :class="{'show': !show}">
+    <div class="song-list" :class="{'show': !show}" >
       <ul v-if="playLists">
         <li v-for="(item, index) in playLists" :key="index">
           <song-list-item :song="item" :num="index"

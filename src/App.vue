@@ -46,7 +46,7 @@
 <style lang="less">
   @import "assets/css/base.css";
 
-  html {
+  body {
     width: 100vw;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -55,8 +55,11 @@
   #body::-webkit-scrollbar{
     display: none;
   }
-
-
+  
+  #body {
+    overflow-y: hidden;
+  }
+  
   #app {
     width: 100vw;
     display: flex;

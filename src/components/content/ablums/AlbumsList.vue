@@ -1,5 +1,5 @@
 <template>
-  <div class="list" v-show="isLoad">
+  <div class="list" v-show="list.length > 30 || isLoad">
     <ul>
       <li v-for="(item, index) in list" :key="index" v-show="!(errIndex.includes(index))">
         <list-item :song="item" :num="index" :current-index="currentIndex"
@@ -57,7 +57,6 @@
     watch: {
       list() {
         this.currentIndex = -1;
-        this.loadIndex = 0
       },
       isLoad() {
         if (this.isLoad) {

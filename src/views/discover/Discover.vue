@@ -93,16 +93,16 @@
 
 
   .left-enter{
-    transform:translateX(6rem);
+    transform:translate3d(4rem,0,0);
   }
   .left-enter-to{
-    transform:translateX(0);
+    transform:translate3d(0,0,0);
   }
   .left-enter-active{
-    transition: 0.6s;
+    transition: 0.4s;
   }
   .left-leave-to{
-    transform:translateX(-6rem);
+    transform:translate3d(-4rem,0,0);
     opacity: 0;
   }
   .left-leave-active{
@@ -110,16 +110,16 @@
   }
 
   .right-enter{
-    transform:translateX(-6rem);
+    transform:translate3d(-4rem,0,0);
   }
   .right-enter-to{
-    transform:translateX(0);
+    transform:translate3d(0,0,0);
   }
   .right-enter-active{
-    transition: 0.6s;
+    transition: 0.4s;
   }
   .right-leave-to{
-    transform:translateX(6rem);
+    transform:translate3d(4rem,0,0);
     opacity: 0;
   }
   .right-leave-active{

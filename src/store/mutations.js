@@ -1,5 +1,14 @@
 export default {
   // 同步方法
+  login(state, uid) {
+    state.uid = uid;
+    state.login = true;
+  },
+
+  logout(state) {
+    state.login = false;
+  },
+
   changePlaySong(state, playSong) {
     state.song = playSong;
     localStorage.setItem('song', playSong.id);

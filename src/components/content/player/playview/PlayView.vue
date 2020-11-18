@@ -1,5 +1,5 @@
 <template>
-  <div id="play-view" :class="{'scale': !active}">
+  <div id="play-view">
     <div class="background">
       <div class="image">
         <img :src="url" alt="">
@@ -101,8 +101,8 @@
     transition: transform 500ms;
   }
 
-  .scale{
-    transform: scale(0.3);
+  #play-view::-webkit-scrollbar-track {
+    background: rgba(221, 221, 221, 0.9);
   }
 
   .background {
