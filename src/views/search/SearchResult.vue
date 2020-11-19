@@ -4,7 +4,7 @@
       <nav-bar :msg="titles" :active-title="title" :left-icon="false"
                @typeClick="titleClick"></nav-bar>
     </div>
-    <div class="most" v-show="most && type===1 && !loading">
+    <div class="most" v-show="most && type===1 && !loading" ref="img">
       <div class="artist most-list" v-if="most.artist">
         <div class="most-item" v-for="msg in most.artist"
              @click="routeTo(msg.id)">
@@ -47,12 +47,12 @@
       </div>
       <div v-show="type === 100">
         <artist-list :list="result.artists || []"
-                     @isload="loadingEnd"></artist-list>
+                     ></artist-list>
       </div>
 
       <div v-show="type === 10">
         <albums-list :list="result.albums || []"
-                     @isload="loadingEnd"></albums-list>
+                     ></albums-list>
       </div>
 
       <div v-show="type === 1000">
@@ -151,13 +151,11 @@
 
       mostImgLoad() {
         this.imgLoadIndex++;
-        this.homeLoading();
+        this.$nextTick(this.mostLoading)
       },
 
-      homeLoading() {
-        // console.log(this.imgLoadIndex);
-        // console.log(this.most.orders?.length);
-        if (this.imgLoadIndex >= (this.most.orders?.length || 0)) {
+      mostLoading() {
+        if (this.imgLoadIndex >= this.most.orders?.length) {
           this.loadingEnd();
         }
       },
@@ -183,11 +181,10 @@
             .then(res => {
               // console.log(res);
               this.most = res.result.orders?.length ? res.result : [];
-              this.homeLoading();
+              this.mostLoading();
             })
             .catch(e => {
               console.log(e);
-              this.loadingEnd();
             });
       },
 
@@ -204,7 +201,6 @@
             }
           }).catch(e => {
             console.log(e);
-            this.loadingEnd();
           });
         }
       },
@@ -236,7 +232,6 @@
           }).catch(e => {
             this.action = false;
             console.log(e);
-            this.loadingEnd();
           })
         }
       },

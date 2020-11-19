@@ -134,6 +134,6 @@
 
   .load {
     width: 100%;
-    height: 30rem;
+    height: 50rem;
   }
 </style>

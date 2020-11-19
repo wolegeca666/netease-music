@@ -3,7 +3,7 @@
       <div class="icon">
         <slot name="img"></slot>
       </div>
-      <span>{{title}}</span>
+      <span class="name">{{title}}</span>
     </div>
 </template>
 
@@ -50,6 +50,13 @@
     display: flex;
     align-items: center;
     padding: 5px 0 5px 3px;
+  }
+
+  .name {
+    width: 80%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .icon {

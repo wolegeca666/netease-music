@@ -3,7 +3,7 @@
        @mousedown="animation" @click="clickHandle"><!--设置缩放定位-->
     <div class="item"
          :class="{'animate': animate, 'active': active}">
-      <slot name="item"></slot>
+      <slot></slot>
     </div>
   </div>
 </template>

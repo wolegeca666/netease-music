@@ -9,7 +9,7 @@
         <path d="M709.9 512.2L417.4 343.3V681z" p-id="7604"
               fill="#d81e06"></path>
       </svg>
-      <p>播放全部<span v-if="listLength">{{'（' +  listLength + '）' }}</span></p>
+      <p class="bar">播放全部<span v-if="listLength">{{'（' +  listLength + '）' }}</span></p>
     </div>
     <ul>
       <li v-for="(item, index) in playLists" :key="index">
@@ -61,7 +61,7 @@
       // 获取单曲信息
       getMusicDetail(id) {
         return new Promise(function (resolve, reject) {
-          request('/song/detail?ids=' + id)
+          request('/song/detail/dynamic?ids=' + id)
               .then((res) => {
                 if (res) {
                   // console.log(res.songs);
@@ -74,14 +74,19 @@
       },
 
       add() {
-        // console.log(2);
         let Ids = this.list.map(item => item.id);
-        // console.log(Ids.join(','))
+        Ids.splice(1000);
+        // console.log(Ids.join(','));
         this.getMusicDetail(Ids.join(',')).then(res => {
+          // console.log(res);
           res = res || [];
           this.playLists = [...res];
-          this.$emit('show', true);
+          this.$nextTick(this.isShow)
         })
+      },
+
+      isShow() {
+        this.$emit('show', true);
       },
 
       playSong(num) {
@@ -131,7 +136,12 @@
 
 <style scoped>
 
+  .list {
+    width: 100%;
+  }
+
   .play-bar {
+    width: 20rem;
     display: flex;
     align-items: center;
     font-size: 14px;
@@ -154,6 +164,7 @@
     width: 5rem;
     height: 5rem;
   }
+
 
   li:nth-child(odd) {
     background-color: var(--color-bgc);

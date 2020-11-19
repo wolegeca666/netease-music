@@ -10,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     // 正在播放的歌曲
-    uid: '',
+    uid: 0,
     login: false,
     song: {
       id: '27580521'

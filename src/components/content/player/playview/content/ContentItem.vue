@@ -1,31 +1,27 @@
 <template>
-    <div class="content-msg">
-      <p class="content">
-        <span class="name">{{item.user.nickname}}：</span>
-        <span>{{item.content}}</span>
-      </p>
-      <div class="count">
-        <p>{{countDown(item.time)}}</p>
-        <div class="handle">
-          <scale>
-            <template v-slot:item>
-              <div class="liked-count">
-                <img src="../../../../../assets/imgs/icon/like/liked.svg" alt="">
-                <p v-if="item.likedCount">{{'（' + item.likedCount + '）'}}</p>
-              </div>
-            </template>
-          </scale>
-          <div class="split">|</div>
-          <scale>
-            <template v-slot:item>
-              <div class="reply">
-               回复
-              </div>
-            </template>
-          </scale>
-        </div>
+  <div class="content-msg">
+    <p class="content">
+      <span class="name">{{item.user.nickname}}：</span>
+      <span>{{item.content}}</span>
+    </p>
+    <div class="count">
+      <p>{{countDown(item.time)}}</p>
+      <div class="handle">
+        <scale>
+          <div class="liked-count">
+            <img src="../../../../../assets/imgs/icon/like/liked.svg" alt="">
+            <p v-if="item.likedCount">{{'（' + item.likedCount + '）'}}</p>
+          </div>
+        </scale>
+        <div class="split">|</div>
+        <scale>
+          <div class="reply">
+            回复
+          </div>
+        </scale>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -50,7 +46,7 @@
         m = m > 9 ? m : '0' + m;
         d = d > 9 ? d : '0' + d;
 
-        return y + '-' + m +'-' + d
+        return y + '-' + m + '-' + d
       },
     }
   }

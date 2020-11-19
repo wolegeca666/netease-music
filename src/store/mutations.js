@@ -3,10 +3,13 @@ export default {
   login(state, uid) {
     state.uid = uid;
     state.login = true;
+    localStorage.setItem('login', state.login);
   },
 
   logout(state) {
+    state.uid = 0;
     state.login = false;
+    localStorage.setItem('login', state.login);
   },
 
   changePlaySong(state, playSong) {

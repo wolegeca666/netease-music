@@ -214,10 +214,7 @@
     },
     watch: {
       load() {
-        setTimeout(() => {
-          this.handleDom();
-          // 开启定时器
-        }, 1200);
+        this.$nextTick(this.handleDom);
       }
     }
   }

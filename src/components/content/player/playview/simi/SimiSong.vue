@@ -6,26 +6,24 @@
     <ul>
       <li v-for="item in simiSong" :key="item.id">
         <scale>
-          <template v-slot:item>
-            <div class="song" @click="musicPlay(item)">
-              <div class="pic">
-                <img :src="item.al.picUrl" alt="">
-                <div class="play">
-                  <play></play>
-                </div>
-              </div>
-              <div class="song-text">
-                <div class="msg">
-                  <p class="name">{{item.name}}</p>
-                  <p class="alia" v-if="(item.al.length || 0)!==0">
-                    {{ ' (' + item.al[0] + ')' }}</p>
-                  <div class="play-bar">
-                  </div>
-                </div>
-                <div class="author">{{ authorHandle(item) }}</div>
+          <div class="song" @click="musicPlay(item)">
+            <div class="pic">
+              <img :src="item.al.picUrl" alt="">
+              <div class="play">
+                <play></play>
               </div>
             </div>
-          </template>
+            <div class="song-text">
+              <div class="msg">
+                <p class="name">{{item.name}}</p>
+                <p class="alia" v-if="(item.al.length || 0)!==0">
+                  {{ ' (' + item.al[0] + ')' }}</p>
+                <div class="play-bar">
+                </div>
+              </div>
+              <div class="author">{{ authorHandle(item) }}</div>
+            </div>
+          </div>
         </scale>
       </li>
     </ul>

@@ -66,6 +66,7 @@
   }
 
   #container {
+    width: 80vw;
     flex: 1;
   }
 

@@ -1,52 +1,47 @@
 <template>
   <div class="bar">
     <scale>
-      <template v-slot:item>
-        <div class="item" @click="routerTo('/fm')">
-          <div class="icon">
-            <img src="../../../../../assets/imgs/icon/discover/fm.svg" alt="">
-          </div>
-          <div class="text">
-            <p>私人FM</p>
-            <p class="des">享受你的音乐专属推荐</p>
-          </div>
+      <div class="item" @click="routerTo('/fm')">
+        <div class="icon">
+          <img src="../../../../../assets/imgs/icon/discover/fm.svg" alt="">
         </div>
-      </template>
+        <div class="text">
+          <p>私人FM</p>
+          <p class="des">享受你的音乐专属推荐</p>
+        </div>
+      </div>
     </scale>
     <div class="center"></div>
     <scale>
-      <template v-slot:item>
-        <div class="item" @click="routerTo('/recommend/songs')">
-          <div class="icon">
-            <p class="date">{{date}}</p>
-          </div>
-          <div class="text">
-            <p>每日歌曲推荐</p>
-            <p class="des">根据你的口味生成</p>
-          </div>
+      <div class="item" @click="routerTo('/recommend/songs')">
+        <div class="icon">
+          <p class="date">{{date}}</p>
         </div>
-      </template>
+        <div class="text">
+          <p>每日歌曲推荐</p>
+          <p class="des">根据你的口味生成</p>
+        </div>
+      </div>
     </scale>
     <div class="center"></div>
     <scale>
-      <template v-slot:item>
-        <div class="item" @click="routerTo('/discover/toplist')">
-          <div class="toplist">
-            <img src="../../../../../assets/imgs/icon/discover/toplist.svg" alt="">
-          </div>
-          <div class="text">
-            <p>排行榜</p>
-            <p class="des">最热音乐榜</p>
-          </div>
+      <div class="item" @click="routerTo('/discover/toplist')">
+        <div class="toplist">
+          <img src="../../../../../assets/imgs/icon/discover/toplist.svg"
+               alt="">
         </div>
-      </template>
+        <div class="text">
+          <p>排行榜</p>
+          <p class="des">最热音乐榜</p>
+        </div>
+      </div>
     </scale>
   </div>
 </template>
 
 <script>
   import Scale from "../../../../../components/common/Scale";
-  
+
   export default {
     name: "FmBar",
     components: {
@@ -90,7 +85,7 @@
   }
 
   .center {
-    border-left: 1px solid rgba(0,0,0,0.06);
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
   }
 
   .icon,
@@ -133,6 +128,6 @@
   .des {
     font-weight: 600;
     font-size: 12px;
-    color: rgba(0,0,0,0.3);
+    color: rgba(0, 0, 0, 0.3);
   }
 </style>

@@ -2,7 +2,7 @@
   <div class="play-list">
     <div class="title">歌单</div>
     <div v-show="show">
-      <div class="play-list-msg">
+      <div class="play-list-msg" v-show="load">
         <album :item="playlist" @imgLoad="show = true">
           <template v-slot:icon>
             <svg class="icon" height="1.3rem" p-id="8018"
@@ -55,7 +55,7 @@
     methods: {
       update() {
         request('/playlist/detail?id=' + this.id).then(res => {
-          // console.log(res.playlist);
+          console.log(res.playlist);
           if (res.playlist) {
             this.playlist = res.playlist;
             this.length = this.playlist.trackIds.length;
@@ -114,6 +114,7 @@
   .play-list {
     padding: 2rem 3rem 20rem;
     min-width: 100rem;
+    width: 100%;
   }
 
   .play-list .title {
@@ -128,6 +129,7 @@
   }
 
   .play-lists {
+    width: 100%;
     font-size: 13px;
   }
 
@@ -138,6 +140,6 @@
 
   .load {
     width: 100%;
-    height: 30rem;
+    height: 50rem;
   }
 </style>

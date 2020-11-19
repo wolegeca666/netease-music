@@ -1,24 +1,20 @@
 <template>
   <div :class="{'show': show, 'un-show': !show}">
     <scale>
-      <template v-slot:item>
         <div class="login" v-show="!login" @click="loginTo()">
           <img :src="picUrl" alt="">
           <div class="msg" v-show="show">未登录</div>
         </div>
-        <div class="login" v-show="login">
+        <div class="login" v-show="login" @click="logout()">
           <img v-if="picUrl" :src="picUrl" alt="">
           <div class="msg" v-show="show">{{profile.nickname}}</div>
         </div>
-      </template>
     </scale>
 
     <scale>
-      <template v-slot:item>
         <div class="icon">
           <img src="../../assets/imgs/icon/aside/msg.svg" alt="">
         </div>
-      </template>
     </scale>
   </div>
 </template>
@@ -40,25 +36,63 @@
     },
     data() {
       return {
-        login: false,
+        value: 'true',
         profile: {},
         phone: '15827027152',
         password: '12357771237wg'
       }
     },
     mounted() {
-      // this.loginTo();
+      if (localStorage.getItem('login') === this.value) {
+        this.loginState();
+      } else {
+        this.$store.commit('logout');
+      }
     },
     methods: {
+      loginState() {
+        request('/login/status').then(res => {
+          if (res) {
+            this.profile = res.profile;
+            this.$store.commit('login', this.profile.userId);
+            this.refresh();
+          } else {
+            this.$store.commit('logout');
+            this.refresh();
+          }
+        }).catch(e => {
+          console.log(e);
+        });
+      },
+
+      logout() {
+        request('/logout').then(res => {
+          this.profile = {};
+          this.$store.commit('logout');
+          this.refresh();
+        }).catch(e => {
+          console.log(e);
+        });
+      },
+
       loginTo() {
         request('/login/cellphone?phone='+ this.phone +'&password=' + this.password).then(res => {
           console.log(res);
           if (res.code === 502) {
             alert(res.msg)
           } else {
-            this.login = true;
             this.profile = res.profile;
+            this.$store.commit('login', this.profile.userId);
+            this.refresh();
           }
+        }).catch(e => {
+          console.log(e);
+        });
+      },
+
+      refresh() {
+        request('/login/refresh').then(res => {
+
         }).catch(e => {
           console.log(e);
         });
@@ -67,12 +101,20 @@
     computed: {
       picUrl() {
         return this.profile.avatarUrl || 'https://p4.music.126.net/VnZiScyynLG7atLIZ2YPkw==/18686200114669622.jpg'
+      },
+      login(){
+        return  this.$store.state.login
       }
     }
   }
 </script>
 
 <style scoped>
+  .un-show,
+  .show {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
   .un-show {
     overflow: hidden;
     display: flex;
@@ -87,7 +129,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 17.8rem;
+    width: 18rem;
     height: 6rem;
   }
 

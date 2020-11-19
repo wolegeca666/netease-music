@@ -7,21 +7,19 @@
       <li v-for="(item, index) in list" :key="item.id"
           v-show="!(errIndex.includes(index))">
         <scale @itemClick="routerTo(item.id)">
-          <template v-slot:item>
-            <div class="playlist">
-              <div class="albums">
-                <img :src="item.coverImgUrl" alt="" @load="imgLoad"
-                     @error="errorload(index)">
-              </div>
-              <div class="msg">
-                <p class="name">{{item.name}}</p>
-                <p class="count">
-                  播放：{{item.playCount > 100000?
-                  Math.floor(item.playCount/10000)+'万' : item.playCount}}
-                </p>
-              </div>
+          <div class="playlist">
+            <div class="albums">
+              <img :src="item.coverImgUrl" alt="" @load="imgLoad"
+                   @error="errorload(index)">
             </div>
-          </template>
+            <div class="msg">
+              <p class="name">{{item.name}}</p>
+              <p class="count">
+                播放：{{item.playCount > 100000?
+                Math.floor(item.playCount/10000)+'万' : item.playCount}}
+              </p>
+            </div>
+          </div>
         </scale>
       </li>
     </ul>
