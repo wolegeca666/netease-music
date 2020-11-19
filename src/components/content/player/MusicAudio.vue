@@ -58,10 +58,6 @@
           id: localStorage.getItem('song'),
         });
         this.getMusicDetail();
-      } else if (!this.id) {
-        this.$store.commit('changePlaySong', {
-          id: '27580521',
-        });
       } else {
         this.getMusicDetail();
       }

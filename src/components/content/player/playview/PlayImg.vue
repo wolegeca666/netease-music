@@ -48,6 +48,10 @@
       },
 
       startTimer() {
+        window.requestAnimationFrame(this.startLoop)
+      },
+      
+      startLoop() {
         this.timer = true;
         this.rotateTimer()
       },

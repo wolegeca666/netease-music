@@ -116,7 +116,7 @@ VueRouter.prototype.replace = function replace(to) {
 };
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes
 });

@@ -63,7 +63,6 @@
       },
       getCommentNew() {
         request('/comment/new?type=0&id=' + this.id + '&sortType=3&pageSize=10').then(res => {
-          // console.log(res);
           this.newComment = res.data ?? {};
         }).catch(e => {
           this.getCommentHot();
@@ -93,6 +92,7 @@
     },
     watch: {
       id() {
+        this.playId = this.id;
         this.result = {};
         this.newComment = {};
         this.getComment();

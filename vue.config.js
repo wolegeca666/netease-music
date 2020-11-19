@@ -1,12 +1,15 @@
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 
 module.exports = {
+  publicPath: "./",
+  assetsDir: "static",
+  outputDir: 'dist',
   configureWebpack: {
     resolve: {
       alias: {
         //别名
         'assets': '@/assets',
-        'common':  '@/content',
+        'common': '@/content',
         'components': '@/components',
         'network': '@/network',
         'views': '@/views'
