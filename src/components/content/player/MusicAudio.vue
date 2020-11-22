@@ -1,8 +1,8 @@
 <template>
   <div class="audio">
     <div id="music-progress">
-      <progress-bar :left="left" :percent="percent" :num="0"
-                    @progress="fastSeek" @moveEnd="changeTime"></progress-bar>
+      <progress-bar :left="left" :num="0" :percent="percent"
+                    @moveEnd="changeTime" @progress="fastSeek"></progress-bar>
     </div>
     <div class="msg">
       <div class="song">
@@ -15,9 +15,9 @@
               style="color: #818181">{{ maxTime }}</span>
       </div>
     </div>
-    <audio id="musicUrl" @canplay="canPLay" :src="url"
-           :loop="playOrder === single"
-           @timeupdate="timeChange" @ended="ended(false)"></audio>
+    <audio :loop="playOrder === single" :src="url" @canplay="canPLay"
+           @ended="ended(false)"
+           @timeupdate="timeChange" id="musicUrl"></audio>
   </div>
 </template>
 
@@ -67,7 +67,7 @@
        * 获取单曲播放地址
        * */
       getMusicPlay() {
-        request('/song/url?id=' + this.id + '&br=320000')
+        request('/song/url?id=' + this.id + '&br=192000')
             .then((res) => {
               if (this.id === res.data[0].id) {
                 this.url = res.data[0].url;
@@ -98,7 +98,7 @@
         if (this.playlist.length && this.playId === this.id && this.first) {
           this.$store.commit("changePlay", true);
           this.musicPlay()
-        } else  {
+        } else {
           this.first = true;
         }
       },
@@ -111,11 +111,19 @@
         } else {
           this.$emit('cIndex', 1);
         }
+        this.scrobble()
       },
+
+      scrobble() {
+        request('/scrobble?id=' + this.Id + '&time=' + this.playSong.dt / 100).then(res => {
+          // console.log(res);
+        })
+      },
+
       //播放和暂停
       musicPlay() {
         if (this.play) {
-          this.music.play()
+          this.music.play();
         } else {
           this.music.pause()
         }
@@ -185,7 +193,6 @@
       },
       playSong: {
         handler() {
-          // console.log(this.id);
           if (this.playId !== this.id) {
             this.$store.commit("changePlay", false);
             this.playId = this.id;

@@ -1,7 +1,8 @@
- <template>
-  <div id="banner" :class="{'show': !start}">
+<template>
+  <div :class="{'show': !start}" id="banner">
     <div class="item">
-      <swiper v-if="load" :load="init" @scrollTo="current" @start="start = true">
+      <swiper :load="init" @scrollTo="current" @start="start = true"
+              v-if="load">
         <template v-slot:swiper>
           <div class="img-items">
             <swiper-item :class="{
@@ -9,16 +10,17 @@
                         'other' : currentIndex !== banner.length - 1,
                         }">
               <a :href="banner[banner.length-1].url || ''">
-                <img :src="banner[banner.length-1].imageUrl" alt="" @load="isload()">
+                <img :src="banner[banner.length-1].imageUrl" @load="isload()"
+                     alt="">
               </a>
             </swiper-item>
-            <swiper-item v-for="(item,index) in banner" :key="index"
-                         :class="{
+            <swiper-item :class="{
                         'center': index === currentIndex,
                         'other' : index !== currentIndex,
-                        }">
+                        }" :key="index"
+                         v-for="(item,index) in banner">
               <a :href="item.url || ''">
-                <img :src="item.imageUrl" alt="" @load="isload()">
+                <img :src="item.imageUrl" @load="isload()" alt="">
               </a>
             </swiper-item>
             <swiper-item :class="{
@@ -26,7 +28,7 @@
                         'other' : currentIndex !== 0,
                         }">
               <a :href="banner[0].url || ''">
-                <img :src="banner[0].imageUrl" alt="" @load="isload()">
+                <img :src="banner[0].imageUrl" @load="isload()" alt="">
               </a>
             </swiper-item>
           </div>
@@ -44,7 +46,7 @@
   export default {
     name: "Banner",
     components: {
-      Swiper,SwiperItem
+      Swiper, SwiperItem
     },
     data() {
       return {
@@ -67,11 +69,13 @@
       isload() {
         this.loadIndex++;
         if (this.loadIndex === this.banner.length) {
-          setTimeout(()=>{this.init = true},100)
+          setTimeout(() => {
+            this.init = true
+          }, 100)
         }
       },
       current(index) {
-        this.currentIndex = index >= this.banner.length ? 0 : index <0 ? this.banner.length - 1 : index;
+        this.currentIndex = index >= this.banner.length ? 0 : index < 0 ? this.banner.length - 1 : index;
       }
     },
   }
@@ -86,14 +90,14 @@
     overflow: hidden;
   }
 
-  .show{
+  .show {
     opacity: 0;
   }
 
-  .item{
+  .item {
     width: 55%;
     height: 100%;
-    margin: 0 auto ;
+    margin: 0 auto;
   }
 
   .img-items {
@@ -120,7 +124,7 @@
 
   .center {
     transition: transform 500ms;
-    transform: scale3d(1,1,1);
+    transform: scale3d(1, 1, 1);
   }
 
 </style>

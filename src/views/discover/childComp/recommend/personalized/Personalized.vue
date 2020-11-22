@@ -1,24 +1,27 @@
 <template>
 
-  <div class="personalized" >
-      <nav-bar :msg="[{name: '推荐歌单', path: '/discover/playlist'}]">
-        <template v-slot:img>
-          <img class="personalized-img" src="../../../../../assets/imgs/icon/discover/tuijian.svg" alt="">
-        </template>
-      </nav-bar>
+  <div class="personalized">
+    <nav-bar :msg="[{name: '推荐歌单', path: '/discover/playlist'}]">
+      <template v-slot:img>
+        <img alt=""
+             class="personalized-img" src="../../../../../assets/imgs/icon/discover/tuijian.svg">
+      </template>
+    </nav-bar>
 
     <main>
       <ul class="music-list">
-        <li class="album" v-for="(item, index) in musicList" :key="index">
+        <li :key="index" class="album" v-for="(item, index) in musicList">
 
-          <album :item="item" :length="30" :size="imgSize" @imgLoad="show(index)" :playlist-to="true">
+          <album :item="item" :length="30" :playlist-to="true"
+                 :size="imgSize" @imgLoad="show(index)">
             <template v-slot:slot>
               <div class="cover"></div>
             </template>
             <template v-slot:icon>
-              <svg t="1602600869883" class="icon" viewBox="0 0 1365 1024" version="1.1"
-                   xmlns="http://www.w3.org/2000/svg" p-id="8018" width="1.3rem"
-                   height="1.3rem">
+              <svg class="icon" height="1.3rem" p-id="8018"
+                   t="1602600869883"
+                   version="1.1" viewBox="0 0 1365 1024" width="1.3rem"
+                   xmlns="http://www.w3.org/2000/svg">
                 <path d="M279.722667 469.333333h9.443555c52.337778 0 94.833778 42.439111 94.833778 94.833778v322.332445c0 52.337778-42.439111 94.833778-94.833778 94.833777h-9.443555c-52.337778 0-94.833778-42.439111-94.833778-94.833777V564.167111c0-52.337778 42.439111-94.833778 94.833778-94.833778z m0 85.333334a9.500444 9.500444 0 0 0-9.500445 9.500444v322.332445c0 5.233778 4.266667 9.500444 9.500445 9.500444h9.443555a9.500444 9.500444 0 0 0 9.500445-9.500444V564.167111a9.500444 9.500444 0 0 0-9.500445-9.500444h-9.443555zM1019.278222 469.333333h9.443556c52.337778 0 94.833778 42.439111 94.833778 94.833778v322.332445c0 52.337778-42.439111 94.833778-94.833778 94.833777h-9.443556c-52.337778 0-94.833778-42.439111-94.833778-94.833777V564.167111c0-52.337778 42.439111-94.833778 94.833778-94.833778z m0 85.333334a9.500444 9.500444 0 0 0-9.500444 9.500444v322.332445c0 5.233778 4.266667 9.500444 9.500444 9.500444h9.443556a9.500444 9.500444 0 0 0 9.500444-9.500444V564.167111a9.500444 9.500444 0 0 0-9.500444-9.500444h-9.443556z"
                       fill="#ffffff" p-id="8019"></path>
                 <path d="M256 455.111111C113.720889 455.111111 0 576.910222 0 725.333333s113.720889 270.222222 256 270.222223v-113.777778c-77.653333 0-142.222222-69.176889-142.222222-156.444445S178.346667 568.888889 256 568.888889V455.111111zM1080.888889 455.111111c142.279111 0 256 121.799111 256 270.222222S1223.168 995.555556 1080.888889 995.555556v-113.777778c77.653333 0 142.222222-69.176889 142.222222-156.444445S1158.542222 568.888889 1080.888889 568.888889V455.111111z"
@@ -53,7 +56,7 @@
       }
     },
     components: {
-      NavBar,Album
+      NavBar, Album
     },
     mounted() {
       request('/personalized?limit=10').then(res => {
@@ -75,7 +78,7 @@
   .personalized {
     position: relative;
   }
-  
+
   .personalized-img {
     opacity: 0.6;
     margin-right: 1rem;
@@ -95,14 +98,14 @@
     margin-bottom: 2rem;
   }
 
-/*  .cover {
-    position: absolute;
-    left: 0;
-    z-index: 99;
-    border-left: 4rem solid rgba(255, 255, 255, 0.5);
-    border-top: 4rem solid rgba(255, 255, 255, 0.5);
-    border-right: 3.5rem solid transparent;
-    border-bottom: 3.5rem solid transparent;
-  }*/
+  /*  .cover {
+      position: absolute;
+      left: 0;
+      z-index: 99;
+      border-left: 4rem solid rgba(255, 255, 255, 0.5);
+      border-top: 4rem solid rgba(255, 255, 255, 0.5);
+      border-right: 3.5rem solid transparent;
+      border-bottom: 3.5rem solid transparent;
+    }*/
 
 </style>

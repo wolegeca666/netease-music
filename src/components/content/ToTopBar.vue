@@ -1,7 +1,7 @@
 <template>
-  <div class="to-top-bar"
-       :class="{'top': !barShow, 'to-top-animate': animate}"
-       @click="start">
+  <div :class="{'top': !barShow, 'to-top-animate': animate}"
+       @click="start"
+       class="to-top-bar">
     <to-top></to-top>
   </div>
 </template>
@@ -29,7 +29,7 @@
     methods: {
 
       scroll(e) {
-        e.scrollTop > 1000 ?
+        e.scrollTop > this.height ?
             this.barShow = true :
             this.barShow = false;
         this.bottom = e.scrollHeight - e.scrollTop - e.clientHeight;
@@ -37,10 +37,9 @@
       },
 
       commit() {
-
         if (this.bottom < 50) {
           this.$store.commit('load', true);
-        }else {
+        } else if (this.load) {
           this.$store.commit('load', false);
         }
       },
@@ -59,20 +58,18 @@
       scrollTo() {
         if (this.top) {
           document.onwheel = null;
-          const view = document.documentElement;
-          let that = this;
           // 设置步长（缓动效果）
-          let step = (view.scrollTop) / 12;
+          let step = (window.scrollY) / 12;
           step > 0 ? Math.ceil(step) : Math.floor(step);
           document.onwheel = (e) => {
             document.onwheel = null;
             this.stop();
           };
-          if (view.scrollTop === 0) {
+          if (window.scrollY === 0) {
             // 停止动画
             this.stop();
           }
-          view.scrollTop = view.scrollTop - step;
+          window.scrollTo(0, window.scrollY - step);
           window.requestAnimationFrame(this.scrollTo)
         }
       },
@@ -80,6 +77,9 @@
     computed: {
       height() {
         return this.$store.state.windowsHeight
+      },
+      load() {
+        return this.$store.state.load
       }
     }
   }

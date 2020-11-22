@@ -9,14 +9,17 @@
       <div class="album-msg">
         <span class="name">{{ item.name }}</span>
         <div class="artist">
-          <span v-if="item.artists.length">歌手：<span class="author">{{ artist }}</span></span>
+          <span v-if="item.artists.length">歌手：<span
+                  class="author">{{ artist }}</span></span>
           <span v-if="item.createTime">发行时间：{{item.createTime}}</span>
         </div>
         <div class="count">
           <div class="subCount">收藏
-            <span v-if="item.info.subscribedCount">({{numHandle(item.info.subscribedCount)}})</span></div>
+            <span v-if="item.info.subscribedCount">({{numHandle(item.info.subscribedCount)}})</span>
+          </div>
           <div class="subCount">评论
-            <span v-if="item.info.commentCount">({{numHandle(item.info.commentCount)}})</span></div>
+            <span v-if="item.info.commentCount">({{numHandle(item.info.commentCount)}})</span>
+          </div>
           <div class="subCount">分享
             <span v-if="item.info.shareCount">({{numHandle(item.info.shareCount)}})</span>
           </div>
@@ -193,7 +196,7 @@
     padding: 1rem 0;
     font-size: 13px;
     font-weight: 600;
-    color: rgba(0,0,0,0.3);
+    color: rgba(0, 0, 0, 0.3);
   }
 
   .album-msg .artist .author {

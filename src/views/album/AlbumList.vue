@@ -55,7 +55,7 @@
     methods: {
       update() {
         request('/album?id=' + this.id).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.album) {
             this.album = res.album;
             this.playlist = res.songs;
@@ -86,8 +86,8 @@
     },
     computed: {
       Id() {
-        if(this.active) {
-          return  this.$route.query.id;
+        if (this.active) {
+          return this.$route.query.id;
         }
       }
     },

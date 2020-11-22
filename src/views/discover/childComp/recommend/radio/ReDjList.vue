@@ -1,10 +1,12 @@
 <template>
   <div class="new-song-list">
     <ul class="list">
-      <li v-for="(item,index) in list" :key="index" :class="{'center': !classHandle(index)}">
-        <song-list-item class="item" :num="index" :song="item" :radio-name="item.program.radio.name"
-                        :current-index="currentIndex"
-                        @itemClick="clickHandle">
+      <li :class="{'center': !classHandle(index)}" :key="index"
+          v-for="(item,index) in list">
+        <song-list-item :current-index="currentIndex" :num="index" :radio-name="item.program.radio.name"
+                        :song="item"
+                        @itemClick="clickHandle"
+                        class="item">
           <template v-slot:left>
             <img :src="item.picUrl" alt=" "/>
           </template>
@@ -15,8 +17,7 @@
 </template>
 
 <script>
-  import SongListItem
-    from "./RadioListItem";
+  import SongListItem from "./RadioListItem";
 
   export default {
     name: "SongList",
@@ -38,7 +39,7 @@
         this.currentIndex = num
       },
       classHandle(num) {
-        return ++num % 2  ? (++num / 2) % 2 : (num / 2) % 2
+        return ++num % 2 ? (++num / 2) % 2 : (num / 2) % 2
       }
     }
   }

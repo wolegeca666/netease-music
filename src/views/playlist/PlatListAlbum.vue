@@ -15,13 +15,15 @@
         <div class="artist">
           <img :src="item.creator.avatarUrl" alt="" v-if="item.creator">
           <span v-if="item.creator">{{ item.creator.nickname }}</span>
-          <span v-if="item.createTime" style="opacity: 0.4;">{{item.createTime}} 创建</span>
+          <span style="opacity: 0.4;" v-if="item.createTime">{{item.createTime}} 创建</span>
         </div>
         <div class="count">
           <div class="subCount">收藏
-            <span v-if="item.subscribedCount">({{numHandle(item.subscribedCount)}})</span></div>
+            <span v-if="item.subscribedCount">({{numHandle(item.subscribedCount)}})</span>
+          </div>
           <div class="subCount">评论
-            <span v-if="item.commentCount">({{numHandle(item.commentCount)}})</span></div>
+            <span v-if="item.commentCount">({{numHandle(item.commentCount)}})</span>
+          </div>
           <div class="subCount">分享
             <span v-if="item.shareCount">({{numHandle(item.shareCount)}})</span>
           </div>

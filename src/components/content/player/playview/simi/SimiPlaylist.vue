@@ -4,13 +4,13 @@
       <loading :show="!show"></loading>
     </div>
     <ul>
-      <li v-for="(item, index) in list" :key="item.id"
+      <li :key="item.id" v-for="(item, index) in list"
           v-show="!(errIndex.includes(index))">
         <scale @itemClick="routerTo(item.id)">
           <div class="playlist">
             <div class="albums">
-              <img :src="item.coverImgUrl" alt="" @load="imgLoad"
-                   @error="errorload(index)">
+              <img :src="item.coverImgUrl" @error="errorload(index)" @load="imgLoad"
+                   alt="">
             </div>
             <div class="msg">
               <p class="name">{{item.name}}</p>

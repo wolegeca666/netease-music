@@ -70,9 +70,18 @@ export default {
     });
     if (!include) {
       state.playList.splice(state.playSongIndex + 1, 0, song);
-    }else {
+    } else {
       state.playSongIndex = playindex;
     }
+  },
+
+  liked(state, list) {
+    state.likeList.push(...list)
+  },
+
+  unlike(state, id) {
+    let index = state.likeList.indexOf(id);
+    state.likeList.splice(index, 1)
   },
 
   load(state, flag) {

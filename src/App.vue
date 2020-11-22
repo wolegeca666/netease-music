@@ -18,28 +18,20 @@
   import Container from "./views/Container";
   import Player from "./components/content/player/Player";
   import ToTopBar from "./components/content/ToTopBar";
+  import LoginView from "./components/content/LoginView";
 
   export default {
     name: "app",
     data() {
-      return {
-
-      }
+      return {}
     },
     components: {
+      LoginView,
       ToTopBar,
       Container, Player, AsideLeft
     },
-    methods: {
-      play() {
-        this.$store.commit('changePlay', !this.playState)
-      }
-    },
-    computed: {
-      playState() {
-        return this.$store.state.songState.play
-      }
-    }
+    methods: {},
+    computed: {}
   }
 </script>
 
@@ -52,14 +44,14 @@
     overflow-x: hidden;
   }
 
-  #body::-webkit-scrollbar{
+  #body::-webkit-scrollbar {
     display: none;
   }
-  
+
   #body {
     overflow-y: hidden;
   }
-  
+
   #app {
     width: 100vw;
     display: flex;
@@ -71,7 +63,7 @@
   }
 
   #footer {
-    z-index: 999;
+    z-index: 200;
     position: fixed;
     left: 0;
     bottom: 0;

@@ -1,8 +1,8 @@
 <template>
   <div class="hover" style="perspective: 1000px;"><!--设置缩放定位-->
-    <div class="song-item"
-         :class="{'active': num === currentIndex, 'animate': animate,}"
-         @mousedown="animation" @click="clickHandle">
+    <div :class="{'active': num === currentIndex, 'animate': animate,}"
+         @click="clickHandle"
+         @mousedown="animation" class="song-item">
       <slot name="left"></slot>
       <div class="song-msg">
         <div class="song-name">
@@ -110,6 +110,7 @@
   .animate {
     transform: translateZ(-25px);
   }
+
   .song-item {
     display: flex;
     align-items: center;
@@ -123,7 +124,7 @@
   }
 
   .song-item .song-name {
-    padding-top:0.5rem;
+    padding-top: 0.5rem;
   }
 
   .song-item .song-name p,

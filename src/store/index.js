@@ -24,6 +24,7 @@ export default new Vuex.Store({
     playList: [],
     playSongIndex: -1,
     load: false,
+    likeList: [],
     windowsWidth: '',
     widowsHeight: ''
   },

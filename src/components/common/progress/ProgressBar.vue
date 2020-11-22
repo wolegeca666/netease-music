@@ -55,7 +55,7 @@
 
       changeProgress() {
         this.$refs.time.style.width = (this.percent * 100) + '%';
-        this.$refs.bar.style.left = this.$el.offsetWidth*this.percent - 7 + 'px';
+        this.$refs.bar.style.left = this.$el.offsetWidth * this.percent - 7 + 'px';
       },
 
       animate() {
@@ -123,7 +123,7 @@
     position: relative;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     content: '';
     width: 0.5rem;
     height: 0.5rem;

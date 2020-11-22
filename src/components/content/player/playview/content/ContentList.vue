@@ -1,11 +1,11 @@
 <template>
   <div class="content-list">
     <ul>
-      <li v-for="(item, index) in list || []" :key="index">
+      <li :key="index" v-for="(item, index) in list || []">
         <div class="hr"></div>
         <div class="msg">
           <div class="creator-img">
-            <img :src="item.user.avatarUrl" alt="" @error="err(index)">
+            <img :src="item.user.avatarUrl" @error="err(index)" alt="">
             <div class="details" v-if="item.user.avatarDetail">
               <img :src="item.user.avatarDetail.identityIconUrl" alt="">
             </div>
@@ -23,6 +23,7 @@
 <script>
 
   import ContentItem from "./ContentItem";
+
   export default {
     name: "ContentList",
     components: {ContentItem},
@@ -58,7 +59,7 @@
     margin: 0 1rem;
   }
 
-  .creator-img img{
+  .creator-img img {
     border-radius: 3.5rem;
     width: 3.5rem;
     height: 3.5rem;

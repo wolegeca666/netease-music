@@ -1,61 +1,61 @@
 <template>
   <div class="aside-bar">
-    <ul :class="{'list': login}">
+    <ul class="list" ref="list">
       <li>
-        <nav-bar title="搜索" :index="0" path="/search"
-                 :current-index="currentIndex">
+        <nav-bar :current-index="currentIndex" :index="0" path="/search"
+                 title="搜索">
           <template v-slot:img>
-            <img src="../../../assets/imgs/icon/aside/search.svg" alt="">
+            <img alt="" src="../../../assets/imgs/icon/aside/search.svg">
           </template>
         </nav-bar>
       </li>
       <li>
-        <nav-bar title="发现音乐" :index="1" path="/"
-                 :current-index="currentIndex">
+        <nav-bar :current-index="currentIndex" :index="1" path="/"
+                 title="发现音乐">
           <template v-slot:img>
-            <img src="../../../assets/imgs/icon/aside/discover.svg" alt="">
+            <img alt="" src="../../../assets/imgs/icon/aside/discover.svg">
           </template>
         </nav-bar>
-        <nav-bar title="视频" :index="2" path="/mv"
-                 :current-index="currentIndex">
+        <nav-bar :current-index="currentIndex" :index="2" path="/mv"
+                 title="视频">
           <template v-slot:img>
-            <img src="../../../assets/imgs/icon/aside/video.svg" alt="">
+            <img alt="" src="../../../assets/imgs/icon/aside/video.svg">
           </template>
         </nav-bar>
       </li>
 
-      <li>
+      <li v-show="show">
         <div class="title" v-show="show">我的音乐</div>
       </li>
-      <li>
-        <nav-bar title="最近播放" :index="3" path="/record"
-                 :current-index="currentIndex">
+      <li v-show="show">
+        <nav-bar :current-index="currentIndex" :index="3" path="/record"
+                 title="播放记录">
           <template v-slot:img>
-            <img src="../../../assets/imgs/icon/aside/record.svg" alt="">
+            <img alt="" src="../../../assets/imgs/icon/aside/record.svg">
           </template>
         </nav-bar>
       </li>
-      <li v-show="login">
-        <nav-bar title="我的音乐云盘" :index="4" path="/"
-                 :current-index="currentIndex">
+      <li v-show="show && login">
+        <nav-bar :current-index="currentIndex" :index="4" path="/"
+                 title="我的音乐云盘">
           <template v-slot:img>
-            <img src="../../../assets/imgs/icon/aside/record.svg" alt="">
+            <img alt="" src="../../../assets/imgs/icon/aside/cloud.svg">
           </template>
         </nav-bar>
       </li>
-      <li v-show="login">
-        <nav-bar title="我的电台" :index="5" path="/"
-                 :current-index="currentIndex">
+      <li v-show="show && login">
+        <nav-bar :current-index="currentIndex" :index="5" path="/"
+                 title="我的电台">
           <template v-slot:img>
-            <img src="../../../assets/imgs/icon/aside/record.svg" alt="">
+            <img alt="" src="../../../assets/imgs/icon/aside/rario.svg">
           </template>
         </nav-bar>
       </li>
-      <li v-show="login">
-        <nav-bar title="我的收藏" :index="6" path="/"
-                 :current-index="currentIndex">
+      <li v-show="show && login">
+        <nav-bar :current-index="currentIndex" :index="6" path="/"
+                 title="我的收藏">
           <template v-slot:img>
-            <img src="../../../assets/imgs/icon/aside/record.svg" alt="">
+            <img alt="" src="../../../assets/imgs/icon/aside/sub_add.svg">
           </template>
         </nav-bar>
       </li>
@@ -63,40 +63,40 @@
       <li v-show="show">
         <div class="title">创建的歌单</div>
       </li>
-      <li v-show="!createPlaylist.length">
-        <scale>
-          <nav-bar title="我喜欢的音乐" :index="7" path="/likedmusic"
-                   :current-index="currentIndex">
-            <template v-slot:img>
-              <img src="../../../assets/imgs/icon/aside/likemusic.svg" alt="">
-            </template>
-          </nav-bar>
-        </scale>
+      <li v-show="!createPlaylist.length && show">
+        <nav-bar :current-index="currentIndex" :index="7" path="/likedmusic"
+                 title="我喜欢的音乐">
+          <template v-slot:img>
+            <img alt="" src="../../../assets/imgs/icon/aside/likemusic.svg">
+          </template>
+        </nav-bar>
       </li>
-      <li v-for="(item, index) in createPlaylist" v-show="createPlaylist.length" :key="item.id">
-        <scale>
-          <nav-bar :title="index === 0 ? '我喜欢的音乐' : item.name" :path="'/playlist?id='+item.id" :index="item.id"
-                   :current-index="currentIndex">
-            <template v-slot:img>
-              <img v-show="index === 0" src="../../../assets/imgs/icon/aside/likemusic.svg" alt="">
-              <img v-show="index !== 0" src="../../../assets/imgs/icon/aside/discover.svg" alt="">
-            </template>
-          </nav-bar>
-        </scale>
+      <li :key="item.id"
+          v-for="(item, index) in createPlaylist" v-show="createPlaylist.length && show">
+        <nav-bar :current-index="currentIndex"
+                 :index="item.id" :path="'/playlist?id='+item.id"
+                 :title="index === 0 ? '我喜欢的音乐' : item.name">
+          <template v-slot:img>
+            <img alt=""
+                 src="../../../assets/imgs/icon/aside/likemusic.svg" v-show="index === 0">
+            <img alt=""
+                 src="../../../assets/imgs/icon/aside/playlist.svg" v-show="index !== 0">
+          </template>
+        </nav-bar>
       </li>
 
-      <li v-show="subPlaylist.length">
+      <li v-show="subPlaylist.length && show">
         <div class="title">收藏的歌单</div>
       </li>
-      <li v-for="item in subPlaylist" :key="item.id">
-        <scale>
-          <nav-bar :title="item.name" :path="'/playlist?id='+item.id" :index="item.id"
-                   :current-index="currentIndex">
-            <template v-slot:img>
-              <img src="../../../assets/imgs/icon/aside/discover.svg" alt="">
-            </template>
-          </nav-bar>
-        </scale>
+      <li :key="item.id" v-for="item in subPlaylist" v-show="show">
+
+        <nav-bar :current-index="currentIndex" :index="item.id"
+                 :path="'/playlist?id='+item.id"
+                 :title="item.name">
+          <template v-slot:img>
+            <img alt="" src="../../../assets/imgs/icon/aside/playlist.svg">
+          </template>
+        </nav-bar>
       </li>
     </ul>
 
@@ -110,15 +110,13 @@
 <script>
   import NavBar from "./NavBar";
   import Login from "../login";
-  import Scale from "../../common/Scale";
   import {request} from "../../../api/request";
 
   export default {
     name: "AsideBar",
     components: {
       Login,
-      NavBar,
-      Scale
+      NavBar
     },
     props: {
       show: Boolean
@@ -139,6 +137,9 @@
       init() {
         this.createPlaylist = [];
         this.subPlaylist = [];
+        this.$nextTick(() => {
+          this.$refs.list.style.overflowY = 'hidden'
+        })
       },
 
       userPlaylists() {
@@ -152,6 +153,9 @@
       },
 
       handle(arr) {
+        if (arr.length > 3) {
+          this.$refs.list.style.overflowY = 'scroll'
+        }
         let index = 0;
         for (let i = 0; i < arr.length; i++) {
           if (arr[i].subscribed) {
@@ -183,6 +187,8 @@
           }
           if (this.$route.path === '/') {
             this.currentIndex = 1;
+          } else if (this.$route.path === '/playlist') {
+            this.currentIndex = parseInt(this.$route.query.id);
           }
         },
         immediate: true
@@ -210,17 +216,19 @@
   }
 
   .list {
-    height: 83%;
-    overflow: scroll;
+    height: 100%;
+    padding-bottom: 2rem;
+    overflow: hidden;
   }
 
   .list::-webkit-scrollbar {
     width: 0.5rem;
   }
+
   /* 滚动条滑块 */
   .list::-webkit-scrollbar-thumb {
     border-radius: 1.5rem;
-    background:rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.2);
   }
 
   img {
@@ -237,9 +245,8 @@
 
   .login {
     position: fixed;
-    bottom: 6.5rem;
+    bottom: 7rem;
     left: 0;
-
     background-color: var(--color-bgc);
   }
 

@@ -1,9 +1,9 @@
 <template>
   <div class="bar">
     <scale>
-      <div class="item" @click="routerTo('/fm')">
+      <div @click="routerTo('/fm')" class="item">
         <div class="icon">
-          <img src="../../../../../assets/imgs/icon/discover/fm.svg" alt="">
+          <img alt="" src="../../../../../assets/imgs/icon/discover/fm.svg">
         </div>
         <div class="text">
           <p>私人FM</p>
@@ -13,7 +13,7 @@
     </scale>
     <div class="center"></div>
     <scale>
-      <div class="item" @click="routerTo('/recommend/songs')">
+      <div @click="routerTo('/recommend/songs')" class="item">
         <div class="icon">
           <p class="date">{{date}}</p>
         </div>
@@ -25,10 +25,10 @@
     </scale>
     <div class="center"></div>
     <scale>
-      <div class="item" @click="routerTo('/discover/toplist')">
+      <div @click="routerTo('/discover/toplist')" class="item">
         <div class="toplist">
-          <img src="../../../../../assets/imgs/icon/discover/toplist.svg"
-               alt="">
+          <img alt=""
+               src="../../../../../assets/imgs/icon/discover/toplist.svg">
         </div>
         <div class="text">
           <p>排行榜</p>

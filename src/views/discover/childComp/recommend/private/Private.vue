@@ -3,15 +3,17 @@
 
     <nav-bar :msg="[{name: '独家放送'}]">
       <template v-slot:img>
-        <img class="personalized-img" src="../../../../../assets/imgs/icon/discover/dujia.svg" alt="">
+        <img alt=""
+             class="personalized-img" src="../../../../../assets/imgs/icon/discover/dujia.svg">
       </template>
     </nav-bar>
 
     <main>
       <ul class="music-list">
-        <li class="album" v-for="(item, index) in musicList" :key="index">
+        <li :key="index" class="album" v-for="(item, index) in musicList">
 
-          <album :item="item" :length="23" :size="imgSize" @imgLoad="show(index)"></album>
+          <album :item="item" :length="23" :size="imgSize"
+                 @imgLoad="show(index)"></album>
 
         </li>
       </ul>
@@ -38,7 +40,7 @@
       }
     },
     components: {
-      NavBar,Album
+      NavBar, Album
     },
     mounted() {
       request('/personalized/privatecontent').then(res => {

@@ -6,8 +6,8 @@
       </div>
     </div>
     <div class="main">
-      <div class="close" @click="view">
-        <img src="../../../../assets/imgs/icon/close/innerclose.svg" alt=""/>
+      <div @click="view" class="close">
+        <img alt="" src="../../../../assets/imgs/icon/close/innerclose.svg"/>
       </div>
       <div class="header">
         <div class="cross"></div>
@@ -29,7 +29,7 @@
             <comment :active="active"></comment>
           </div>
           <div class="simi">
-            <Simi @close="view" :active="active"></Simi>
+            <Simi :active="active" @close="view"></Simi>
           </div>
         </div>
       </div>
@@ -122,12 +122,12 @@
     top: -35rem;
   }
 
-  .image  img {
+  .image img {
     transition: all 1s;
     width: 100%;
     filter: blur(60px);
   }
-  
+
   .main {
     position: relative;
     width: 100%;
@@ -149,14 +149,14 @@
     width: 3rem;
     height: 3rem;
   }
-  
+
   .header {
     position: relative;
     padding-bottom: 2rem;
   }
-  
+
   .header .container {
-    padding:0 5rem;
+    padding: 0 5rem;
     margin: 0 auto;
     min-width: 100rem;
     width: 75%;
@@ -190,19 +190,19 @@
     width: 45%;
     height: 100%;
   }
-  
+
   .content {
     z-index: 50;
     width: 55%;
     height: 100%;
   }
-  
+
   .cross {
     height: 5rem;
     background-image: linear-gradient(to bottom, rgba(187, 187, 187, 0.5), rgba(221, 221, 221, 0.9));
     padding-bottom: 2rem;
   }
-  
+
   .about {
     z-index: 50;
     position: relative;
@@ -212,12 +212,12 @@
     opacity: 0.9;
     padding-bottom: 10rem;
   }
-  
+
   .about .container {
     display: flex;
     justify-content: space-between;
     width: 75%;
-    padding:0 5rem;
+    padding: 0 5rem;
     min-width: 100rem;
     margin: 0 auto;
   }

@@ -1,17 +1,17 @@
 <template>
   <div class="song-list-s">
-    <div class="close-bar" @click="$emit('close')">
+    <div @click="$emit('close')" class="close-bar">
       <img src="../../../../assets/imgs/icon/close/close.svg">
     </div>
-    <div class="song-list" :class="{'show': !show}" >
+    <div :class="{'show': !show}" class="song-list">
       <ul v-if="playLists">
-        <li v-for="(item, index) in playLists" :key="index">
-          <song-list-item :song="item" :num="index"
-                          :current-index="currentIndex"
+        <li :key="index" v-for="(item, index) in playLists">
+          <song-list-item :current-index="currentIndex" :num="index"
+                          :song="item"
                           @itemClick="itemClick"
                           @play="playSong"></song-list-item>
         </li>
-        <li v-if="!playLists.length" class="no-song">没有歌曲啦>_<</li>
+        <li class="no-song" v-if="!playLists.length">没有歌曲啦>_<</li>
       </ul>
     </div>
   </div>

@@ -15,6 +15,7 @@
   import SongList from "./NewSongList";
   import {request} from "../../../../api/request";
   import Loading from "../../../../components/common/loading/Loading";
+
   export default {
     name: "NewSong",
     data() {

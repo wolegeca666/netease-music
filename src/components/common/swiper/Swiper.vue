@@ -1,14 +1,15 @@
 <template>
-  <div id="hy-swiper" @mouseenter="control=true" @mouseleave="control=false">
-    <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" ref="swiper"
-         @touchend="touchEnd" :style="swiperStyle">
+  <div @mouseenter="control=true" @mouseleave="control=false" id="hy-swiper">
+    <div :style="swiperStyle" @touchend="touchEnd" @touchmove="touchMove"
+         @touchstart="touchStart"
+         class="swiper" ref="swiper">
       <slot name="swiper"></slot>
     </div>
-    <a class="previous" @click="previous" v-show="control" href="javascript:;">
+    <a @click="previous" class="previous" href="javascript:" v-show="control">
       <span>
-        <svg t="1603289939382" class="icon" viewBox="0 0 1024 1024"
-             version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9852"
-             width="128" height="128">
+        <svg class="icon" height="128" p-id="9852"
+             t="1603289939382" version="1.1" viewBox="0 0 1024 1024"
+             width="128" xmlns="http://www.w3.org/2000/svg">
           <path d="M287.936 507.58399999a32.896 32.896 0 0 1 9.664-23.35999999L670.912 110.912a33.024 33.024 0 0 1 46.656 46.72l-373.248 373.312a33.024 33.024 0 0 1-56.384-23.36000001"
                 fill="#ffffff" p-id="9853"></path>
           <path d="M287.936 507.58399999a32.896 32.896 0 0 1 56.32-23.35999999l382.08 382.144a33.024 33.024 0 0 1-46.656 46.656l-382.08-382.016a33.152 33.152 0 0 1-9.664-23.42400001"
@@ -16,11 +17,11 @@
         </svg>
       </span>
     </a>
-    <a class="next" @click="next" v-show="control" href="javascript:;">
+    <a @click="next" class="next" href="javascript:" v-show="control">
       <span>
-        <svg t="1603287569301" class="icon" viewBox="0 0 1024 1024"
-             version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9518"
-             width="128" height="128">
+        <svg class="icon" height="128" p-id="9518"
+             t="1603287569301" version="1.1" viewBox="0 0 1024 1024"
+             width="128" xmlns="http://www.w3.org/2000/svg">
           <path d="M736.064 516.41600001a32.896 32.896 0 0 1-9.664 23.35999999L353.088 913.088a33.024 33.024 0 0 1-46.656-46.72l373.248-373.312a33.024 33.024 0 0 1 56.384 23.36000001"
                 fill="#ffffff" p-id="9519"></path>
           <path d="M736.064 516.41600001a32.896 32.896 0 0 1-56.32 23.35999999l-382.08-382.144a33.024 33.024 0 0 1 46.656-46.656l382.08 382.016a33.152 33.152 0 0 1 9.664 23.42400001"
@@ -30,10 +31,10 @@
     </a>
     <div class="indicator">
       <slot name="indicator" v-if="showIndicator">
-        <a href="javascript:;" class="indi-item"
-           v-for="(item, index) in slideCount"
-           :class="{active: index === currentIndex - 1}"
-           :key="index" @mouseenter="changeItemNow(index + 1)"></a>
+        <a :class="{active: index === currentIndex - 1}" :key="index"
+           @mouseenter="changeItemNow(index + 1)"
+           class="indi-item"
+           href="javascript:" v-for="(item, index) in slideCount"></a>
       </slot>
     </div>
   </div>
@@ -214,7 +215,10 @@
     },
     watch: {
       load() {
-        this.$nextTick(this.handleDom);
+        this.$nextTick(() => {
+          setTimeout(this.handleDom, 500)
+        });
+
       }
     }
   }

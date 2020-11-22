@@ -1,19 +1,20 @@
 <template>
   <div class="list">
-    <div v-if="allShow" class="play-bar" @click="playSong(0)">
-      <svg t="1603614206566" class="icon" viewBox="0 0 1024 1024" version="1.1"
-           xmlns="http://www.w3.org/2000/svg" p-id="7602" width="128"
-           height="128">
+    <div @click="playSong(0)" class="play-bar" v-if="allShow">
+      <svg class="icon" height="128" p-id="7602" t="1603614206566"
+           version="1.1" viewBox="0 0 1024 1024" width="128"
+           xmlns="http://www.w3.org/2000/svg">
         <path d="M904.1 347c-21.4-50.6-52-96-91-135s-84.4-69.6-135-91c-52.4-22.2-108-33.4-165.4-33.4s-113 11.2-165.4 33.4c-50.6 21.4-96 52-135 91s-69.6 84.4-91 135c-22.2 52.4-33.4 108-33.4 165.4 0 57.3 11.2 113 33.4 165.4 21.4 50.6 52 96 91 135s84.4 69.6 135 91c52.4 22.2 108 33.4 165.4 33.4s113-11.2 165.4-33.4c50.6-21.4 96-52 135-91s69.6-84.4 91-135c22.2-52.4 33.4-108 33.4-165.4 0-57.3-11.3-113-33.4-165.4zM512.6 877.3c-201.2 0-364.9-163.7-364.9-364.9s163.7-364.9 364.9-364.9 364.9 163.7 364.9 364.9-163.7 364.9-364.9 364.9z"
-              p-id="7603" fill="#d81e06"></path>
-        <path d="M709.9 512.2L417.4 343.3V681z" p-id="7604"
-              fill="#d81e06"></path>
+              fill="#d81e06" p-id="7603"></path>
+        <path d="M709.9 512.2L417.4 343.3V681z" fill="#d81e06"
+              p-id="7604"></path>
       </svg>
-      <p class="bar">播放全部<span v-if="listLength">{{'（' +  listLength + '）' }}</span></p>
+      <p class="bar">播放全部<span
+              v-if="listLength">{{'（' +  listLength + '）' }}</span></p>
     </div>
     <ul>
-      <li v-for="(item, index) in playLists" :key="index">
-        <song-list-item :song="item" :num="index" :current-index="currentIndex"
+      <li :key="index" v-for="(item, index) in playLists">
+        <song-list-item :current-index="currentIndex" :num="index" :song="item"
                         @itemClick="itemClick"
                         @play="playSong">
         </song-list-item>
@@ -75,14 +76,35 @@
 
       add() {
         let Ids = this.list.map(item => item.id);
-        Ids.splice(1000);
-        // console.log(Ids.join(','));
-        this.getMusicDetail(Ids.join(',')).then(res => {
-          // console.log(res);
-          res = res || [];
-          this.playLists = [...res];
-          this.$nextTick(this.isShow)
-        })
+        if (Ids.length > 1000) {
+          this.bigIds(Ids)
+        } else {
+          this.getMusicDetail(Ids.join(',')).then(res => {
+            // console.log(res);
+            res = res || [];
+            this.playLists = [...res];
+            this.$nextTick(this.isShow)
+          })
+        }
+      },
+
+      bigIds(Ids) {
+        let arr = [];
+        for (let i = Ids.length / 500; i > 0; i--) {
+          arr.push(Ids.splice(0, 500))
+        }
+        this.getList(arr, 0);
+      },
+
+      getList(arr, i) {
+        if (i < arr.length) {
+          this.getMusicDetail(arr[i].join(',')).then(res => {
+            res = res || [];
+            this.playLists = [...this.playLists, ...res];
+            this.getList(arr, ++i);
+            this.$nextTick(this.isShow)
+          })
+        }
       },
 
       isShow() {

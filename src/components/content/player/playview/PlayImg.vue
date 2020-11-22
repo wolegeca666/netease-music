@@ -1,7 +1,7 @@
 <template>
   <div class="play-img">
     <div class="play-img-rotate" ref="rotate">
-      <img :src="url" alt="">
+      <img :src="url" alt="" ref="img">
     </div>
   </div>
 </template>
@@ -23,12 +23,9 @@
       }
     },
     mounted() {
-      let img = document.getElementsByTagName('img');
-      img.forEach(function (item) {
-        item.onmousedown = function(e){
-          e.preventDefault()
-        };
-      });
+      this.$refs.img.onmousedown = function (e) {
+        e.preventDefault()
+      };
     },
     beforeDestroy() {
       window.onblur = null;
@@ -50,7 +47,7 @@
       startTimer() {
         window.requestAnimationFrame(this.startLoop)
       },
-      
+
       startLoop() {
         this.timer = true;
         this.rotateTimer()
@@ -83,7 +80,7 @@
               that.startTimer();
             }
           }
-        }else {
+        } else {
           this.stopTimer();
           window.onblur = null;
           window.onfocus = null;

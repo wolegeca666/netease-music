@@ -2,7 +2,8 @@
   <div class="comment-list">
     <div class="title">
       <p>评论</p>
-      <p class="simple" v-show="result.totalCount">{{'（'+ result.totalCount + '）'}}</p>
+      <p class="simple" v-show="result.totalCount">{{'（'+ result.totalCount +
+        '）'}}</p>
     </div>
     <div class="hr"></div>
     <div class="load" v-show="!show">
@@ -18,12 +19,14 @@
       <div class="comment-new">
         <div class="title">
           <p class="deep">最新评论</p>
-          <p class="simple" v-show="newComment.totalCount">{{'（'+ newComment.totalCount + '）'}}</p>
+          <p class="simple" v-show="newComment.totalCount">{{'（'+
+            newComment.totalCount + '）'}}</p>
         </div>
         <content-list :list="newComment.comments"></content-list>
       </div>
     </div>
-    <div class="no-comment" v-show="newComment.totalCount === 0">暂无评论</div>
+    <div class="no-comment" v-show="newComment.totalCount === 0">还没有评论，赶紧抢沙发~
+    </div>
   </div>
 
 </template>

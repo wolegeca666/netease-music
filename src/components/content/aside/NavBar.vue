@@ -1,10 +1,11 @@
 <template>
-    <div class="nav-bar-item" :class="{'active': active, 'off': !active}" @click="toActive">
-      <div class="icon">
-        <slot name="img"></slot>
-      </div>
-      <span class="name">{{title}}</span>
+  <div :class="{'active': active, 'off': !active}" @click="toActive"
+       class="nav-bar-item">
+    <div class="icon">
+      <slot name="img"></slot>
     </div>
+    <span class="name">{{title}}</span>
+  </div>
 </template>
 
 <script>

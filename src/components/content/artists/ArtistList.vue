@@ -1,12 +1,14 @@
 <template>
   <div class="list" v-show="list.length > 30 || isLoad">
     <ul>
-      <li v-for="(item, index) in list" :key="index" v-show="!(errIndex.includes(index))">
-        <list-item :song="item" :num="index" :current-index="currentIndex"
-                        @itemClick="itemClick">
+      <li :key="index" v-for="(item, index) in list"
+          v-show="!(errIndex.includes(index))">
+        <list-item :current-index="currentIndex" :num="index" :song="item"
+                   @itemClick="itemClick">
           <template v-slot:left>
             <div class="image">
-              <img :src="item.img1v1Url" alt="" @load="imgLoad" @error="errorload(index)">
+              <img :src="item.img1v1Url" @error="errorload(index)" @load="imgLoad"
+                   alt="">
             </div>
           </template>
         </list-item>
@@ -49,7 +51,7 @@
     computed: {
       isLoad() {
         if (this.list.length) {
-          return  this.loadIndex >= (this.list.length - this.errIndex.length)
+          return this.loadIndex >= (this.list.length - this.errIndex.length)
         }
       }
     },

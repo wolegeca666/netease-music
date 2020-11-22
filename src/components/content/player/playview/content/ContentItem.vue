@@ -9,7 +9,7 @@
       <div class="handle">
         <scale>
           <div class="liked-count">
-            <img src="../../../../../assets/imgs/icon/like/liked.svg" alt="">
+            <img alt="" src="../../../../../assets/imgs/icon/like/liked.svg">
             <p v-if="item.likedCount">{{'（' + item.likedCount + '）'}}</p>
           </div>
         </scale>

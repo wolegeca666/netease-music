@@ -1,31 +1,34 @@
 <template>
   <div :class="{'show': show, 'un-show': !show}">
     <scale>
-        <div class="login" v-show="!login" @click="loginTo()">
-          <img :src="picUrl" alt="">
-          <div class="msg" v-show="show">未登录</div>
-        </div>
-        <div class="login" v-show="login" @click="logout()">
-          <img v-if="picUrl" :src="picUrl" alt="">
-          <div class="msg" v-show="show">{{profile.nickname}}</div>
-        </div>
+      <div @click="loginTo" class="login" v-show="!login">
+        <img :src="picUrl" alt="">
+        <div class="msg" v-show="show">未登录</div>
+      </div>
+      <div @click="logout()" class="login" v-show="login">
+        <img :src="picUrl" alt="" v-if="picUrl">
+        <div class="msg" v-show="show">{{profile.nickname}}</div>
+      </div>
     </scale>
 
     <scale>
-        <div class="icon">
-          <img src="../../assets/imgs/icon/aside/msg.svg" alt="">
-        </div>
+      <div @click="loginView()" class="icon">
+        <img alt="" src="../../assets/imgs/icon/aside/msg.svg">
+      </div>
     </scale>
+    <LoginView :show="view" @close="view = false" @login="loginTo"></LoginView>
   </div>
 </template>
 
 <script>
   import Scale from "../common/Scale";
   import {request} from "../../api/request";
+  import LoginView from "./LoginView";
 
   export default {
     name: "login",
     components: {
+      LoginView,
       Scale
     },
     props: {
@@ -36,6 +39,7 @@
     },
     data() {
       return {
+        view: false,
         value: 'true',
         profile: {},
         phone: '15827027152',
@@ -55,6 +59,7 @@
           if (res) {
             this.profile = res.profile;
             this.$store.commit('login', this.profile.userId);
+            this.getLikeList();
             this.refresh();
           } else {
             this.$store.commit('logout');
@@ -70,20 +75,33 @@
           this.profile = {};
           this.$store.commit('logout');
           this.refresh();
+          this.$router.push('/')
         }).catch(e => {
           console.log(e);
         });
       },
 
       loginTo() {
-        request('/login/cellphone?phone='+ this.phone +'&password=' + this.password).then(res => {
-          console.log(res);
+        request('/login/cellphone?phone=' + this.phone + '&password=' + this.password).then(res => {
+          // console.log(res);
           if (res.code === 502) {
             alert(res.msg)
           } else {
             this.profile = res.profile;
             this.$store.commit('login', this.profile.userId);
+            this.getLikeList();
             this.refresh();
+          }
+        }).catch(e => {
+          console.log(e);
+        });
+      },
+
+      getLikeList() {
+        request('/likelist?uid=' + this.profile.userId).then(res => {
+          // console.log(res.ids);
+          if (res.code === 200) {
+            this.$store.commit('liked', res.ids);
           }
         }).catch(e => {
           console.log(e);
@@ -92,18 +110,21 @@
 
       refresh() {
         request('/login/refresh').then(res => {
-
         }).catch(e => {
           console.log(e);
         });
+      },
+
+      loginView() {
+        this.view = !this.login
       }
     },
     computed: {
       picUrl() {
         return this.profile.avatarUrl || 'https://p4.music.126.net/VnZiScyynLG7atLIZ2YPkw==/18686200114669622.jpg'
       },
-      login(){
-        return  this.$store.state.login
+      login() {
+        return this.$store.state.login
       }
     }
   }
@@ -112,23 +133,21 @@
 <style scoped>
   .un-show,
   .show {
+    display: flex;
+    align-items: center;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
   }
 
   .un-show {
     overflow: hidden;
-    display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    align-items: center;
-    width: 3.8rem;
+    width: 4rem;
     height: 9rem;
   }
 
   .show {
-    display: flex;
     justify-content: space-around;
-    align-items: center;
     width: 18rem;
     height: 6rem;
   }

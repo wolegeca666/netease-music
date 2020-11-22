@@ -1,5 +1,5 @@
 <template>
-  <div class="title" @click="clickHandle">
+  <div @click="clickHandle" class="title">
     <p>{{title.name}}</p>
   </div>
 </template>
@@ -32,7 +32,7 @@
         this.$emit('titleClick', this.title.name);
       }
     },
-    watch:{
+    watch: {
       $route() {
         if (this.title.path && this.$route.path === this.title.path) {
           // console.log(this.$route.path);
@@ -47,6 +47,6 @@
   .title {
     display: inline;
     height: 100%;
-    color: rgba(0,0,0,0.5);
+    color: rgba(0, 0, 0, 0.5);
   }
 </style>

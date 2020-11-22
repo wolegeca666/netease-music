@@ -16,7 +16,7 @@
   export default {
     name: "MusicHandle",
     components: {
-      Like,MethodBar,VoiceBar,PlayList
+      Like, MethodBar, VoiceBar, PlayList
     },
     methods: {
       click() {

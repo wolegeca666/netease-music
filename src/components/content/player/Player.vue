@@ -1,20 +1,21 @@
 <template>
-    <div id="player">
-      <div class="view" :class="{'un-play': !play}">
-        <play-view :active="play" @close="view"></play-view>
-      </div>
-      <div class="pic" @click="view">
-        <img :src="url" alt="0">
-      </div>
-      <music-control></music-control>
-      <music-handle @list="listShow"></music-handle>
-      <div id="play-list-s" class="list" :class="{'show': !show}" @click.stop @scroll.stop ref="list">
-        <div class="title">
-          <p>播放列表</p>
-        </div>
-        <song-list :show="show" @close="listShow"></song-list>
-      </div>
+  <div id="player">
+    <div :class="{'un-play': !play}" class="view">
+      <play-view :active="play" @close="view"></play-view>
     </div>
+    <div @click="view" class="pic">
+      <img :src="url" alt="0">
+    </div>
+    <music-control></music-control>
+    <music-handle @list="listShow"></music-handle>
+    <div :class="{'show': !show}" @click.stop @scroll.stop class="list"
+         id="play-list-s" ref="list">
+      <div class="title">
+        <p>播放列表</p>
+      </div>
+      <song-list :show="show" @close="listShow"></song-list>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -32,7 +33,7 @@
       }
     },
     components: {
-      PlayView,MusicControl,MusicHandle,SongList
+      PlayView, MusicControl, MusicHandle, SongList
     },
     computed: {
       url() {
@@ -108,12 +109,13 @@
     background-color: #fff;
     perspective: 1000px;
   }
-  
+
   #player .pic {
     z-index: 999;
     background-color: #fff;
     padding: 2px 0.5rem;
   }
+
   #player .pic img {
     width: 6rem;
     height: 6rem;
@@ -147,9 +149,9 @@
     height: 50rem;
     border: 1px solid var(--color-active);
   }
-  
+
   .show {
-    transform: translate3d(0,100%,0);
+    transform: translate3d(0, 100%, 0);
   }
 
   .title {

@@ -4,9 +4,9 @@
       <loading :show="!simiSong.length"></loading>
     </div>
     <ul>
-      <li v-for="item in simiSong" :key="item.id">
+      <li :key="item.id" v-for="item in simiSong">
         <scale>
-          <div class="song" @click="musicPlay(item)">
+          <div @click="musicPlay(item)" class="song">
             <div class="pic">
               <img :src="item.al.picUrl" alt="">
               <div class="play">

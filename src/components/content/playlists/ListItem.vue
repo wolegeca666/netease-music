@@ -1,23 +1,25 @@
 <template>
-  <div style="perspective: 1000px;" class="hover"
-       :class="{'odd': !isOdd()}"
-       @mousedown="animation" @click="clickHandle"><!--设置缩放定位-->
-    <div class="song-item"
-         :class="{'animate': animate, 'active': isActive}">
+  <div :class="{'odd': !isOdd()}" @click="clickHandle"
+       @mousedown="animation"
+       class="hover" style="perspective: 1000px;"><!--设置缩放定位-->
+    <div :class="{'animate': animate, 'active': isActive}"
+         class="song-item">
       <slot name="left"></slot>
       <div class="song-msg">
         <div class="song-name">
           <p>
             <span>{{song.name}}</span>
-            <span v-if="song.alia" style="color:rgba(0,0,0,0.4);">
+            <span style="color:rgba(0,0,0,0.4);" v-if="song.alia">
               {{ ' (' + song.alia + ')' }}
             </span>
           </p>
         </div>
         <div class="others">
-          <p v-if="song.trackCount" class="count">{{song.trackCount}} 首</p>
-          <p v-if="song.creator" class="author"><span>by </span>{{ song.creator.nickname }}</p>
-          <p v-if="song.playCount" class="count">播放： {{numHandle(song.playCount)}}</p>
+          <p class="count" v-if="song.trackCount">{{song.trackCount}} 首</p>
+          <p class="author" v-if="song.creator"><span>by </span>{{
+            song.creator.nickname }}</p>
+          <p class="count" v-if="song.playCount">播放：
+            {{numHandle(song.playCount)}}</p>
         </div>
       </div>
     </div>
@@ -55,7 +57,7 @@
     methods: {
 
       numHandle(num) {
-        return num > 100000? Math.floor(num/10000)+'万' : num
+        return num > 100000 ? Math.floor(num / 10000) + '万' : num
       },
 
       cutContext(str) {
@@ -183,7 +185,7 @@
     flex-direction: row;
     font-size: 12px;
     font-weight: 600;
-    color: rgba(0,0,0,0.3);
+    color: rgba(0, 0, 0, 0.3);
   }
 
   .song-msg .author {
@@ -193,8 +195,6 @@
   .song-msg .count {
     width: 25%;
   }
-
-
 
 
 </style>

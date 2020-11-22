@@ -6,9 +6,9 @@
       <p v-if="playSong.ar">歌手： <span> {{authorHandle(playSong)}} </span></p>
     </div>
 
-    <div class="lrc"  v-show="!nolyric">
+    <div class="lrc" v-show="!nolyric">
       <p :class="{'playtime': (show && isNow(index))}"
-         v-for="(item, index) in lyric" :key="index">{{item.text}}</p>
+         :key="index" v-for="(item, index) in lyric">{{item.text}}</p>
       <div class="load" v-show="!lyric">
         <loading :show="!lyric"></loading>
       </div>
@@ -35,7 +35,7 @@
     data() {
       return {
         lyric: [],
-        nolyric:'',
+        nolyric: '',
         current: 0
       }
     },
@@ -163,8 +163,13 @@
   }
 
   .name {
+    width: 100%;
+    height: 8rem;
     font-size: 18px;
     padding: 1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .author {
@@ -203,14 +208,16 @@
   .lrc::-webkit-scrollbar {
     width: 0.8rem;
   }
+
   /* 滚动槽 */
   .lrc::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0);
   }
+
   /* 滚动条滑块 */
   .lrc::-webkit-scrollbar-thumb {
     border-radius: 1.5rem;
-    background:rgba(0,0,0,0.08);
+    background: rgba(0, 0, 0, 0.08);
   }
 
   .playtime {

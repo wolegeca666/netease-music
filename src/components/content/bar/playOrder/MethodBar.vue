@@ -1,17 +1,17 @@
 <template>
   <div class="method">
     <div style="margin-left: 2rem;">
-      <div v-show="orderList[0] === playOrder" @click="change(orderList[1])">
-        <img src="../../../../assets/imgs/icon/playorder/inOrder.svg" alt="">
+      <div @click="change(orderList[1])" v-show="orderList[0] === playOrder">
+        <img alt="" src="../../../../assets/imgs/icon/playorder/inOrder.svg">
       </div>
-      <div v-show="orderList[1] === playOrder" @click="change(orderList[2])">
-        <img src="../../../../assets/imgs/icon/playorder/loop.svg" alt="">
+      <div @click="change(orderList[2])" v-show="orderList[1] === playOrder">
+        <img alt="" src="../../../../assets/imgs/icon/playorder/loop.svg">
       </div>
-      <div v-show="orderList[2] === playOrder" @click="change(orderList[3])">
-        <img src="../../../../assets/imgs/icon/playorder/single.svg" alt="">
+      <div @click="change(orderList[3])" v-show="orderList[2] === playOrder">
+        <img alt="" src="../../../../assets/imgs/icon/playorder/single.svg">
       </div>
-      <div v-show="orderList[3] === playOrder" @click="change(orderList[0])">
-        <img src="../../../../assets/imgs/icon/playorder/random.svg" alt="">
+      <div @click="change(orderList[0])" v-show="orderList[3] === playOrder">
+        <img alt="" src="../../../../assets/imgs/icon/playorder/random.svg">
       </div>
     </div>
   </div>
@@ -41,7 +41,9 @@
       }
     },
     computed: {
-      playOrder() { return this.$store.state.songState.playOrder }
+      playOrder() {
+        return this.$store.state.songState.playOrder
+      }
     }
   }
 </script>

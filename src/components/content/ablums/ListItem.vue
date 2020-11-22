@@ -1,15 +1,15 @@
 <template>
-  <div style="perspective: 1000px;" class="hover"
-       :class="{'odd': !isOdd()}"
-       @mousedown="animation" @click="clickHandle"><!--设置缩放定位-->
-    <div class="song-item"
-         :class="{'animate': animate, 'active': isActive}">
+  <div :class="{'odd': !isOdd()}" @click="clickHandle"
+       @mousedown="animation"
+       class="hover" style="perspective: 1000px;"><!--设置缩放定位-->
+    <div :class="{'animate': animate, 'active': isActive}"
+         class="song-item">
       <slot name="left"></slot>
       <div class="song-msg">
         <div class="song-name">
           <p>
             <span>{{song.name}}</span>
-            <span v-if="song.alia" style="color:rgba(0,0,0,0.4);">
+            <span style="color:rgba(0,0,0,0.4);" v-if="song.alia">
               {{ ' (' + song.alia + ')' }}
             </span>
           </p>
@@ -82,7 +82,7 @@
         } else {
           this.flag = true
         }
-        console.log(this.song.id)
+        console.log(this.song.id);
         this.$router.push({name: 'Album', query: {id: this.song.id}})
       },
 

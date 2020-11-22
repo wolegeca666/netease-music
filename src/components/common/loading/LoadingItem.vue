@@ -1,6 +1,6 @@
 <template>
   <div class="loading-img" ref="ev">
-    <img src="../../../assets/imgs/icon/loading/loading.svg" alt="">
+    <img alt="" src="../../../assets/imgs/icon/loading/loading.svg">
   </div>
 </template>
 
@@ -27,14 +27,14 @@
     methods: {
       rotateTo() {
         // console.log(1);
-        this.$refs.ev.style.transform = `rotateZ(${this.rotate}deg)`;
-        this.startTimer();
+        if (this.show) {
+          this.$refs.ev.style.transform = `rotateZ(${this.rotate}deg)`;
+          this.startTimer();
+        }
       },
       startTimer() {
-        if (this.show) {
-          this.rotate+= 3;
-          window.requestAnimationFrame(this.rotateTo);
-        }
+        this.rotate += 3;
+        window.requestAnimationFrame(this.rotateTo);
       }
     },
     watch: {

@@ -3,7 +3,9 @@
     <div class="song-nav">
       <nav-bar :msg="[{name:'最新音乐', path: '/discover/newsong'}]">
         <template v-slot:img>
-          <img class="personalized-img" src="../../../../../assets/imgs/icon/discover/newsong.svg" alt="">
+          <img alt=""
+               class="personalized-img"
+               src="../../../../../assets/imgs/icon/discover/newsong.svg">
         </template>
       </nav-bar>
     </div>
@@ -22,7 +24,7 @@
   export default {
     name: "NewSong",
     components: {
-      NavBar,SongList
+      NavBar, SongList
     },
     data() {
       return {
@@ -39,7 +41,7 @@
 </script>
 
 <style scoped>
-  .song-nav img{
+  .song-nav img {
     opacity: 0.8;
     margin-right: 1rem;
     width: 2rem;

@@ -1,5 +1,5 @@
 <template>
-  <div v-show="show" class="loading-container">
+  <div class="loading-container" v-show="show">
     <loading-item :show="show"></loading-item>
   </div>
 
@@ -7,6 +7,7 @@
 
 <script>
   import LoadingItem from "./LoadingItem";
+
   export default {
     name: "Loading",
     components: {LoadingItem},

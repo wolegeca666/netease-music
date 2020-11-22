@@ -1,8 +1,8 @@
 <template>
-  <div style="perspective: 1000px;"
-       @mousedown="animation" @click="clickHandle"><!--设置缩放定位-->
-    <div class="item"
-         :class="{'animate': animate, 'active': active}">
+  <div @click="clickHandle"
+       @mousedown="animation" style="perspective: 1000px;"><!--设置缩放定位-->
+    <div :class="{'animate': animate, 'active': active}"
+         class="item">
       <slot></slot>
     </div>
   </div>
@@ -41,24 +41,24 @@
 
   @keyframes click {
     0% {
-      transform: translateZ(-40px);
+      transform: translate3d(0, 0, -40px);
     }
     25% {
-      transform: translateZ(-30px);
+      transform: translate3d(0, 0, -30px);
     }
     50% {
-      transform: translateZ(-20px);
+      transform: translate3d(0, 0, -20px);
     }
     75% {
-      transform: translateZ(-10px);
+      transform: translate3d(0, 0, -10px);
     }
     100% {
-      transform: translateZ(0);
+      transform: translate3d(0, 0, 0);
     }
   }
 
   .animate {
-    transform: translateZ(-40px);
+    transform: translate3d(0, 0, -40px);
   }
 
   .active {

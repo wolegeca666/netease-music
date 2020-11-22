@@ -1,58 +1,63 @@
 <template>
   <div class="result">
     <div class="search-nav">
-      <nav-bar :msg="titles" :active-title="title" :left-icon="false"
+      <nav-bar :active-title="title" :left-icon="false" :msg="titles"
                @typeClick="titleClick"></nav-bar>
     </div>
-    <div class="most" v-show="most && type===1 && !loading" ref="img">
+    <div class="most" ref="img" v-show="most && type===1 && !loading">
       <div class="artist most-list" v-if="most.artist">
-        <div class="most-item" v-for="msg in most.artist"
-             @click="routeTo(msg.id)">
-          <img :src="msg.img1v1Url" alt="" @load="mostImgLoad">
+        <div @click="routeTo(msg.id)" class="most-item"
+             v-for="msg in most.artist">
+          <img :src="msg.img1v1Url" @load="mostImgLoad" alt="">
           <p>歌手： {{ msg.name }}</p>
         </div>
       </div>
       <div class="album most-list" v-if="most.album">
-        <div class="most-item" v-for="msg in most.album"
-             @click="routeTo(msg.id, 'Album')">
-          <img :src="msg.picUrl" alt="" @load="mostImgLoad">
+        <div @click="routeTo(msg.id, 'Album')" class="most-item"
+             v-for="msg in most.album">
+          <img :src="msg.picUrl" @load="mostImgLoad" alt="">
           <p>专辑： {{ msg.name }} - {{ msg.artist.name }}</p>
         </div>
       </div>
       <div class="mv most-list" v-if="most.mv">
-        <div class="most-item" v-for="msg in most.mv" @click="routeTo(msg.id)">
-          <img :src="msg.cover" alt="" @load="mostImgLoad">
+        <div @click="routeTo(msg.id)" class="most-item" v-for="msg in most.mv">
+          <img :src="msg.cover" @load="mostImgLoad" alt="">
           <p>MV： {{ msg.name }}</p>
         </div>
       </div>
       <div v-if="most.video" v-show="false">
         <div class="most-item" v-for="msg in most.video">
-          <img :src="msg.coverUrl" alt="" @load="mostImgLoad">
+          <img :src="msg.coverUrl" @load="mostImgLoad" alt="">
         </div>
       </div>
       <div v-if="most.circle" v-show="false">
         <div class="most-item" v-for="msg in most.circle">
-          <img :src="msg.circle.image" alt="" @load="mostImgLoad">
+          <img :src="msg.circle.image" @load="mostImgLoad" alt="">
         </div>
       </div>
     </div>
-    <div v-show="most.orders && type === 1 && !loading" class="hr"></div>
+    <div class="hr" v-show="most.orders && type === 1 && !loading"></div>
     <div class="loading" v-show="loading">
       <loading :show="loading"></loading>
     </div>
     <div class="list" v-show="!loading">
       <div v-show="type === 1">
-        <song-list :list="playlist || []" :all-show="false"
+        <song-list :all-show="false" :list="playlist || []"
                    :load-show="true"></song-list>
       </div>
       <div v-show="type === 100">
         <artist-list :list="result.artists || []"
-                     ></artist-list>
+                     @isload="otherLoading"></artist-list>
       </div>
 
       <div v-show="type === 10">
         <albums-list :list="result.albums || []"
-                     ></albums-list>
+                     @isload="otherLoading"></albums-list>
+      </div>
+
+      <div v-show="type === 1004">
+        <video-list :list="result.mvs || []"
+                    @isload="loadingEnd"></video-list>
       </div>
 
       <div v-show="type === 1000">
@@ -72,10 +77,13 @@
   import PlayLists from "../../components/content/playlists/PlayLists";
   import {request} from "../../api/request";
   import Loading from "../../components/common/loading/Loading";
+  import VideoList from "../../components/content/video/VideoList";
 
   export default {
     name: "SearchResult",
-    components: {Loading, NavBar, SongList, ArtistList, AlbumsList, PlayLists},
+    components: {
+      VideoList,
+      Loading, NavBar, SongList, ArtistList, AlbumsList, PlayLists},
     data() {
       return {
         active: false,
@@ -86,7 +94,7 @@
           {name: '单曲', type: 1},
           {name: '专辑', type: 10},
           {name: '歌手', type: 100},
-          {name: '视频', type: 1014},
+          {name: 'MV', type: 1004},
           {name: '歌单', type: 1000},
           {name: '歌词', type: 1006},
           {name: '主播电台', type: 1009},
@@ -155,7 +163,13 @@
       },
 
       mostLoading() {
-        if (this.imgLoadIndex >= this.most.orders?.length) {
+        if (this.imgLoadIndex >= (this.most.orders?.length || 0)) {
+          this.loadingEnd();
+        }
+      },
+
+      otherLoading() {
+        if (this.type !== 1) {
           this.loadingEnd();
         }
       },
@@ -206,7 +220,7 @@
       },
 
       updateData() {
-        if (!this.action && this.offset < 600) {
+        if (!this.action && this.offset < 100) {
           this.action = true;
           this.offset += 30;
           // console.log(this.type);
@@ -226,9 +240,6 @@
               }
             }
             this.action = false;
-            if (this.offset >= 600) {
-              this.offset = 800
-            }
           }).catch(e => {
             this.action = false;
             console.log(e);
@@ -284,7 +295,6 @@
   .most {
     display: flex;
     flex-direction: column;
-    margin-bottom: 2rem;
   }
 
   .most-item {
@@ -314,6 +324,7 @@
   }
 
   .hr {
+    margin-top: 2rem;
     opacity: 0.5;
   }
 
@@ -323,6 +334,6 @@
   }
 
   .list {
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
 </style>

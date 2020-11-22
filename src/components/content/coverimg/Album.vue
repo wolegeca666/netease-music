@@ -1,24 +1,26 @@
 <template>
-  <div class="album-item" :style="{width: size.width}" @click="playlist">
+  <div :style="{width: size.width}" @click="playlist" class="album-item">
     <slot name="slot"></slot>
 
-    <a class="album" @mouseleave="active = false"
-       @click="active = false">
-      <div class="img-container" :style="{width: size.width, height: size.height}"
-           :class="{'active': active}">
-        <img :src="picUrl()" alt="" :class="{'active': active}"
-             @mouseenter="active = true" v-show="load"
-             :style="{width: size.width, height: size.height}" @load="isLoad"/>
+    <a @click="active = false" @mouseleave="active = false"
+       class="album">
+      <div :class="{'activeD': active}"
+           :style="{width: size.width, height: size.height}"
+           class="img-container">
+        <img :class="{'active': active}" :src="picUrl()" :style="{width: size.width, height: size.height}"
+             @load="isLoad" @mouseenter="active = true"
+             alt="" v-show="load"/>
         <div class="play-count" v-if="show"><!--播放数量-->
-          <slot name="icon" class="icon"></slot>
+          <slot class="icon" name="icon"></slot>
           <span style="font-size: 10px;" v-if="item.playCount">
             {{item.playCount > 100000? Math.floor(item.playCount/10000)+'万' : item.playCount}}
           </span>
         </div>
       </div>
-      <span class="name">{{ item.name }}</span>
-      <span v-if="item.artistName" class="artist">{{ cutContext(item.artistName) }}</span>
-      <span v-if="item.creator" class="artist">by {{ cutContext(item.creator.nickname,) }}</span>
+      <span class="name">{{ item.name}}</span>
+      <span class="artist" v-if="item.artistName">{{ item.artistName }}</span>
+      <span class="artist"
+            v-if="item.creator">by {{ item.creator.nickname }}</span>
     </a>
   </div>
 </template>
@@ -55,7 +57,7 @@
         type: Boolean,
         default: true
       },
-      playlistTo:{
+      playlistTo: {
         type: Boolean,
         default: false
       }
@@ -70,13 +72,6 @@
       this.load = false
     },
     methods: {
-      cutContext(str) {
-        if (str.length > this.length) {
-          return str.substring(0, this.length) + '...'
-        } else {
-          return str
-        }
-      },
       isLoad() {
         this.$emit('imgLoad');
         this.load = true
@@ -151,17 +146,14 @@
     font-size: 12px;
   }
 
-  .active {
-    transform: translate3d(0,-0.5rem,0);
+  .activeD {
+    transform: translate3d(0, -0.5rem, 0);
+    border-radius: 1rem;
+    box-shadow: 5px 5px 5px gray;
   }
 
   .img-container {
     position: relative;
     transition: all 200ms;
-  }
-
-  img.active {
-    transition: all 200ms;
-    box-shadow: 5px 5px 5px gray;
   }
 </style>

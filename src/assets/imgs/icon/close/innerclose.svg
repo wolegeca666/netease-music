@@ -1,1 +1,12 @@
-<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1604739029494" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3866" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128"><defs><style type="text/css"></style></defs><path d="M810.56 498.774L695.105 383.32l157.58-157.579-54.429-54.43-157.58 157.58-115.45-115.452v285.334zM225.741 852.688l157.579-157.58 115.45 115.45V525.227H213.44l115.452 115.452-157.58 157.579z" fill="#8a8a8a" p-id="3867"></path></svg>
+<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC
+        "-//W3C//DTD SVG 1.1//EN"
+        "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg t="1604739029494" class="icon" viewBox="0 0 1024 1024" version="1.1"
+     xmlns="http://www.w3.org/2000/svg" p-id="3866"
+     width="128" height="128">
+    <defs>
+        <style type="text/css"></style>
+    </defs>
+    <path d="M810.56 498.774L695.105 383.32l157.58-157.579-54.429-54.43-157.58 157.58-115.45-115.452v285.334zM225.741 852.688l157.579-157.58 115.45 115.45V525.227H213.44l115.452 115.452-157.58 157.579z"
+          fill="#8a8a8a" p-id="3867"></path>
+</svg>

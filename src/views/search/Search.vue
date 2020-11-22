@@ -1,40 +1,40 @@
 <template>
   <div class="search">
-    <div class="search-bar" @click="stopP($event)">
-      <input id="search" type="text" autocomplete="off" spellcheck="false"
-             ref="inp" v-model="input" @keydown.enter="searchHandle"
-             @input="suggestHandle" @focus="suggestHandle"/>
+    <div @click="stopP($event)" class="search-bar">
+      <input @focus="suggestHandle" @input="suggestHandle" @keydown.enter="searchHandle" autocomplete="off"
+             id="search" ref="inp" spellcheck="false"
+             type="text" v-model="input"/>
       <label for="search"></label>
 
-      <div class="icon" @click="searchHandle">
-        <img src="../../assets/imgs/icon/search/search.svg" alt="">
+      <div @click="searchHandle" class="icon">
+        <img alt="" src="../../assets/imgs/icon/search/search.svg">
       </div>
       <div class="suggest" v-show="order && suggest">
         <div class="head">相关结果</div>
         <div v-if="suggest.songs">
-          <div class="title"><img src="../../assets/imgs/icon/search/song.svg"
-                                  alt="">单曲
+          <div class="title"><img alt=""
+                                  src="../../assets/imgs/icon/search/song.svg">单曲
           </div>
-          <div class="item" v-for="msg in suggest.songs"
-               @click="sugSearch(msg.name)">
+          <div @click="sugSearch(msg.name)" class="item"
+               v-for="msg in suggest.songs">
             {{msg.name }}
           </div>
         </div>
         <div v-if="suggest.albums">
-          <div class="title"><img src="../../assets/imgs/icon/search/album.svg"
-                                  alt="">专辑
+          <div class="title"><img alt=""
+                                  src="../../assets/imgs/icon/search/album.svg">专辑
           </div>
-          <div class="item" v-for="msg in suggest.albums"
-               @click="sugSearch(msg.name)">
+          <div @click="sugSearch(msg.name)" class="item"
+               v-for="msg in suggest.albums">
             {{msg.name }}
           </div>
         </div>
         <div v-if="suggest.artists">
-          <div class="title"><img src="../../assets/imgs/icon/search/artist.svg"
-                                  alt="">歌手
+          <div class="title"><img alt=""
+                                  src="../../assets/imgs/icon/search/artist.svg">歌手
           </div>
-          <div class="item" v-for="msg in suggest.artists"
-               @click="sugSearch(msg.name)">
+          <div @click="sugSearch(msg.name)" class="item"
+               v-for="msg in suggest.artists">
             {{msg.name }}
           </div>
         </div>
@@ -44,8 +44,8 @@
       <div class="hot-search">
         <div class="head">热门搜索</div>
         <div class="hr"></div>
-        <div class="hot-item" v-for="item in hot"
-             @click="sugSearch(item.first)">{{item.first}}
+        <div @click="sugSearch(item.first)" class="hot-item"
+             v-for="item in hot">{{item.first}}
         </div>
       </div>
       <div class="search-history">
@@ -81,12 +81,14 @@
       };
     },
     activated() {
-      this.$refs.inp.focus();
       if (this.$route.path === '/search/multimatch') {
         this.hotShow = false;
         this.input = this.$route.query.keywords;
       } else if (this.$route.path === '/search') {
         this.input = '';
+      }
+      if (!this.input) {
+        this.$refs.inp.focus();
       }
       request('/search/hot').then(res => {
         // console.log(res);
@@ -176,7 +178,7 @@
             this.suggest = '';
             document.onclick = null;
           }
-        }else  {
+        } else {
           document.onclick = null;
         }
       }

@@ -9,6 +9,7 @@
 
 <script>
   import Play from "../../common/Play";
+
   export default {
     name: "AlbumImg",
     components: {Play}

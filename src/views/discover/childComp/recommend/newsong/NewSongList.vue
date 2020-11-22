@@ -1,14 +1,15 @@
 <template>
   <div class="new-song-list">
     <ul class="list">
-      <li v-for="(item,index) in list" :key="index"  :class="classHandle(index)">
-          <song-list-item class="item" :num="index" :song="item" :song-msg="item.song"
-                          :current-index="currentIndex"
-                          @itemClick="clickHandle">
-            <template v-slot:left>
-              <img :src="item.picUrl" alt="">
-            </template>
-          </song-list-item>
+      <li :class="classHandle(index)" :key="index" v-for="(item,index) in list">
+        <song-list-item :current-index="currentIndex" :num="index" :song="item"
+                        :song-msg="item.song"
+                        @itemClick="clickHandle"
+                        class="item">
+          <template v-slot:left>
+            <img :src="item.picUrl" alt="">
+          </template>
+        </song-list-item>
       </li>
     </ul>
   </div>
@@ -57,7 +58,7 @@
     width: 50%;
     background-color: #fff;
   }
-  
+
   .list li:nth-child(4n+2),
   .list li:nth-child(4n+1) {
     background-color: var(--color-bgc);
@@ -66,7 +67,7 @@
   .list li img {
     width: 5rem;
     height: 5rem;
-    margin:0.8rem 1rem 0.8rem 0;
+    margin: 0.8rem 1rem 0.8rem 0;
   }
 
   .list .left {

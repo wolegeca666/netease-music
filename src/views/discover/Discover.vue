@@ -5,13 +5,15 @@
         <v-title :title="{name: '发现音乐'}"></v-title>
       </div>
       <div class="d-nav">
-        <nav-bar :msg="titles" :active-title="title" :left-icon="false"
+        <nav-bar :active-title="title" :left-icon="false" :msg="titles"
                  @titleClick="titleClick"></nav-bar>
       </div>
     </header>
     <main>
       <transition :name="name">
-        <keep-alive><router-view/></keep-alive>
+        <keep-alive>
+          <router-view/>
+        </keep-alive>
       </transition>
     </main>
   </div>
@@ -41,7 +43,7 @@
       vTitle, NavBar
     },
     activated() {
-      document.documentElement.scrollTop = 0;
+      window.scrollTo(0, 0);
     },
     methods: {
       titleClick(title) {
@@ -49,16 +51,16 @@
       }
     },
     watch: {
-      $route(to,from) {
+      $route(to, from) {
         if (this.$route.path === '/') {
           this.title = this.titles[0].name;
-          this.name ="left"
-        }else if (to.path.split('/').includes('discover')) {
-          document.documentElement.scrollTop = 0;
-          if(to.meta.index < from.meta.index){
-            this.name ="right"
-          }else{
-            this.name ="left"
+          this.name = "left"
+        } else if (to.path.split('/').includes('discover')) {
+          window.scrollTo(0, 0);
+          if (to.meta.index < from.meta.index) {
+            this.name = "right"
+          } else {
+            this.name = "left"
           }
         }
       }
@@ -92,37 +94,45 @@
   }
 
 
-  .left-enter{
-    transform:translate3d(4rem,0,0);
+  .left-enter {
+    transform: translate3d(4rem, 0, 0);
   }
-  .left-enter-to{
-    transform:translate3d(0,0,0);
+
+  .left-enter-to {
+    transform: translate3d(0, 0, 0);
   }
-  .left-enter-active{
+
+  .left-enter-active {
     transition: 0.4s;
   }
-  .left-leave-to{
-    transform:translate3d(-4rem,0,0);
+
+  .left-leave-to {
+    transform: translate3d(-4rem, 0, 0);
     opacity: 0;
   }
-  .left-leave-active{
+
+  .left-leave-active {
     transition: 0.1s;
   }
 
-  .right-enter{
-    transform:translate3d(-4rem,0,0);
+  .right-enter {
+    transform: translate3d(-4rem, 0, 0);
   }
-  .right-enter-to{
-    transform:translate3d(0,0,0);
+
+  .right-enter-to {
+    transform: translate3d(0, 0, 0);
   }
-  .right-enter-active{
+
+  .right-enter-active {
     transition: 0.4s;
   }
-  .right-leave-to{
-    transform:translate3d(4rem,0,0);
+
+  .right-leave-to {
+    transform: translate3d(4rem, 0, 0);
     opacity: 0;
   }
-  .right-leave-active{
+
+  .right-leave-active {
     transition: 0.1s;
   }
 

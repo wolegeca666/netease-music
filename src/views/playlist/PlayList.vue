@@ -2,7 +2,7 @@
   <div class="play-list">
     <div class="title">歌单</div>
     <div v-show="show">
-      <div class="play-list-msg" v-show="load">
+      <div class="play-list-msg">
         <album :item="playlist" @imgLoad="show = true">
           <template v-slot:icon>
             <svg class="icon" height="1.3rem" p-id="8018"
@@ -19,12 +19,12 @@
           </template>
         </album>
       </div>
-      <div class="load" v-show="!load">
-        <loading :show="!load"></loading>
-      </div>
       <div class="play-lists" v-show="load">
         <song-list :list="playlist.trackIds" @show="listLoad"></song-list>
       </div>
+    </div>
+    <div class="load" v-show="!load || !show">
+      <loading :show="!load || !show"></loading>
     </div>
   </div>
 
@@ -55,7 +55,6 @@
     methods: {
       update() {
         request('/playlist/detail?id=' + this.id).then(res => {
-          console.log(res.playlist);
           if (res.playlist) {
             this.playlist = res.playlist;
             this.length = this.playlist.trackIds.length;
@@ -83,15 +82,14 @@
     },
     activated() {
       this.active = true;
-      document.documentElement.scrollTop = 0;
     },
     deactivated() {
       this.active = false;
     },
     computed: {
       Id() {
-        if(this.active) {
-          return  this.$route.query.id;
+        if (this.active) {
+          return this.$route.query.id;
         }
       }
     },
@@ -102,9 +100,10 @@
             this.id = this.Id;
             this.show = false;
             this.load = false;
+            window.scrollTo(0, 0);
             this.update();
           }
-        },
+        }
       },
     }
   }
