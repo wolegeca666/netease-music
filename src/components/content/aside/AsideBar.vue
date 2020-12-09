@@ -36,7 +36,7 @@
         </nav-bar>
       </li>
       <li v-show="show && login">
-        <nav-bar :current-index="currentIndex" :index="4" path="/"
+        <nav-bar :current-index="currentIndex" :index="4" path="/cloud"
                  title="我的音乐云盘">
           <template v-slot:img>
             <img alt="" src="../../../assets/imgs/icon/aside/cloud.svg">
@@ -165,6 +165,7 @@
         }
         this.createPlaylist = arr.splice(0, index);
         this.subPlaylist = arr;
+        this.$store.commit('userList', this.createPlaylist)
       },
     },
     computed: {
@@ -203,6 +204,13 @@
           }
         },
         immediate: true
+      },
+      login() {
+        if (!this.login) {
+          this.createPlaylist = [];
+          this.subPlaylist = [];
+          this.$store.commit('userList', this.createPlaylist)
+        }
       }
     }
   }
@@ -217,7 +225,7 @@
 
   .list {
     height: 100%;
-    padding-bottom: 2rem;
+    padding-bottom: 3.5rem;
     overflow: hidden;
   }
 

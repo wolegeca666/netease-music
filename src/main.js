@@ -4,22 +4,18 @@ import router from './router'
 import store from './store'
 import state from '../src/store/index';
 
-Vue.config.productionTip = false;
-
 new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app');
 
-// document.addEventListener("keypress", e => {
-//   e.preventDefault();
-//   const space = 'Space';
-//   if (e.code === space) {
-//     // console.log(state);
-//     state.commit('changePlay', !state.state.songState.playview);
-//   }
-// });
+Vue.config.productionTip = false;
+
+// Vue.config.errorHandler = function (err, vm, info) {
+//
+// };
+
 
 if (window.addEventListener) {
   window.addEventListener('error', function (err) {

@@ -17,7 +17,7 @@
           </div>
           <div @click="sugSearch(msg.name)" class="item"
                v-for="msg in suggest.songs">
-            {{msg.name }}
+            {{msg.name}}
           </div>
         </div>
         <div v-if="suggest.albums">
@@ -188,6 +188,7 @@
 
 <style scoped>
   .search {
+    position: relative;
     font-size: 13px;
     min-width: 95rem;
     padding: 2rem 3rem 10rem;

@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="mv most-list" v-if="most.mv">
-        <div @click="routeTo(msg.id)" class="most-item" v-for="msg in most.mv">
+        <div @click="routeTo(msg.id, 'Video')" class="most-item" v-for="msg in most.mv">
           <img :src="msg.cover" @load="mostImgLoad" alt="">
           <p>MV： {{ msg.name }}</p>
         </div>
@@ -163,7 +163,7 @@
       },
 
       mostLoading() {
-        if (this.imgLoadIndex >= (this.most.orders?.length || 0)) {
+        if (this.imgLoadIndex >= (this.most.orders?.length - 1 || 0)) {
           this.loadingEnd();
         }
       },
@@ -205,6 +205,7 @@
       getDetails() {
         if (this.keywords) {
           this.offset = 0;
+
           request('/cloudsearch?keywords=' + this.keywords + '&type=' + this.type).then(res => {
             // console.log(res);
             for (let type in res.result) {

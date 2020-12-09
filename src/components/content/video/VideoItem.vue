@@ -1,9 +1,9 @@
 <template>
-  <div :style="{width: size.width}" @click="playlist" class="album-item">
+  <div :style="{width: size.width}" class="album-item">
     <slot name="slot"></slot>
 
     <a @click="active = false" @mouseleave="active = false"
-       class="album">
+       class="album" :title="item.name">
       <div :class="{'activeD': active}"
            :style="{width: size.width, height: size.height}"
            class="img-container">
@@ -47,10 +47,6 @@
             height: '11rem'
           }
         }
-      },
-      playlistTo: {
-        type: Boolean,
-        default: false
       }
     },
     data() {
@@ -70,12 +66,6 @@
       },
       picUrl() {
         return this.item.cover
-      },
-
-      playlist() {
-        if (this.playlistTo) {
-          this.$router.push({name: 'PlayList', query: {id: this.item.id}})
-        }
       },
 
       authorHandle(obj) {

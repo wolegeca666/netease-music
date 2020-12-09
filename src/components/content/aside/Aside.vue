@@ -34,14 +34,14 @@
 
 <style scoped>
   #nav {
-    overflow: hidden;
     z-index: 200;
+    overflow: hidden;
     position: fixed;
     top: 0;
     left: 0;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     width: 18rem;
-    height: 82vh;
+    height: 85vh;
     background-color: var(--color-bgc);
     font-size: 1.3rem;
   }

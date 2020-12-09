@@ -19,63 +19,80 @@
       <div class="comment-new">
         <div class="title">
           <p class="deep">最新评论</p>
-          <p class="simple" v-show="newComment.totalCount">{{'（'+
-            newComment.totalCount + '）'}}</p>
+          <p class="simple" v-show="newComment.total">{{'（'+
+            newComment.total + '）'}}</p>
         </div>
-        <content-list :list="newComment.comments"></content-list>
+        <content-list :list="newComment.comments" :type="type"></content-list>
       </div>
     </div>
-    <div class="no-comment" v-show="newComment.totalCount === 0">还没有评论，赶紧抢沙发~
+    <div class="no-comment" v-show="newComment.total === 0">还没有评论，赶紧抢沙发~
     </div>
   </div>
 
 </template>
 
 <script>
-  import {request} from "../../../../api/request";
+  import {request} from "../../../api/request";
   import {mapState} from "vuex";
-  import Loading from "../../../common/loading/Loading";
+  import Loading from "../../common/loading/Loading";
   import ContentList from "./content/ContentList";
 
   export default {
     name: "Comment",
     components: {ContentList, Loading},
+    props: {
+      id: [Number, String],
+      type: {
+        type: Number,
+        default: 0
+      },
+      active: Boolean
+    },
     data() {
       return {
+        typeList: [
+            'music',
+            'mv',
+            'playlist',
+            'album',
+            'dj',
+            'video'
+        ],
+        playId: 0,
         result: {},
         newComment: {},
         current: 0
       }
     },
-    mounted() {
-      this.getComment();
-    },
     methods: {
       getComment() {
+        this.playId = this.id;
+        this.result = {};
+        this.newComment = {};
         this.getCommentHot();
         this.getCommentNew();
       },
       getCommentHot() {
-        request('/comment/new?type=0&id=' + this.id + '&sortType=2&pageSize=10').then(res => {
+        request('/comment/new?type=' + this.type + '&id=' + this.id + '&sortType=2&pageSize=10').then(res => {
           // console.log(res);
           this.result = res.data ?? {};
         }).catch(e => {
-          this.getCommentHot();
+          window.requestAnimationFrame(this.getCommentHot);
           console.log(e);
         })
       },
       getCommentNew() {
-        request('/comment/new?type=0&id=' + this.id + '&sortType=3&pageSize=10').then(res => {
-          // console.log(res);
-          this.newComment = res.data ?? {};
+        request('/comment/'+this.typeList[this.type]+'?limit=10&id=' + this.id).then(res => {
+          console.log(res);
+          this.newComment = res ?? {};
         }).catch(e => {
-          this.getCommentHot();
+          window.requestAnimationFrame(this.getCommentNew);
           console.log(e);
         })
       },
 
       updateComment() {
-        request('/comment/new?type=0&id=' + this.id + '&sortType=3&pageSize=10').then(res => {
+        request('/comment/'+this.typeList[this.type]+'?limit=10&id=' + this.id).then(res => {
           // console.log(res);
           this.newComment = res.data ?? {};
         }).catch(e => {
@@ -86,20 +103,26 @@
     },
     computed: {
       ...mapState({
-        id: state => state.song.id,
         playSong: state => state.song,
         playtime: state => state.songState.playtime
       }),
       show() {
-        return this.result.comments && this.newComment.comments
+        return this.result.totalCount || this.newComment.total
       }
     },
     watch: {
-      id() {
-        this.playId = this.id;
-        this.result = {};
-        this.newComment = {};
-        this.getComment();
+      id: {
+        handler() {
+          if (this.active) {
+            this.getComment();
+          }
+        },
+        immediate: true
+      },
+      active() {
+        if (this.playId !== this.id) {
+          this.getComment();
+        }
       }
     }
   }

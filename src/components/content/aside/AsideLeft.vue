@@ -1,8 +1,6 @@
 <template>
-  <div class="aside">
+  <div class="aside" :class="{'show': aside, 'un-show': !aside}">
     <nav-aside @asideShow="navShow"></nav-aside>
-    <div class="nav-page" v-show="aside"></div>
-    <div class="nav-list" v-show="!aside"></div>
   </div>
 </template>
 
@@ -33,14 +31,20 @@
     overflow: hidden;
   }
 
-  .nav-page {
-    width: 18rem;
-    border-right: 1px solid transparent;
+  .aside::after {
+    clear: both;
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    visibility: hidden;
   }
 
-  .nav-list {
-    position: relative;
+  .show {
+    width: 18rem;
+  }
+
+  .un-show {
     width: 4rem;
-    border-right: 1px solid transparent;
   }
 </style>

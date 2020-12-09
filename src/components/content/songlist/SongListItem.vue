@@ -28,9 +28,9 @@
               {{ ' (' + song.alias[0] + ')' }}
             </span>
           </p>
-          <div class="play-bar" v-show="isActive">
+          <div class="play-bar" v-show="isActive" @dblclick.stop>
             <play-bar @itemClick="barClick"
-                      @play="musicPlay"></play-bar>
+                      @play="musicPlay" @more="musicMore"></play-bar>
           </div>
         </div>
         <div class="others">
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-  import PlayBar from "../../../views/playlist/PlayBar";
+  import PlayBar from "./PlayBar";
   import utils from "../../../common/utils.js"
 
   export default {
@@ -77,6 +77,11 @@
         flag: true
       }
     },
+    mounted() {
+      if (!this.song.name) {
+        console.log(this.song)
+      }
+    },
     methods: {
 
       numHandle(num) {
@@ -85,8 +90,8 @@
 
       authorHandle(obj) {
         let arr = [];
-        let authors = obj.ar || obj.artists;
-        authors.forEach(function (item) {
+        let authors = obj.ar || obj.artists || [];
+        authors.map((item) => {
           arr.push(item.name)
         });
         return arr.join(' / ');
@@ -120,6 +125,10 @@
       // 播放歌曲
       musicPlay() {
         this.$emit('play', this.num)
+      },
+
+      musicMore() {
+        this.$store.commit('subListShow', this.song.id)
       }
     },
     computed: {

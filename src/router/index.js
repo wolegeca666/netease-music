@@ -28,6 +28,10 @@ const SearchResult = () => import('../views/search/SearchResult');
 // 视频播放
 const Video = () => import('../views/video-play/VPlay');
 
+// 云盘
+const Cloud = () =>import('../views/user-cloud/Cloud');
+
+// 播放记录
 const Record = () => import('../views/record/Record');
 
 // 登录
@@ -93,6 +97,11 @@ const routes = [
     path: '/record',
     name: 'Record',
     component: Record
+  },
+  {
+    path: '/cloud',
+    name: 'Cloud',
+    component: Cloud
   },
   {
     path: '/video',

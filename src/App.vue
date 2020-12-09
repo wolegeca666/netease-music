@@ -6,6 +6,9 @@
     <div id="container">
       <container></container>
     </div>
+    <section class="sub-list">
+      <sub-list></sub-list>
+    </section>
     <to-top-bar></to-top-bar>
     <div id="footer">
       <player></player>
@@ -19,6 +22,7 @@
   import Player from "./components/content/player/Player";
   import ToTopBar from "./components/content/ToTopBar";
   import LoginView from "./components/content/LoginView";
+  import SubList from "./components/content/subList/SubList";
 
   export default {
     name: "app",
@@ -26,6 +30,7 @@
       return {}
     },
     components: {
+      SubList,
       LoginView,
       ToTopBar,
       Container, Player, AsideLeft
@@ -70,5 +75,8 @@
     width: 100vw;
   }
 
+  .sub-list {
+    z-index: 999;
+  }
 
 </style>

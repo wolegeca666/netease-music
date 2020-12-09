@@ -4,7 +4,9 @@
       <play-view :active="play" @close="view"></play-view>
     </div>
     <div @click="view" class="pic">
-      <img :src="url" alt="0">
+      <scale>
+        <img :src="url" alt="0">
+      </scale>
     </div>
     <music-control></music-control>
     <music-handle @list="listShow"></music-handle>
@@ -23,6 +25,7 @@
   import MusicControl from "./MusicControl";
   import MusicHandle from "./MusicHandle";
   import SongList from "./songlist/PlaySongList";
+  import Scale from "../../common/Scale";
 
   export default {
     name: "player",
@@ -33,7 +36,7 @@
       }
     },
     components: {
-      PlayView, MusicControl, MusicHandle, SongList
+      PlayView, MusicControl, MusicHandle, SongList, Scale
     },
     computed: {
       url() {
@@ -75,28 +78,6 @@
 </script>
 
 <style scoped>
-  @keyframes play {
-    0% {
-      width: 0;
-      height: 0;
-    }
-    25% {
-      width: 25vw;
-      height: 25vh;
-    }
-    50% {
-      width: 50vw;
-      height: 50vh;
-    }
-    75% {
-      width: 75vw;
-      height: 75vh;
-    }
-    100% {
-      width: 100vw;
-      height: 100vh;
-    }
-  }
 
   #player {
     z-index: 999;

@@ -45,7 +45,6 @@
           window.scrollTo(0, this.top1) // 回到原先的top
         }
       }
-
     }
   }
 </script>

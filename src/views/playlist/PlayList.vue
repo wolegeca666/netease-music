@@ -55,6 +55,7 @@
     methods: {
       update() {
         request('/playlist/detail?id=' + this.id).then(res => {
+          // console.log(res);
           if (res.playlist) {
             this.playlist = res.playlist;
             this.length = this.playlist.trackIds.length;

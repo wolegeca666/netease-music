@@ -1,14 +1,17 @@
 <template>
   <div class="song-content">
-    <div class="name">{{playSong.name}}</div>
+    <div class="name"><span>{{playSong.name}}</span></div>
     <div class="author">
       <p v-if="playSong.al">专辑： <span>{{playSong.al.name}}</span></p>
       <p v-if="playSong.ar">歌手： <span> {{authorHandle(playSong)}} </span></p>
     </div>
 
     <div class="lrc" v-show="!nolyric">
-      <p :class="{'playtime': (show && isNow(index))}"
-         :key="index" v-for="(item, index) in lyric">{{item.text}}</p>
+      <p class="all-lrc" :class="{'playtime': (show && isNow(index))}"
+         :key="index" v-for="(item, index) in lyric">
+        <span class="lyric">{{item.text}}</span>
+        <span class="tlrc" v-show="item.tlrc">{{item.tlrc}}</span>
+      </p>
       <div class="load" v-show="!lyric">
         <loading :show="!lyric"></loading>
       </div>
@@ -29,42 +32,74 @@
       show: {
         type: Boolean,
         default: false
-      }
+      },
     },
     components: {Loading},
     data() {
       return {
+        playId: 0,
         lyric: [],
         nolyric: '',
+        lyc_info: {},
         current: 0
       }
     },
-    mounted() {
-      this.getLrc();
-    },
     methods: {
+      init() {
+        this.playId = this.id;
+        this.current = 0;
+        this.lyric = '';
+        this.getLrc();
+      },
+
       getLrc() {
         request('/lyric?id=' + this.id).then(res => {
-          // console.log(res);
+              // console.log(res);
           this.$store.commit('timeChange', 0);
-          if (res.lrc) {
-            this.lyric = res.lrc.lyric;
-            this.nolyric = '';
-            this.reg();
-          } else if (res.nolyric) {
-            this.nolyric = '纯音乐，无歌词';
-            this.lyric = '纯音乐';
-          } else {
-            this.nolyric = '暂无歌词';
-            this.lyric = '暂无歌词';
-          }
-        }).catch(e => console.log(e))
+              this.lyc_info = res;
+              if (res.nolyric) {
+                this.nolyric = '纯音乐'
+              } else if (res.lrc) {
+                this.nolyric = res.lrc.lyric ? '' : '暂无歌词';
+                this.tlyric = res.tlyric.lyric ? this.reg(res.tlyric.lyric) : '';
+                this.lyric = res.tlyric.lyric ? this.tlrc(res.lrc.lyric) :
+                    res.lrc.lyric ? this.reg(res.lrc.lyric) : '';
+              } else {
+                this.nolyric = '暂无歌词';
+                this.tlyric = '';
+                this.lyric = '';
+              }
+            }
+        ).catch(e => console.log(e))
       },
-      reg() {
+
+      tlrc(str) {
         const content = /(.+)\n/g,
-            rule = /\[(.+)\]/g,
-            time = /:(.+)/g,
-            str = this.lyric;
+            rule = /\[(.+)\]/g;
+        let arr = [];
+        str.replace(content, (...arg) => {
+          // console.log(arg);
+          let obj = {text: '', time: ''};
+          obj.text = arg[1].replace(rule, () => '');
+          if (obj.text) {
+            obj.text = obj.text.trim();
+            arg[1].replace(rule, (...t) => {
+              obj.time = t[1];
+              this.tlyric.map(item => {
+                if (item.time === obj.time) {
+                  obj.tlrc = item.text;
+                }
+              })
+            });
+            arr.push(obj)
+          }
+        });
+        return arr
+      },
+
+      reg(str) {
+        const content = /(.+)\n/g,
+            rule = /\[(.+)\]/g;
         let arr = [];
         str.replace(content, (...arg) => {
           // console.log(arg);
@@ -78,9 +113,9 @@
             arr.push(obj)
           }
         });
-        // console.log(arr);
-        this.lyric = arr;
-      },
+        return arr
+      }
+      ,
 
       authorHandle(obj) {
         let arr = [];
@@ -89,7 +124,8 @@
           arr.push(item.name)
         });
         return arr.join(' / ');
-      },
+      }
+      ,
 
       isNow(index) {
         let flag;
@@ -102,20 +138,21 @@
           this.current = index;
         }
         return flag
-      },
+      }
+      ,
 
       scroll() {
         this.handleDom.scrollTop = this.current > 3 ?
-            this.handleDom.scrollHeight * (this.current / this.lyric.length) - 145
+            this.handleDom.scrollHeight * (this.current / this.lyric.length) - 150
             : 0;
       }
     },
     computed: {
       ...mapState({
-        id: state => state.song.id,
-        playSong: state => state.song,
-        playtime: state => state.songState.playtime
-      }),
+            id: state => state.song.id,
+            playSong: state => state.song,
+            playtime: state => state.songState.playtime
+          }),
 
       nowTime() {
         const time = this.playtime;
@@ -133,18 +170,27 @@
         } else {
           return m + ':' + s
         }
-      },
+      }
+      ,
 
       handleDom() {
         return document.querySelector('.lrc');
       }
-    },
+    }
+    ,
     watch: {
       id() {
-        this.current = 0;
-        this.lyric = '';
-        this.getLrc();
-      },
+        if (this.show) {
+          this.init();
+        }
+      }
+      ,
+      show() {
+        if (this.playId !== this.id) {
+          this.init();
+        }
+      }
+      ,
       current() {
         // console.log(this.current);
         window.requestAnimationFrame(this.scroll)
@@ -162,13 +208,11 @@
     padding-top: 2rem;
   }
 
-  .name {
+  .song-content .name {
     width: 100%;
-    height: 8rem;
     font-size: 18px;
     padding: 1rem;
     text-overflow: ellipsis;
-    overflow: hidden;
     white-space: nowrap;
   }
 
@@ -196,10 +240,23 @@
     height: 30rem;
   }
 
+  .all-lrc {
+    width: 100%;
+    padding-bottom: 1.8rem;
+  }
+
+  .lyric {
+    display: block;
+  }
+
+  .tlrc {
+    display: block;
+    font-size: 13px;
+  }
+
   .lrc {
     padding-left: 1rem;
     font-size: 16px;
-    line-height: 36px;
     overflow-y: scroll;
     white-space: pre-wrap;
     word-wrap: break-word;

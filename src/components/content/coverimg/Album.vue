@@ -1,5 +1,5 @@
 <template>
-  <div :style="{width: size.width}" @click="playlist" class="album-item">
+  <div :style="{width: size.width}" @click="playlist" class="album-item" >
     <slot name="slot"></slot>
 
     <a @click="active = false" @mouseleave="active = false"
@@ -7,7 +7,7 @@
       <div :class="{'activeD': active}"
            :style="{width: size.width, height: size.height}"
            class="img-container">
-        <img :class="{'active': active}" :src="picUrl()" :style="{width: size.width, height: size.height}"
+        <img :src="picUrl()" :style="{width: size.width, height: size.height}"
              @load="isLoad" @mouseenter="active = true"
              alt="" v-show="load"/>
         <div class="play-count" v-if="show"><!--播放数量-->
@@ -17,7 +17,7 @@
           </span>
         </div>
       </div>
-      <span class="name">{{ item.name}}</span>
+      <span class="name" :title="item.name">{{ item.name }}</span>
       <span class="artist" v-if="item.artistName">{{ item.artistName }}</span>
       <span class="artist"
             v-if="item.creator">by {{ item.creator.nickname }}</span>
@@ -92,6 +92,7 @@
 <style scoped>
 
   .album-item {
+    transition: opacity 200ms;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -102,8 +103,8 @@
     display: flex;
     align-items: center;
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 0.5rem;
+    right: 0.5rem;
     color: #fff;
     height: 2rem;
     border-radius: 1rem;
@@ -112,7 +113,7 @@
 
   .play-count span {
     opacity: 1;
-    padding-right: 10px;
+    margin-right: 10px;
   }
 
   .icon {
@@ -120,7 +121,6 @@
   }
 
   .album-item:hover {
-    transition: all 300ms;
     opacity: 0.9;
   }
 
@@ -147,13 +147,13 @@
   }
 
   .activeD {
-    transform: translate3d(0, -0.5rem, 0);
-    border-radius: 1rem;
-    box-shadow: 5px 5px 5px gray;
+    transform: translate3d(0, -0.8rem, 0);
+    box-shadow: 5px 5px 10px gray;
   }
 
   .img-container {
     position: relative;
+    border-radius: 1rem;
     transition: all 200ms;
   }
 </style>

@@ -28,7 +28,7 @@
       rotateTo() {
         // console.log(1);
         if (this.show) {
-          this.$refs.ev.style.transform = `rotateZ(${this.rotate}deg)`;
+          this.$refs.ev ? this.$refs.ev.style.transform = `rotateZ(${this.rotate}deg)` : null;
           this.startTimer();
         }
       },

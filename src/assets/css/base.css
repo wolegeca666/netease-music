@@ -23,8 +23,10 @@ html {
 
 body {
   font-family: Helvetica Neue, Helvetica Neu, PingFang sc, Hiragino Sans GB, Microsoft YaHei, 微软雅黑, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased; /* 字体更平滑 */
-  user-select: none; /* 禁止用户选中文字等 */
+  -webkit-font-smoothing: antialiased;
+  /* 字体更平滑 */
+  user-select: none;
+  /* 禁止用户选中文字等 */
   -webkit-tap-highlight-color: transparent;
   background-color: #fff;
   color: #000;
@@ -34,6 +36,21 @@ body {
 a {
   color: #000;
   text-decoration: none;
+}
+
+span::selection {
+  background: rgb(0, 184, 250);
+  color: #fff;
+}
+
+span::-moz-selection {
+  background: rgb(0, 184, 250);
+  color: #fff;
+}
+
+span::-webkit-selection {
+  background: rgb(0, 184, 250);
+  color: #fff;
 }
 
 .clear-fix::after {

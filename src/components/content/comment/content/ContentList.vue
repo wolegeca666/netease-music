@@ -11,7 +11,7 @@
             </div>
           </div>
           <div class="content-item">
-            <content-item :item="item"></content-item>
+            <content-item :item="item" :type="type"></content-item>
           </div>
         </div>
       </li>
@@ -30,6 +30,10 @@
     props: {
       list: {
         type: Array
+      },
+      type: {
+        type: Number,
+        default: 0
       }
     },
     methods: {

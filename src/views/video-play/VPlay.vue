@@ -1,5 +1,8 @@
 <template>
   <div class="video">
+    <div class="load" v-show="!url">
+      <loading :show="!url"></loading>
+    </div>
     <div class="container" v-show="url">
       <div class="msg">
         <div @click="back" class="back">
@@ -13,20 +16,25 @@
       </div>
       <div class="play" v-if="url">
         <div class="play-v">
-          <video :src="url" controls="controls"></video>
+          <video :src="url" controls="controls" autoplay="autoplay"></video>
         </div>
       </div>
       <div class="info"></div>
-      <div class="content">
+      <div class="content" v-if="id">
         <div class="comment">
-          <span class="title">评论</span>
-          <div class="hr"></div>
+          <comment :id="id" :type="1" :active="active"></comment>
         </div>
         <div class="des">
           <span class="title">MV介绍</span>
           <div class="hr"></div>
           <div class="p-time">发行时间：{{msg.publishTime}}</div>
           <div class="desc">{{msg.desc}}</div>
+          <div class="simi">
+            <div class="load-s" v-show="!simiLoad">
+              <loading :show="!simiLoad"></loading>
+            </div>
+            <simi-mv :list="mvs" @isload="simiLoad = true"></simi-mv>
+          </div>
         </div>
       </div>
     </div>
@@ -35,18 +43,25 @@
 
 <script>
   import {request} from "../../api/request";
+  import Comment from "../../components/content/comment/Comment";
+  import SimiMv from "./SimiMv";
+  import Loading from "../../components/common/loading/Loading";
 
   export default {
     name: "VPlay",
+    components: {Loading, SimiMv, Comment},
     data() {
       return {
         id: '',
         url: '',
         msg: {},
+        mvs: [],
+        simiLoad: false,
         active: false
       }
     },
     activated() {
+      this.$store.commit('changePlay', false);
       this.active = true;
       document.querySelector('#container').style.zIndex = '999'
     },
@@ -58,12 +73,14 @@
       init() {
         this.url = '';
         this.msg = {};
+        this.simiLoad = false;
         window.scrollTo(0, 0);
       },
 
       getMsg() {
         this.getDetails();
-        this.getVideo()
+        this.getVideo();
+        this.getSimi();
       },
 
       getDetails() {
@@ -71,7 +88,7 @@
           // console.log(res);
           if (res.data.id === parseInt(this.Id)) {
             this.msg = res.data;
-            console.log(this.msg);
+            // console.log(this.msg);
           }
         }).catch(e => {
           console.log(e);
@@ -83,6 +100,17 @@
           // console.log(res);
           if (res.data.id === parseInt(this.Id)) {
             this.url = res.data.url
+          }
+        }).catch(e => {
+          console.log(e);
+        });
+      },
+
+      getSimi() {
+        request('/simi/mv?mvid=' + this.Id).then(res => {
+          // console.log(res);
+          if (res.code === 200) {
+            this.mvs = res.mvs;
           }
         }).catch(e => {
           console.log(e);
@@ -128,10 +156,10 @@
 
 <style scoped>
   .video {
-    background-color: #f5f5f5;
+    background-color: #fff;
     position: absolute;
     left: 0;
-    min-width: 100rem;
+    min-width: 120rem;
     width: 100vw;
     min-height: 100vh;
     display: flex;
@@ -142,6 +170,8 @@
 
   .container {
     width: 65%;
+    min-width: 100rem;
+    margin: 0 10rem;
   }
 
   .msg {
@@ -187,7 +217,7 @@
 
   .play {
     width: 100%;
-    height: 29vw;
+    height: 59vh;
     min-height: 29rem;
   }
 
@@ -200,7 +230,9 @@
   }
 
   video {
+    max-width: 100%;
     height: 99%;
+    outline: none;
   }
 
   .content {
@@ -213,7 +245,7 @@
     font-size: 1.6rem;
     display: flex;
     align-items: center;
-    padding: 2rem 0 1rem;
+    padding: 1rem 0 1rem;
   }
 
   .comment,
@@ -222,11 +254,11 @@
   }
 
   .comment {
-    width: 60%;
+    width: 71%;
   }
 
   .des {
-    width: 35%;
+    width: 25%;
   }
 
   .p-time {
@@ -238,5 +270,22 @@
     font-size: 1.5rem;
     opacity: 0.5;
     line-height: 2.5rem;
+  }
+
+  .desc {
+    margin-bottom: 2rem;
+  }
+
+  .simi {
+    width: 100%;
+    min-height: 30rem;
+  }
+
+  .load {
+    height: 50rem;
+  }
+
+  .load-s {
+    height: 20rem;
   }
 </style>

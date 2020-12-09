@@ -1,6 +1,6 @@
 <template>
   <div @mouseleave="click" @mouseup="click" class="item">
-    <div @mousedown="animationPlay" class="play-bar" v-if="playbar">
+    <div @mousedown="animationPlay" class="play-bar" v-show="playbar">
       <div :class="{'animate': playAnimate}" class="play">
         <svg class="icon" height="128" p-id="3657"
              t="1603111001277" version="1.1" viewBox="0 0 1027 1024"
@@ -14,7 +14,7 @@
         </svg>
       </div>
     </div>
-    <div @mousedown="animationMore" class="more-bar" v-if="morebar">
+    <div @mousedown="animationMore" class="more-bar" v-show="morebar">
       <div :class="{'animate': moreAnimate}" class="more">
         <svg class="icon" data-spm-anchor-id="a313x.7781069.0.i9" height="128"
              p-id="8804" t="1603113584111" version="1.1"
@@ -59,6 +59,7 @@
       animationMore() {
         this.moreAnimate = true;
         this.$emit('itemClick');
+        this.$emit('more')
       },
       click() {
         this.playAnimate = false;

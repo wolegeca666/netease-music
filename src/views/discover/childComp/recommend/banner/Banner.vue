@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'show': !start}" id="banner">
+  <div  id="banner">
     <div class="item">
       <swiper :load="init" @scrollTo="current" @start="start = true"
               v-if="load">
@@ -108,6 +108,7 @@
 
   .other,
   .center {
+    background-color: #ccc;
     width: 100%;
     transform-origin: 100% 100%;
   }

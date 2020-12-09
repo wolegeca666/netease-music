@@ -18,7 +18,7 @@
           <span style="opacity: 0.4;" v-if="item.createTime">{{item.createTime}} 创建</span>
         </div>
         <div class="count">
-          <div class="subCount">收藏
+          <div class="subCount" @click="sub">收藏
             <span v-if="item.subscribedCount">({{numHandle(item.subscribedCount)}})</span>
           </div>
           <div class="subCount">评论
@@ -68,6 +68,8 @@
 </template>
 
 <script>
+  import {request} from "../../api/request";
+
   export default {
     name: "Album",
     props: {
@@ -102,6 +104,21 @@
       },
       routerTo(cat) {
         this.$router.push({name: 'DPlayList', query: {cat: cat}})
+      },
+
+      sub() {
+        let t = this.item.subscribed ? 2 : 1;
+        request('/playlist/subscribe?t='+ t +'&id='+this.item.id).then(res => {
+          // console.log(res)
+          this.refresh();
+        }).catch(e => e)
+      },
+
+      refresh() {
+        request('/login/refresh').then(res => {
+        }).catch(e => {
+          console.log(e);
+        });
       },
     },
     computed: {

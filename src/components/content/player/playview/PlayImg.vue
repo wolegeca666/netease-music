@@ -103,11 +103,13 @@
   }
 
   .play-img-rotate {
+     border-radius: 20rem;
     transition: transform 2ms;
   }
 
   .play-img-rotate img {
     width: 25rem;
+    height: 25rem;
     border-radius: 20rem;
   }
 </style>

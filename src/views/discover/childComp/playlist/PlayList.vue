@@ -143,8 +143,10 @@
 
       toHome() {
         this.catShow = false;
-        this.$router.push({name: 'DPlayList'});
-        this.playlistAll();
+        if (this.order) {
+          this.$router.push({name: 'DPlayList'});
+          this.playlistAll();
+        }
       },
 
       catPlaylist() {

@@ -1,7 +1,7 @@
 <template>
   <div class="music-control">
-    <div @click="changeIndex(-1)" class="forward">
-      <scale>
+    <div class="forward" @click="changeIndex(-1)">
+      <scale >
         <svg class="icon" height="128" p-id="28290"
              t="1602217693236"
              version="1.1" viewBox="0 0 1024 1024" width="128"
@@ -32,7 +32,7 @@
         </svg>
       </scale>
     </div>
-    <div @click="changeIndex(1)" class="next">
+    <div class="next"  @click="changeIndex(1)">
       <scale>
         <svg class="icon" height="128" p-id="28479"
              t="1602218059775"
@@ -101,16 +101,13 @@
   }
 
   .music-control .forward,
-  .music-control .next {
+  .music-control .next,
+  .music-control .play{
     padding: 0 1rem;
   }
 
   .music-control .next {
-    padding-right: 3rem;
-  }
-
-  .music-control .play {
-    padding: 0 1rem;
+    margin-right: 3rem;
   }
 
   .music-control .icon {

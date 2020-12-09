@@ -17,8 +17,8 @@
       <div class="song-msg">
         <div :class="{'red': song.id === playId}" class="song-name">
           <p>
-            <span>{{song.name}}</span>
-            <span style="color:rgba(0,0,0,0.4);" v-if="song.alia.length">
+            <span>{{ song.name }}</span>
+            <span style="color:rgba(0,0,0,0.4);" v-if="(song.alia || []).length !==0">
               {{ ' ( ' + song.alia[0] + ' )' }}
             </span>
           </p>
@@ -29,7 +29,7 @@
         </div>
         <div class="others">
           <p :class="{'red': song.id === playId}" class="author" v-if="song.ar">
-            {{ author }}</p>
+            {{ author || '未知歌手' }}</p>
           <p :class="{'red': song.id === playId}" class="song-time">{{ time
             }}</p>
         </div>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-  import PlayBar from "../../../../views/playlist/PlayBar";
+  import PlayBar from "../../songlist/PlayBar";
   import utils from "../../../../common/utils";
 
   export default {

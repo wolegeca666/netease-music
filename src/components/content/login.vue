@@ -74,6 +74,7 @@
         request('/logout').then(res => {
           this.profile = {};
           this.$store.commit('logout');
+          this.$store.commit('liked', []);
           this.refresh();
           this.$router.push('/')
         }).catch(e => {

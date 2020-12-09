@@ -1,5 +1,5 @@
 <template>
-  <div @click="clickHandle"
+  <div class="scale" @click="clickHandle"
        @mousedown="animation" style="perspective: 1000px;"><!--设置缩放定位-->
     <div :class="{'animate': animate, 'active': active}"
          class="item">
@@ -19,7 +19,6 @@
     },
     methods: {
       clickHandle() {
-        this.active = !this.active;
         this.$emit('itemClick');
       },
 
@@ -27,7 +26,9 @@
         this.animate = true;
         document.onmouseup = e => {
           this.animate = false;
-          document.onmouseup = null
+          this.active = true;
+          document.onmouseup = null;
+          setTimeout(() => {this.active = false}, 200)
         }
       },
 

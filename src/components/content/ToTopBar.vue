@@ -88,6 +88,7 @@
 <style scoped>
 
   .to-top-bar {
+    z-index: 99;
     position: fixed;
     right: 2rem;
     bottom: 10rem;

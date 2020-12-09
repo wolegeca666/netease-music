@@ -147,14 +147,19 @@
        */
       handleDom() {
         // 要操作的Dom元素
-        let slidesEls = document.getElementsByClassName('slide');
+        if (this.$refs.swiper.offsetWidth) {
+          let slidesEls = document.getElementsByClassName('slide');
 
-        this.slideCount = slidesEls.length - 2;
-        this.totalWidth = this.$refs.swiper.offsetWidth;
-        this.setTransform(-this.totalWidth);
+          this.slideCount = slidesEls.length - 2;
+          this.totalWidth = this.$refs.swiper.offsetWidth;
+          this.setTransform(-this.totalWidth);
 
-        this.startTimer();
-        this.$emit('start');
+          this.startTimer();
+          this.$emit('start');
+        }else {
+          window.requestAnimationFrame(this.handleDom)
+        }
+
       },
 
       /**
@@ -215,10 +220,7 @@
     },
     watch: {
       load() {
-        this.$nextTick(() => {
-          setTimeout(this.handleDom, 500)
-        });
-
+        this.$nextTick(this.handleDom);
       }
     }
   }

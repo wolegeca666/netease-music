@@ -38,7 +38,7 @@
 </template>
 
 <script>
-  import PlayBar from "../../../../playlist/PlayBar";
+  import PlayBar from "../../../../../components/content/songlist/PlayBar";
 
   export default {
     name: "SongListItem",
@@ -81,15 +81,7 @@
         authors.forEach(function (item) {
           arr.push(item.name)
         });
-        return this.cutContext(arr.join('/'));
-      },
-
-      cutContext(str) {
-        if (str.length > 35) {
-          return str.substring(0, 30) + '...'
-        } else {
-          return str
-        }
+        return arr.join('/');
       },
 
       clickHandle() {
@@ -221,4 +213,15 @@
     right: 1rem;
   }
 
+  .song-name span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .author p{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 </style>

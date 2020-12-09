@@ -7,7 +7,7 @@
     <div class="msg">
       <div class="song">
         <span class="name">{{ playSong.name || ''}}</span>
-        <span style="color:rgba(0,0,0,0.4);"
+        <span class="artist"
               v-if="playSong.ar || playSong.artists">{{' - ' + (authorHandle(playSong))}}</span>
       </div>
       <div class="time">
@@ -33,7 +33,7 @@
     props: {},
     data() {
       return {
-        playId: '',
+        playId: 0,
         url: '',
         song: {},
         left: 0,
@@ -51,11 +51,11 @@
       ProgressBar
     },
     mounted() {
-      const audio = document.getElementsByClassName('audio')[0];
+      const audio = this.$el;
       this.left = audio.offsetLeft;
-      if (localStorage.getItem('song') !== null) {
+      if (localStorage.getItem('song')) {
         this.$store.commit('changePlaySong', {
-          id: localStorage.getItem('song'),
+          id: parseInt(localStorage.getItem('song')),
         });
         this.getMusicDetail();
       } else {
@@ -63,13 +63,21 @@
       }
     },
     methods: {
+
+      noMusic() {
+        this.$emit('cIndex', 1);
+        this.maxTime= '00:00';
+        this.percent = 0;
+      },
       /**
        * 获取单曲播放地址
        * */
       getMusicPlay() {
         request('/song/url?id=' + this.id + '&br=192000')
             .then((res) => {
-              if (this.id === res.data[0].id) {
+              if (!res.data[0].url) {
+                this.noMusic();
+              }else if (this.id === res.data[0].id) {
                 this.url = res.data[0].url;
               }
             }).catch(e => console.log(e));
@@ -95,9 +103,9 @@
         if (music.currentTime === 0) {
           this.percent = 0;
         }
-        if (this.playlist.length && this.playId === this.id && this.first) {
+        if (this.playId === this.id && this.first) {
           this.$store.commit("changePlay", true);
-          this.musicPlay()
+          this.musicPlay();
         } else {
           this.first = true;
         }
@@ -136,6 +144,7 @@
           this.progress();
         }
       },
+
       progress() {
         const music = this.music;
         this.currentTime = utils.getTime(music.currentTime);
@@ -183,6 +192,7 @@
         index: state => state.playSongIndex,
         playlist: state => state.playList
       })
+
     },
     watch: {
       play() {
@@ -220,12 +230,24 @@
     bottom: 1.2rem;
   }
 
+
+
   /*歌曲信息*/
   .song {
+    width: 83%;
+    overflow: hidden;
     position: absolute;
     top: 1rem;
     min-width: 12rem;
-    display: inline-block;
+    display: flex;
+    white-space: nowrap;
+  }
+
+  .song .artist{
+    color:rgba(0,0,0,0.4);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .audio .time {

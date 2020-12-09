@@ -26,7 +26,7 @@
         <div class="cover"></div>
         <div class="container">
           <div class="comment">
-            <comment :active="active"></comment>
+            <comment :active="active" :id="id"></comment>
           </div>
           <div class="simi">
             <Simi :active="active" @close="view"></Simi>
@@ -41,7 +41,7 @@
   import {mapState} from "vuex";
   import PlayImg from "./PlayImg";
   import Lyric from "./Lyric";
-  import Comment from "./Comment";
+  import Comment from "../../comment/Comment";
   import Simi from "./Simi";
 
   export default {
@@ -75,15 +75,20 @@
       active() {
         if (this.active) {
           this.$el.scrollTop = 0;
-          document.onkeypress = e => {
+          document.onkeyup = e => {
+            // console.log(e)
             e.preventDefault();
-            const space = 'Space';
-            if (e.code === space) {
+            // 空格控制播放
+            if (e.keyCode === 32) {
               this.$store.commit('changePlay', !this.play);
+            } 
+            // esc关闭播放界面
+            if (e.keyCode === 27) {
+              this.view()
             }
-          };
+          }
         } else {
-          document.onkeypress = null;
+          document.onkeyup = null;
         }
       }
     }

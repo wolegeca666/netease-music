@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import PlayBar from "../../../views/playlist/PlayBar";
+  import PlayBar from "../songlist/PlayBar";
 
   export default {
     name: "SongListItem",
