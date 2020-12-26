@@ -1,5 +1,21 @@
 # neteaseclound
 
+## 安装API
+
+```shell
+
+$ git clone git@github.com:Binaryify/NeteaseCloudMusicApi.git 
+
+$ npm install
+```
+
+或者
+```shell
+$ git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git
+
+$ npm install
+```
+
 ## Project setup
 ```
 npm install

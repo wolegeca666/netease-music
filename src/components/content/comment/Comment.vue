@@ -83,7 +83,7 @@
       },
       getCommentNew() {
         request('/comment/'+this.typeList[this.type]+'?limit=10&id=' + this.id).then(res => {
-          console.log(res);
+          // console.log(res);
           this.newComment = res ?? {};
         }).catch(e => {
           window.requestAnimationFrame(this.getCommentNew);

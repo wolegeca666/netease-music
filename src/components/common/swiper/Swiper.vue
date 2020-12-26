@@ -5,7 +5,7 @@
          class="swiper" ref="swiper">
       <slot name="swiper"></slot>
     </div>
-    <a @click="previous" class="previous" href="javascript:" v-show="control">
+    <div @click="previous" class="previous" v-show="control">
       <span>
         <svg class="icon" height="128" p-id="9852"
              t="1603289939382" version="1.1" viewBox="0 0 1024 1024"
@@ -16,8 +16,8 @@
                 fill="#ffffff" p-id="9854"></path>
         </svg>
       </span>
-    </a>
-    <a @click="next" class="next" href="javascript:" v-show="control">
+    </div>
+    <div @click="next" class="next" v-show="control">
       <span>
         <svg class="icon" height="128" p-id="9518"
              t="1603287569301" version="1.1" viewBox="0 0 1024 1024"
@@ -28,13 +28,12 @@
                 fill="#ffffff" p-id="9520"></path>
         </svg>
       </span>
-    </a>
+    </div>
     <div class="indicator">
       <slot name="indicator" v-if="showIndicator">
-        <a :class="{active: index === currentIndex - 1}" :key="index"
+        <div :class="{active: index === currentIndex - 1}" :key="index"
            @mouseenter="changeItemNow(index + 1)"
-           class="indi-item"
-           href="javascript:" v-for="(item, index) in slideCount"></a>
+           class="indi-item" v-for="(item, index) in slideCount"></div>
       </slot>
     </div>
   </div>
@@ -221,6 +220,12 @@
     watch: {
       load() {
         this.$nextTick(this.handleDom);
+        let img = document.getElementsByTagName('img');
+        img.forEach(function (item) {
+          item.onmousedown = function (e) {
+            e.preventDefault()
+          };
+        });
       }
     }
   }
@@ -268,6 +273,7 @@
     top: 15%;
     width: 5%;
     height: 100%;
+    cursor: pointer;
   }
 
   .previous {

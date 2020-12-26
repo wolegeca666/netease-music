@@ -54,8 +54,9 @@
       },
 
       changeProgress() {
-        this.$refs.time.style.width = (this.percent * 100) + '%';
-        this.$refs.bar.style.left = this.$el.offsetWidth * this.percent - 7 + 'px';
+        this.$refs.time.style.transform =`scaleX(${this.percent})`;
+        this.$refs.bar.style.transform = `translateX(${this.$el.offsetWidth * this.percent - 7}px)`
+        ;
       },
 
       animate() {
@@ -96,6 +97,7 @@
   }
 
   .progress-bar .progress {
+    width: 100%;
     top: 1rem;
     height: 0.4rem;
     border-radius: 1rem;
@@ -109,10 +111,14 @@
 
   .container .bar {
     z-index: 99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
     bottom: 0.9rem;
     width: 1.5rem;
     height: 1.5rem;
+    transform: translateX(0);
     background-color: #fff;
     border-radius: 2rem;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -120,10 +126,6 @@
 
   .progress-bar .bar::after {
     display: block;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     content: '';
     width: 0.5rem;
     height: 0.5rem;
@@ -133,9 +135,11 @@
   }
 
   .progress-bar .currentTime {
-    border-radius: 1rem;
+    border-radius: 5rem;
     height: 100%;
-    width: 0;
+    width: 100%;
+    transform: scaleX(1);
+    transform-origin: 0 0;
     background-color: var(--color-background);
   }
 
